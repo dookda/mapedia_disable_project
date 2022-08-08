@@ -20,10 +20,10 @@ SELECT * FROM "OPP$_DBA".MN_HIS_CURATOR_MAIMAD
 ```
 
 # ติดตั้ง node oracledb
-```cmd
+```
 npm i --save oracledb
 
-https://oracle.github.io/node-oracledb/INSTALL.html#-3-node-oracledb-installation-instructions
+[https://oracle.github.io/node-oracledb/INSTALL.html#-3-node-oracledb-installation-instructions](https://oracle.github.io/node-oracledb/INSTALL.html#-3-node-oracledb-installation-instructions)
 ```
 
 # วิธี connect database
