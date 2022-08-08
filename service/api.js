@@ -1,43 +1,22 @@
 const express = require('express');
 const app = express();
-// const con = require("./db");
-// const db = con.db;
-
 const oracledb = require('oracledb');
-
+const con = require("./db");
+const dbConfig = con.dbConfig;
 
 oracledb.initOracleClient({ libDir: '/Users/sakdahomhuan/instantclient_19_8' });
 oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
-// oracledb.autoCommit = true;
+oracledb.autoCommit = true;
 
-async function run1() {
-    console.log("dadas");
-    const connection = await oracledb.getConnection({
-        user: "depgis",
-        password: "D3p2022Gi$",
-        connectString: "192.168.3.170:1521/ORCL"
-    })
-
-    const result = await connection.execute(
-        `SELECT * FROM "OPP$_DBA".MN_DES_ADDRESS`,
-        [0],  // bind value for :id
-    );
-    console.log(result);
-    console.log("da");
-}
-
-
-async function run() {
-    const connection = await oracledb.getConnection({
-        user: "depgis",
-        password: "D3p2022Gi$",
-        connectString: "192.168.3.170:1521/ORCL"
-    })
-
+app.get("/api/getdata", async (req, res) => {
+    let connection;
     try {
-        connection = await oracledb.getConnection(connection);
+        connection = await oracledb.getConnection(dbConfig);
         console.log('Connection was successful!');
-
+        const sql = `SELECT * FROM "OPP$_DBA".MN_DES_ADDRESS`
+        const result = await connection.execute(sql, [], { maxRows: 1 });
+        // console.log(result.metaData);
+        res.status(200).json(result.rows)
     } catch (err) {
         console.error(err);
     } finally {
@@ -49,14 +28,6 @@ async function run() {
             }
         }
     }
-}
-
-run()
-
-app.get("/api/getdata", async (req, res) => {
-    const sql = `SELECT * FROM "OPP$_DBA".MN_DES_ADDRESS`
-    // const result = await db.execute(sql, [], { outFormat: oracledb.OUT_FORMAT_OBJECT })
-    // console.log(result);
 })
 
 module.exports = app;
