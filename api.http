@@ -1,0 +1,7 @@
+POST http://localhost:3000/api/getdata HTTP/1.1
+content-type: application/json
+
+{
+    "col": "AMP_CODE",
+    "val": "5206"
+}

@@ -8,7 +8,9 @@ oracledb.initOracleClient({ libDir: '/Users/sakdahomhuan/instantclient_19_8' });
 oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
 oracledb.autoCommit = true;
 
-app.get("/api/getdata", async (req, res) => {
+app.post("/api/getdata", async (req, res) => {
+    const { col, val } = req.body
+    console.log(col, val);
     let connection;
     try {
         connection = await oracledb.getConnection(dbConfig);
@@ -24,6 +26,9 @@ app.get("/api/getdata", async (req, res) => {
             mdah.SUB_DISTRICT,
             mdah.DISTRICT_CODE,
             mdah.PROVINCE_CODE,
+            CONCAT(CONCAT(mdah.PROVINCE_CODE,SUBSTR(mdah.DISTRICT_CODE, 2)),mdah.SUB_DISTRICT) AS TAM_CODE, 
+            CONCAT(mdah.PROVINCE_CODE,mdah.DISTRICT_CODE) AS AMP_CODE,
+            mdah.PROVINCE_CODE AS PRO_CODE,
             mdah.COUNTRY_CODE,
             mdah.POSTCODE,
             mdah.TELEPHONE,
@@ -60,8 +65,10 @@ app.get("/api/getdata", async (req, res) => {
         FROM "OPP$_DBA".MN_DES_PERSON mdp
         LEFT JOIN "OPP$_DBA".MN_DES_ADDRESS_HIS mdah ON mdp.MAIMAD_ID = mdah.MAIMAD_ID 
         LEFT JOIN "OPP$_DBA".MN_DES_DEFORMED mdd ON mdp.MAIMAD_ID =mdd.MAIMAD_ID 
-        LEFT JOIN "OPP$_DBA".BS_DEFORM bd  ON mdd.DEFORM_ID = bd.DEFORM_ID`
-        const result = await connection.execute(sql, [], { maxRows: 1 });
+        LEFT JOIN "OPP$_DBA".BS_DEFORM bd  ON mdd.DEFORM_ID = bd.DEFORM_ID
+        WHERE ${col}='${val}'`;
+        console.log(sql);
+        const result = await connection.execute(sql, [], { maxRows: 100 });
         // console.log(result.metaData);
         res.status(200).json(result.rows)
     } catch (err) {
