@@ -8,6 +8,33 @@ oracledb.initOracleClient({ libDir: '/Users/sakdahomhuan/instantclient_19_8' });
 oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
 oracledb.autoCommit = true;
 
+app.get("/api/select_region", async (req, res) => {
+    let connection;
+    const sql = `SELECT br.REGION_CODE, br.REGION_NAME_THAI, mdp.SEX_CODE, COUNT(br.REGION_CODE) AS cnt 
+        FROM MN_DES_PERSON mdp 
+        LEFT JOIN MN_DES_ADDRESS mda ON mdp.MAIMAD_ID = mda.MAIMAD_ID 
+        LEFT JOIN BS_PROVINCE bp ON mda.PROVINCE_CODE = bp.PROVINCE_CODE 
+        LEFT JOIN BS_REGION br ON bp.REGION_CODE = br.REGION_CODE 
+        WHERE mda.ADDRESS_CODE = '02'
+        GROUP BY br.REGION_CODE, br.REGION_NAME_THAI, mdp.SEX_CODE
+        ORDER BY br.REGION_NAME_THAI,mdp.SEX_CODE`
+
+    try {
+        const result = await connection.execute(sql, [], {});
+        res.status(200).json(result.rows)
+    } catch (error) {
+        console.error(err);
+    } finally {
+        if (connection) {
+            try {
+                await connection.close();
+            } catch (err) {
+                console.error(err);
+            }
+        }
+    }
+})
+
 app.post("/api/getdata", async (req, res) => {
     const { col, val } = req.body
     console.log(col, val);
@@ -67,7 +94,7 @@ app.post("/api/getdata", async (req, res) => {
         LEFT JOIN "OPP$_DBA".MN_DES_DEFORMED mdd ON mdp.MAIMAD_ID =mdd.MAIMAD_ID 
         LEFT JOIN "OPP$_DBA".BS_DEFORM bd  ON mdd.DEFORM_ID = bd.DEFORM_ID
         WHERE ${col}='${val}'`;
-        console.log(sql);
+        // console.log(sql);
         const result = await connection.execute(sql, [], { maxRows: 100 });
         // console.log(result.metaData);
         res.status(200).json(result.rows)
