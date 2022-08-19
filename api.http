@@ -45,3 +45,37 @@ Content-Type: application/json
     "tambon_code": ""          
 }
 
+###
+POST http://localhost:3000/api/get_by_age_type_pro HTTP/1:1
+Content-Type: application/json
+
+{
+    "province_code":"65",
+    "age_start": 40,
+    "age_end": 50        
+}
+
+###
+POST http://localhost:3000/api/get_by_age_type_amp HTTP/1:1
+Content-Type: application/json
+
+{
+    "province_code":"65",
+    "amphoe_code": "", 
+    "age_start": 40,
+    "age_end": 50        
+}
+
+###
+POST http://localhost:3000/api/get_by_age_type_tam HTTP/1:1
+Content-Type: application/json
+
+{
+    "province_code":"65",
+    "amphoe_code": "6501", 
+    "tambon_code": "650111" ,
+    "age_start": 40,
+    "age_end": 50        
+}
+
+
