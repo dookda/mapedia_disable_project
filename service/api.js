@@ -40,23 +40,24 @@ app.post("/api/get_by_region", async (req, res) => {
 })
 
 app.post("/api/get_by_province", async (req, res) => {
-    let { province_code } = req.body
+    let { province_code, address_code } = req.body
     let connection = await oracledb.getConnection(dbConfig);
     let where;
     if (province_code == "ALL") {
-        where = `GROUP BY bp.PROVINCE_CODE, bp.PROVINCE_NAME`;
+        where = `mda.ADDRESS_CODE = '${address_code}'`;
     } else {
-        where = `WHERE bp.PROVINCE_CODE ='${province_code}' GROUP BY bp.PROVINCE_CODE, bp.PROVINCE_NAME`;
+        where = `WHERE mda.ADDRESS_CODE = '${address_code}' AND bp.PROVINCE_CODE ='${province_code}'`;
     }
 
     const sql = `SELECT bp.PROVINCE_CODE, bp.PROVINCE_NAME, 
             COUNT(bp.PROVINCE_CODE) AS TOTLE,
             SUM(CASE mdp.SEX_CODE WHEN 'M' THEN 1 ELSE 0 END) AS M,
-            SUM(CASE mdp.SEX_CODE WHEN 'F' THEN 1 ELSE 0 END) AS F 
+            SUM(CASE mdp.SEX_CODE WHEN 'F' THEN 1 ELSE 0 END) AS F
         FROM "OPP$_DBA".MN_DES_PERSON mdp 
         LEFT JOIN "OPP$_DBA".MN_DES_ADDRESS mda ON mdp.MAIMAD_ID = mda.MAIMAD_ID 
         LEFT JOIN "OPP$_DBA".BS_PROVINCE bp ON mda.PROVINCE_CODE = bp.PROVINCE_CODE 
-        ${where}`
+        ${where}
+        GROUP BY bp.PROVINCE_CODE, bp.PROVINCE_NAME`
 
     try {
         const result = await connection.execute(sql, [], { maxRows: 100 });
@@ -75,13 +76,13 @@ app.post("/api/get_by_province", async (req, res) => {
 })
 
 app.post("/api/get_by_amp", async (req, res) => {
-    let { province_code, amphoe_code } = req.body
+    let { province_code, amphoe_code, address_code } = req.body
     let connection = await oracledb.getConnection(dbConfig);
     let where;
     if (!amphoe_code) {
-        where = `WHERE mda.PROVINCE_CODE = '${province_code}'`;
+        where = `WHERE mda.ADDRESS_CODE = '${address_code}' AND mda.PROVINCE_CODE = '${province_code}'`;
     } else {
-        where = `WHERE CONCAT(mda.PROVINCE_CODE,mda.DISTRICT_CODE)='${amphoe_code}'`;
+        where = `WHERE mda.ADDRESS_CODE = '${address_code}' AND CONCAT(mda.PROVINCE_CODE,mda.DISTRICT_CODE)='${amphoe_code}'`;
     }
 
     let sql = `SELECT bp.PROVINCE_CODE, bp.PROVINCE_NAME, bd.DISTRICT_CODE, bd.DISTRICT_NAME,
@@ -112,13 +113,13 @@ app.post("/api/get_by_amp", async (req, res) => {
 })
 
 app.post("/api/get_by_tam", async (req, res) => {
-    let { amphoe_code, tambon_code } = req.body
+    let { amphoe_code, tambon_code, address_code } = req.body
     let connection = await oracledb.getConnection(dbConfig);
     let where;
     if (!tambon_code) {
-        where = `WHERE CONCAT(mda.PROVINCE_CODE,mda.DISTRICT_CODE) = '${amphoe_code}'`;
+        where = `WHERE mda.ADDRESS_CODE = '${address_code}' AND CONCAT(mda.PROVINCE_CODE,mda.DISTRICT_CODE) = '${amphoe_code}'`;
     } else {
-        where = `WHERE CONCAT(mda.PROVINCE_CODE, CONCAT(mda.DISTRICT_CODE, SUBSTR(mda.SUB_DISTRICT, 1, 2))) ='${tambon_code}'`;
+        where = `WHERE mda.ADDRESS_CODE = '${address_code}' AND CONCAT(mda.PROVINCE_CODE, CONCAT(mda.DISTRICT_CODE, SUBSTR(mda.SUB_DISTRICT, 1, 2))) ='${tambon_code}'`;
     }
 
     let sql = `SELECT bp.PROVINCE_CODE, bp.PROVINCE_NAME, bd.DISTRICT_CODE, bd.DISTRICT_NAME, bs.SUBDISTRICT_CODE, bs.SUBDISTRICT_NAME, 
@@ -149,13 +150,13 @@ app.post("/api/get_by_tam", async (req, res) => {
 })
 
 app.post("/api/get_by_age_type_pro", async (req, res) => {
-    let { province_code, age_start, age_end } = req.body
+    let { province_code, age_start, age_end, address_code } = req.body
     let connection = await oracledb.getConnection(dbConfig);
     let where;
     if (province_code == "ALL") {
-        where = `WHERE ((SELECT EXTRACT(YEAR FROM SYSDATE) FROM DUAL)-(SUBSTR(mdp.BIRTH_DATE,-4)-543)) > ${age_start} AND ((SELECT EXTRACT(YEAR FROM SYSDATE) FROM DUAL)-(SUBSTR(mdp.BIRTH_DATE,-4)-543)) <= ${age_end}`;
+        where = `WHERE mda.ADDRESS_CODE = '${address_code}' AND ((SELECT EXTRACT(YEAR FROM SYSDATE) FROM DUAL)-(SUBSTR(mdp.BIRTH_DATE,-4)-543)) > ${age_start} AND ((SELECT EXTRACT(YEAR FROM SYSDATE) FROM DUAL)-(SUBSTR(mdp.BIRTH_DATE,-4)-543)) <= ${age_end}`;
     } else {
-        where = `WHERE bp.PROVINCE_CODE = '${province_code}' AND ((SELECT EXTRACT(YEAR FROM SYSDATE) FROM DUAL)-(SUBSTR(mdp.BIRTH_DATE,-4)-543)) > ${age_start} AND ((SELECT EXTRACT(YEAR FROM SYSDATE) FROM DUAL)-(SUBSTR(mdp.BIRTH_DATE,-4)-543)) <= ${age_end}`;
+        where = `WHERE mda.ADDRESS_CODE = '${address_code}' AND bp.PROVINCE_CODE = '${province_code}' AND ((SELECT EXTRACT(YEAR FROM SYSDATE) FROM DUAL)-(SUBSTR(mdp.BIRTH_DATE,-4)-543)) > ${age_start} AND ((SELECT EXTRACT(YEAR FROM SYSDATE) FROM DUAL)-(SUBSTR(mdp.BIRTH_DATE,-4)-543)) <= ${age_end}`;
     }
 
     let sql = `SELECT bp.PROVINCE_CODE, bp.PROVINCE_NAME, 
@@ -193,13 +194,13 @@ app.post("/api/get_by_age_type_pro", async (req, res) => {
 })
 
 app.post("/api/get_by_age_type_amp", async (req, res) => {
-    let { province_code, amphoe_code, age_start, age_end } = req.body
+    let { province_code, amphoe_code, age_start, age_end, address_code } = req.body
     let connection = await oracledb.getConnection(dbConfig);
     let where;
     if (!amphoe_code) {
-        where = `WHERE mda.PROVINCE_CODE = '${province_code}' AND ((SELECT EXTRACT(YEAR FROM SYSDATE) FROM DUAL)-(SUBSTR(mdp.BIRTH_DATE,-4)-543)) > ${age_start} AND ((SELECT EXTRACT(YEAR FROM SYSDATE) FROM DUAL)-(SUBSTR(mdp.BIRTH_DATE,-4)-543)) <= ${age_end}`;
+        where = `WHERE mda.ADDRESS_CODE = '${address_code}' AND mda.PROVINCE_CODE = '${province_code}' AND ((SELECT EXTRACT(YEAR FROM SYSDATE) FROM DUAL)-(SUBSTR(mdp.BIRTH_DATE,-4)-543)) > ${age_start} AND ((SELECT EXTRACT(YEAR FROM SYSDATE) FROM DUAL)-(SUBSTR(mdp.BIRTH_DATE,-4)-543)) <= ${age_end}`;
     } else {
-        where = `WHERE CONCAT(mda.PROVINCE_CODE,mda.DISTRICT_CODE)='${amphoe_code}' AND ((SELECT EXTRACT(YEAR FROM SYSDATE) FROM DUAL)-(SUBSTR(mdp.BIRTH_DATE,-4)-543)) > ${age_start} AND ((SELECT EXTRACT(YEAR FROM SYSDATE) FROM DUAL)-(SUBSTR(mdp.BIRTH_DATE,-4)-543)) <= ${age_end}`;
+        where = `WHERE mda.ADDRESS_CODE = '${address_code}' AND CONCAT(mda.PROVINCE_CODE,mda.DISTRICT_CODE)='${amphoe_code}' AND ((SELECT EXTRACT(YEAR FROM SYSDATE) FROM DUAL)-(SUBSTR(mdp.BIRTH_DATE,-4)-543)) > ${age_start} AND ((SELECT EXTRACT(YEAR FROM SYSDATE) FROM DUAL)-(SUBSTR(mdp.BIRTH_DATE,-4)-543)) <= ${age_end}`;
     }
 
     let sql = `SELECT bp.PROVINCE_CODE, bp.PROVINCE_NAME, bd.DISTRICT_CODE, bd.DISTRICT_NAME,
@@ -238,13 +239,13 @@ app.post("/api/get_by_age_type_amp", async (req, res) => {
 })
 
 app.post("/api/get_by_age_type_tam", async (req, res) => {
-    let { tambon_code, amphoe_code, age_start, age_end } = req.body
+    let { tambon_code, amphoe_code, age_start, age_end, address_code } = req.body
     let connection = await oracledb.getConnection(dbConfig);
     let where;
     if (!tambon_code) {
-        where = `WHERE CONCAT(mda.PROVINCE_CODE,mda.DISTRICT_CODE) = '${amphoe_code}' AND ((SELECT EXTRACT(YEAR FROM SYSDATE) FROM DUAL)-(SUBSTR(mdp.BIRTH_DATE,-4)-543)) > ${age_start} AND ((SELECT EXTRACT(YEAR FROM SYSDATE) FROM DUAL)-(SUBSTR(mdp.BIRTH_DATE,-4)-543)) <= ${age_end}`;
+        where = `WHERE mda.ADDRESS_CODE = '${address_code}' AND CONCAT(mda.PROVINCE_CODE,mda.DISTRICT_CODE) = '${amphoe_code}' AND ((SELECT EXTRACT(YEAR FROM SYSDATE) FROM DUAL)-(SUBSTR(mdp.BIRTH_DATE,-4)-543)) > ${age_start} AND ((SELECT EXTRACT(YEAR FROM SYSDATE) FROM DUAL)-(SUBSTR(mdp.BIRTH_DATE,-4)-543)) <= ${age_end}`;
     } else {
-        where = `WHERE CONCAT(mda.PROVINCE_CODE, CONCAT(mda.DISTRICT_CODE, SUBSTR(mda.SUB_DISTRICT, 1, 2))) ='${tambon_code}' AND ((SELECT EXTRACT(YEAR FROM SYSDATE) FROM DUAL)-(SUBSTR(mdp.BIRTH_DATE,-4)-543)) > ${age_start} AND ((SELECT EXTRACT(YEAR FROM SYSDATE) FROM DUAL)-(SUBSTR(mdp.BIRTH_DATE,-4)-543)) <= ${age_end}`;
+        where = `WHERE mda.ADDRESS_CODE = '${address_code}' AND CONCAT(mda.PROVINCE_CODE, CONCAT(mda.DISTRICT_CODE, SUBSTR(mda.SUB_DISTRICT, 1, 2))) ='${tambon_code}' AND ((SELECT EXTRACT(YEAR FROM SYSDATE) FROM DUAL)-(SUBSTR(mdp.BIRTH_DATE,-4)-543)) > ${age_start} AND ((SELECT EXTRACT(YEAR FROM SYSDATE) FROM DUAL)-(SUBSTR(mdp.BIRTH_DATE,-4)-543)) <= ${age_end}`;
     }
 
     let sql = `SELECT bp.PROVINCE_CODE, bp.PROVINCE_NAME, bd.DISTRICT_CODE, bd.DISTRICT_NAME, bs.SUBDISTRICT_CODE, bs.SUBDISTRICT_NAME,
