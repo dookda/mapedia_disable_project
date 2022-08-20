@@ -1,12 +1,6 @@
-POST http://localhost:3000/api/getdata HTTP/1.1
-content-type: application/json
 
-{
-    "col": "AMP_CODE",
-    "val": "5206"
-}
 
-###
+### get by region
 POST http://localhost:3000/api/get_by_region HTTP/1:1
 Content-Type: application/json
 
@@ -14,48 +8,53 @@ Content-Type: application/json
     "address_code":"01"            
 }
 
-// address_code = "01" "02"
+// เลือกข้อมูลใน address_code = "01" "02"
 
-###
+### get by province
 POST http://localhost:3000/api/get_by_province HTTP/1:1
 Content-Type: application/json
 
 {
-    "province_code":"40"           
+    "province_code":"40",
+    "address_code": "02"            
 }
 
 // "province_code" = "ALL", "02", "04", ... (รหัสจังหวัด)
 
-###
+### get by amp 
 POST http://localhost:3000/api/get_by_amp HTTP/1:1
 Content-Type: application/json
 
 {
     "province_code":"40",
-    "amphoe_code": "4005"          
+    "amphoe_code": "4005",
+    "address_code": "02"           
 }
+// "province_code" = "ALL"
+// "amphoe_code":  "4005" 
 
-
-###
+### get by tam
 POST http://localhost:3000/api/get_by_tam HTTP/1:1
 Content-Type: application/json
 
 {
     "amphoe_code":"4005",
-    "tambon_code": ""          
+    "tambon_code": "",
+    "address_code": "02"           
 }
 
-###
+### get age type & pro
 POST http://localhost:3000/api/get_by_age_type_pro HTTP/1:1
 Content-Type: application/json
 
 {
-    "province_code":"65",
-    "age_start": 40,
-    "age_end": 50        
+    "province_code":"40",
+    "age_start": 10,
+    "age_end": 100,
+    "address_code": "02"         
 }
 
-###
+### get age type & amp
 POST http://localhost:3000/api/get_by_age_type_amp HTTP/1:1
 Content-Type: application/json
 
@@ -63,10 +62,11 @@ Content-Type: application/json
     "province_code":"65",
     "amphoe_code": "", 
     "age_start": 40,
-    "age_end": 50        
+    "age_end": 50,
+    "address_code": "02"         
 }
 
-###
+### get age type & tam
 POST http://localhost:3000/api/get_by_age_type_tam HTTP/1:1
 Content-Type: application/json
 
@@ -75,7 +75,8 @@ Content-Type: application/json
     "amphoe_code": "6501", 
     "tambon_code": "650111" ,
     "age_start": 40,
-    "age_end": 50        
+    "age_end": 50,
+    "address_code": "02"        
 }
 
 
