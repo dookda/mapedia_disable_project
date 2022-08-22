@@ -12,16 +12,26 @@ app.post("/api/get_by_region", async (req, res) => {
     let { address_code } = req.body
     let connection = await oracledb.getConnection(dbConfig);
 
-    const sql = `SELECT br.REGION_CODE, 
-        br.REGION_NAME_THAI,
-        COUNT(br.REGION_CODE) AS cnt,
-        SUM(CASE mdp.SEX_CODE WHEN 'M' THEN 1 ELSE 0 END) AS M,
-        SUM(CASE mdp.SEX_CODE WHEN 'F' THEN 1 ELSE 0 END) AS F 
-    FROM "OPP$_DBA".MN_DES_PERSON mdp 
-    LEFT JOIN "OPP$_DBA".MN_DES_ADDRESS mda ON mdp.MAIMAD_ID = mda.MAIMAD_ID 
-    LEFT JOIN "OPP$_DBA".BS_PROVINCE bp ON mda.PROVINCE_CODE = bp.PROVINCE_CODE 
-    LEFT JOIN "OPP$_DBA".BS_REGION br ON bp.REGION_CODE = br.REGION_CODE 
-    WHERE mda.ADDRESS_CODE ='${address_code}' GROUP BY br.REGION_CODE, br.REGION_NAME_THAI ORDER BY br.REGION_NAME_THAI`
+    // const sql1 = `SELECT br.REGION_CODE, 
+    //     br.REGION_NAME_THAI,
+    //     COUNT(br.REGION_CODE) AS cnt,
+    //     SUM(CASE mdp.SEX_CODE WHEN 'M' THEN 1 ELSE 0 END) AS M,
+    //     SUM(CASE mdp.SEX_CODE WHEN 'F' THEN 1 ELSE 0 END) AS F 
+    // FROM "OPP$_DBA".MN_DES_PERSON mdp 
+    // LEFT JOIN "OPP$_DBA".MN_DES_ADDRESS mda ON mdp.MAIMAD_ID = mda.MAIMAD_ID 
+    // LEFT JOIN "OPP$_DBA".BS_PROVINCE bp ON mda.PROVINCE_CODE = bp.PROVINCE_CODE 
+    // LEFT JOIN "OPP$_DBA".BS_REGION br ON bp.REGION_CODE = br.REGION_CODE 
+    // WHERE mda.ADDRESS_CODE ='${address_code}' GROUP BY br.REGION_CODE, br.REGION_NAME_THAI ORDER BY br.REGION_NAME_THAI`
+
+    const sql = `SELECT mda.REGION_CODE, 
+        mda.REGION_NAME_THAI,
+        COUNT(mda.REGION_CODE) AS cnt,
+        SUM(CASE mda.SEX_CODE WHEN 'M' THEN 1 ELSE 0 END) AS M,
+        SUM(CASE mda.SEX_CODE WHEN 'F' THEN 1 ELSE 0 END) AS F 
+    FROM "DEPGIS".V_MN_DES_PERSON mda
+    WHERE mda.ADDRESS_CODE ='${address_code}' 
+    GROUP BY mda.REGION_CODE, mda.REGION_NAME_THAI 
+    ORDER BY mda.REGION_NAME_THAI`
 
     try {
         const result = await connection.execute(sql, [], { maxRows: 100 });
