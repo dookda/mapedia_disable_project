@@ -123,11 +123,11 @@ app.post("/api/get_by_region", async (req, res) => {
 })
 
 app.post("/api/get_by_province", async (req, res) => {
-    let { province_code, address_code } = req.body
+    let { region_code, province_code, address_code } = req.body
     let connection = await oracledb.getConnection(dbConfig);
     let where;
-    if (province_code == "ALL") {
-        where = `mda.ADDRESS_CODE = '${address_code}'`;
+    if (!province_code) {
+        where = `WHERE mda.ADDRESS_CODE = '${address_code}' AND mda.REGION_CODE='${region_code}'`;
     } else {
         where = `WHERE mda.ADDRESS_CODE = '${address_code}' AND mda.PROVINCE_CODE ='${province_code}'`;
     }
@@ -139,7 +139,7 @@ app.post("/api/get_by_province", async (req, res) => {
             FROM "DEPGIS".V_MN_DES_PERSON mda 
             ${where}
             GROUP BY mda.PROVINCE_CODE, mda.PROVINCE_NAME`
-
+    console.log(sql);
     try {
         const result = await connection.execute(sql, [], { maxRows: 100 });
         res.status(200).json(result.rows)
