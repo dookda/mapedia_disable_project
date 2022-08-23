@@ -1,7 +1,7 @@
 ### change localhost -> 192.168.3.110
 
 ### get all region
-POST http://localhost:3000/api/get_all_region HTTP/1:1
+POST http://192.168.3.110:3000/api/get_all_region HTTP/1:1
 Content-Type: application/json
 
 ### get all pro
