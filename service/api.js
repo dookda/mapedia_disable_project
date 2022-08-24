@@ -139,7 +139,7 @@ app.post("/api/get_by_province", async (req, res) => {
             FROM "DEPGIS".V_MN_DES_PERSON mda 
             ${where}
             GROUP BY mda.PROVINCE_CODE, mda.PROVINCE_NAME`
-    console.log(sql);
+    // console.log(sql);
     try {
         const result = await connection.execute(sql, [], { maxRows: 100 });
         res.status(200).json(result.rows)
@@ -236,15 +236,16 @@ app.post("/api/get_by_age_type_pro", async (req, res) => {
 
     let sql = `SELECT mda.PROVINCE_CODE, mda.PROVINCE_NAME, 
             COUNT(mda.PROVINCE_CODE) AS TOTAL,
-            SUM(CASE mda.DEFORM_ID WHEN '0' THEN 1 ELSE 0 END) AS type0, 
-            SUM(CASE mda.DEFORM_ID WHEN '11' THEN 1 ELSE 0 END) AS type12,
-            SUM(CASE mda.DEFORM_ID WHEN '12' THEN 1 ELSE 0 END) AS type13,
-            SUM(CASE mda.DEFORM_ID WHEN '13' THEN 1 ELSE 0 END) AS type14,
-            SUM(CASE mda.DEFORM_ID WHEN '14' THEN 1 ELSE 0 END) AS type15,
-            SUM(CASE mda.DEFORM_ID WHEN '15' THEN 1 ELSE 0 END) AS type16,
-            SUM(CASE mda.DEFORM_ID WHEN '16' THEN 1 ELSE 0 END) AS type17,
-            SUM(CASE mda.DEFORM_ID WHEN '17' THEN 1 ELSE 0 END) AS type18
+            SUM(CASE mdd.DEFORM_ID WHEN '0' THEN 1 ELSE 0 END) AS type0, 
+            SUM(CASE mdd.DEFORM_ID WHEN '11' THEN 1 ELSE 0 END) AS type12,
+            SUM(CASE mdd.DEFORM_ID WHEN '12' THEN 1 ELSE 0 END) AS type13,
+            SUM(CASE mdd.DEFORM_ID WHEN '13' THEN 1 ELSE 0 END) AS type14,
+            SUM(CASE mdd.DEFORM_ID WHEN '14' THEN 1 ELSE 0 END) AS type15,
+            SUM(CASE mdd.DEFORM_ID WHEN '15' THEN 1 ELSE 0 END) AS type16,
+            SUM(CASE mdd.DEFORM_ID WHEN '16' THEN 1 ELSE 0 END) AS type17,
+            SUM(CASE mdd.DEFORM_ID WHEN '17' THEN 1 ELSE 0 END) AS type18
             FROM "DEPGIS".V_MN_DES_PERSON mda  
+            LEFT JOIN "OPP$_DBA".MN_DES_DEFORMED mdd ON mda.MAIMAD_ID = mdd.MAIMAD_ID
             ${where}
             GROUP BY mda.PROVINCE_CODE, mda.PROVINCE_NAME`
 
@@ -276,15 +277,16 @@ app.post("/api/get_by_age_type_amp", async (req, res) => {
 
     let sql = `SELECT mda.PROVINCE_CODE, mda.PROVINCE_NAME, mda.AMPCODE, mda.DISTRICT_NAME,
             COUNT(mda.PROVINCE_CODE) AS TOTAL,
-            SUM(CASE mda.DEFORM_ID WHEN '0' THEN 1 ELSE 0 END) AS type0, 
-            SUM(CASE mda.DEFORM_ID WHEN '11' THEN 1 ELSE 0 END) AS type12,
-            SUM(CASE mda.DEFORM_ID WHEN '12' THEN 1 ELSE 0 END) AS type13,
-            SUM(CASE mda.DEFORM_ID WHEN '13' THEN 1 ELSE 0 END) AS type14,
-            SUM(CASE mda.DEFORM_ID WHEN '14' THEN 1 ELSE 0 END) AS type15,
-            SUM(CASE mda.DEFORM_ID WHEN '15' THEN 1 ELSE 0 END) AS type16,
-            SUM(CASE mda.DEFORM_ID WHEN '16' THEN 1 ELSE 0 END) AS type17,
-            SUM(CASE mda.DEFORM_ID WHEN '17' THEN 1 ELSE 0 END) AS type18
+            SUM(CASE mdd.DEFORM_ID WHEN '0' THEN 1 ELSE 0 END) AS type0, 
+            SUM(CASE mdd.DEFORM_ID WHEN '11' THEN 1 ELSE 0 END) AS type12,
+            SUM(CASE mdd.DEFORM_ID WHEN '12' THEN 1 ELSE 0 END) AS type13,
+            SUM(CASE mdd.DEFORM_ID WHEN '13' THEN 1 ELSE 0 END) AS type14,
+            SUM(CASE mdd.DEFORM_ID WHEN '14' THEN 1 ELSE 0 END) AS type15,
+            SUM(CASE mdd.DEFORM_ID WHEN '15' THEN 1 ELSE 0 END) AS type16,
+            SUM(CASE mdd.DEFORM_ID WHEN '16' THEN 1 ELSE 0 END) AS type17,
+            SUM(CASE mdd.DEFORM_ID WHEN '17' THEN 1 ELSE 0 END) AS type18
             FROM "DEPGIS".V_MN_DES_PERSON mda  
+            LEFT JOIN "OPP$_DBA".MN_DES_DEFORMED mdd ON mda.MAIMAD_ID = mdd.MAIMAD_ID
             ${where}
             GROUP BY mda.PROVINCE_CODE, mda.PROVINCE_NAME, mda.AMPCODE, mda.DISTRICT_NAME`
     // console.log(sql);
@@ -316,15 +318,16 @@ app.post("/api/get_by_age_type_tam", async (req, res) => {
 
     let sql = `SELECT mda.PROVINCE_CODE, mda.PROVINCE_NAME, mda.AMPCODE, mda.DISTRICT_NAME, mda.TAMCODE, mda.SUBDISTRICT_NAME,
             COUNT(mda.PROVINCE_CODE) AS TOTAL,
-            SUM(CASE mda.DEFORM_ID WHEN '0' THEN 1 ELSE 0 END) AS type0, 
-            SUM(CASE mda.DEFORM_ID WHEN '11' THEN 1 ELSE 0 END) AS type12,
-            SUM(CASE mda.DEFORM_ID WHEN '12' THEN 1 ELSE 0 END) AS type13,
-            SUM(CASE mda.DEFORM_ID WHEN '13' THEN 1 ELSE 0 END) AS type14,
-            SUM(CASE mda.DEFORM_ID WHEN '14' THEN 1 ELSE 0 END) AS type15,
-            SUM(CASE mda.DEFORM_ID WHEN '15' THEN 1 ELSE 0 END) AS type16,
-            SUM(CASE mda.DEFORM_ID WHEN '16' THEN 1 ELSE 0 END) AS type17,
-            SUM(CASE mda.DEFORM_ID WHEN '17' THEN 1 ELSE 0 END) AS type18
+            SUM(CASE mdd.DEFORM_ID WHEN '0' THEN 1 ELSE 0 END) AS type0, 
+            SUM(CASE mdd.DEFORM_ID WHEN '11' THEN 1 ELSE 0 END) AS type12,
+            SUM(CASE mdd.DEFORM_ID WHEN '12' THEN 1 ELSE 0 END) AS type13,
+            SUM(CASE mdd.DEFORM_ID WHEN '13' THEN 1 ELSE 0 END) AS type14,
+            SUM(CASE mdd.DEFORM_ID WHEN '14' THEN 1 ELSE 0 END) AS type15,
+            SUM(CASE mdd.DEFORM_ID WHEN '15' THEN 1 ELSE 0 END) AS type16,
+            SUM(CASE mdd.DEFORM_ID WHEN '16' THEN 1 ELSE 0 END) AS type17,
+            SUM(CASE mdd.DEFORM_ID WHEN '17' THEN 1 ELSE 0 END) AS type18
             FROM "DEPGIS".V_MN_DES_PERSON mda  
+            LEFT JOIN "OPP$_DBA".MN_DES_DEFORMED mdd ON mda.MAIMAD_ID = mdd.MAIMAD_ID
             ${where}
             GROUP BY mda.PROVINCE_CODE, mda.PROVINCE_NAME, mda.AMPCODE, mda.DISTRICT_NAME, mda.TAMCODE, mda.SUBDISTRICT_NAME`
     // console.log(sql);
@@ -416,7 +419,6 @@ app.post("/api/get_by_age_edu_amp", async (req, res) => {
         }
     }
 })
-
 
 app.post("/api/get_by_age_edu_tam", async (req, res) => {
     let { tambon_code, amphoe_code, age_start, age_end, address_code } = req.body
@@ -561,7 +563,6 @@ app.post("/api/get_by_age_occ_amp", async (req, res) => {
         }
     }
 })
-
 
 app.post("/api/get_by_age_occ_tam", async (req, res) => {
     let { tambon_code, amphoe_code, age_start, age_end, address_code } = req.body
