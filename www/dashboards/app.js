@@ -85,7 +85,7 @@ var boundStyle = {
   "fillOpacity": 0.25
 };
 
-/// chart
+/// chart1 total
 var domPie = document.getElementById('chartdiv1');
 var chartPie = echarts.init(domPie, null, {
   renderer: 'canvas',
@@ -108,7 +108,7 @@ var optionPie = {
 };
 window.addEventListener('resize', chartPie.resize);
 
-// chart2
+// chart2 Sex
 var domSex = document.getElementById('chartdiv2');
 var chartSex = echarts.init(domSex, null, {
   renderer: 'canvas',
@@ -137,7 +137,7 @@ var optionSex = {
 };
 window.addEventListener('resize', chartSex.resize);
 
-// chart3
+// chart3 Type
 var domType = document.getElementById('chartdiv3');
 var chartType = echarts.init(domType, null, {
   renderer: 'canvas',
@@ -166,7 +166,7 @@ var optionType = {
 };
 window.addEventListener('resize', chartType.resize);
 
-// chart4
+// chart4 Age
 var domAge = document.getElementById('chartdiv4');
 var chartAge = echarts.init(domAge, null, {
   renderer: 'canvas',
@@ -195,7 +195,7 @@ var optionAge = {
 };
 window.addEventListener('resize', chartAge.resize);
 
-// chart4 Edu
+// chart5 Edu
 var domEdu = document.getElementById('chartdiv5');
 var chartEdu = echarts.init(domEdu, null, {
   renderer: 'canvas',
@@ -223,6 +223,95 @@ var optionEdu = {
   ],
 };
 window.addEventListener('resize', chartEdu.resize);
+
+//  chart6 AgeType
+var domAgeType = document.getElementById('chartdiv6');
+var chartAgeType = echarts.init(domAgeType, null, {
+  renderer: 'canvas',
+  useDirtyRect: false
+});
+var appAgeType = {};
+var optionAgeType = {
+  tooltip: {
+    trigger: 'axis',
+    axisPointer: {
+      type: 'shadow'
+    }
+  },
+  legend: {},
+  grid: {
+    left: '3%',
+    right: '4%',
+    bottom: '3%',
+    containLabel: true
+  },
+  xAxis: [
+    {
+      type: 'value'
+    }
+  ],
+};
+window.addEventListener('resize', chartAgeType.resize);
+
+//  chart7 AgeEdu
+var domAgeEdu = document.getElementById('chartdiv7');
+var chartAgeEdu = echarts.init(domAgeEdu, null, {
+  renderer: 'canvas',
+  useDirtyRect: false
+});
+var appAgeEdu = {};
+var optionAgeEdu = {
+  tooltip: {
+    trigger: 'axis',
+    axisPointer: {
+      type: 'shadow'
+    }
+  },
+  legend: {},
+  grid: {
+    left: '3%',
+    right: '4%',
+    bottom: '3%',
+    containLabel: true
+  },
+  xAxis: [
+    {
+      type: 'value'
+    }
+  ],
+};
+window.addEventListener('resize', chartAgeEdu.resize);
+
+//  chart8 AgeOcc
+var domAgeOcc = document.getElementById('chartdiv8');
+var chartAgeOcc = echarts.init(domAgeOcc, null, {
+  renderer: 'canvas',
+  useDirtyRect: false
+});
+var appAgeOcc = {};
+var optionAgeOcc = {
+  tooltip: {
+    trigger: 'axis',
+    axisPointer: {
+      type: 'shadow'
+    }
+  },
+  legend: {},
+  grid: {
+    left: '3%',
+    right: '4%',
+    bottom: '3%',
+    containLabel: true
+  },
+  xAxis: [
+    {
+      type: 'value'
+    }
+  ],
+};
+window.addEventListener('resize', chartAgeOcc.resize);
+
+
 /// DOM 
 async function showTotal(arr) {
   optionPie.series = [
@@ -356,53 +445,7 @@ function showType(arr) {
   }
 }
 
-
-function showEdu(arr) {
-  optionEdu.xAxis = [
-    {
-      type: 'category',
-      data: arr.map(x => x.CAT)
-    }
-  ]
-
-  optionEdu.series = [
-    {
-      name: 'สูงกว่าปริญญาตรี',
-      type: 'bar',
-      stack: 'Type',
-      // label: { show: true },
-      emphasis: { focus: 'series' },
-      data: arr.map(x => x.HIG)
-    }, {
-      name: 'ปริญญาตรีหรือเทียบเท่า',
-      type: 'bar',
-      stack: 'Type',
-      // label: { show: true },
-      emphasis: { focus: 'series' },
-      data: arr.map(x => x.MID)
-    }, {
-      name: 'ต่ำกว่าปริญญาตรี',
-      type: 'bar',
-      stack: 'Type',
-      // label: { show: true },
-      emphasis: { focus: 'series' },
-      data: arr.map(x => x.LOW)
-    }, {
-      name: 'อื่น ๆ',
-      type: 'bar',
-      stack: 'Type',
-      // label: { show: true },
-      emphasis: { focus: 'series' },
-      data: arr.map(x => x.OTH)
-    }
-  ]
-
-  if (optionEdu && typeof optionEdu === 'object') {
-    chartEdu.setOption(optionEdu);
-  }
-}
-
-function showEdu(arr) {
+function showAge(arr) {
   optionAge.xAxis = [
     {
       type: 'category',
@@ -454,27 +497,374 @@ function showEdu(arr) {
   }
 }
 
-function selectAddress(ad_code) {
-  axios.post(`${url}/api/get_by_region`, { address_code: ad_code }).then(async (r) => {
-    var d = r.data;
-    // set region option
-    $('#region').empty().append(`<option value="tam">ทุกภาค</option>`);
-    await d.map(i => $('#region').append(`<option value="${i.REGION_CODE}">${i.REGION_NAME_THAI}</option>`))
+function showEdu(arr) {
+  optionEdu.xAxis = [
+    {
+      type: 'category',
+      data: arr.map(x => x.CAT)
+    }
+  ]
 
-    // let series = await d.map(i => {
-    //   return { ...i, CAT: i.CAT === null ? 'ไม่ระบุ' : i.CAT }
-    // })
-    console.log(d);
+  optionEdu.series = [
+    {
+      name: 'สูงกว่าปริญญาตรี',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.HIG)
+    }, {
+      name: 'ปริญญาตรีหรือเทียบเท่า',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.MID)
+    }, {
+      name: 'ต่ำกว่าปริญญาตรี',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.LOW)
+    }, {
+      name: 'อื่น ๆ',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OTH)
+    }
+  ]
+
+  if (optionEdu && typeof optionEdu === 'object') {
+    chartEdu.setOption(optionEdu);
+  }
+}
+
+function showAgeType(arr) {
+  optionAgeType.yAxis = [
+    {
+      type: 'category',
+      data: arr.map(x => x.CAT)
+    }
+  ]
+
+  optionAgeType.series = [
+    {
+      name: 'TYPE0',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.TYPE0)
+    }, {
+      name: 'TYPE11',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.TYPE11)
+    }, {
+      name: 'TYPE12',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.TYPE12)
+    }, {
+      name: 'TYPE13',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.TYPE13)
+    }, {
+      name: 'TYPE14',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.TYPE14)
+    }, {
+      name: 'TYPE15',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.TYPE15)
+    }, {
+      name: 'TYPE16',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.TYPE16)
+    }, {
+      name: 'TYPE17',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.TYPE17)
+    }, {
+      name: 'TYPE18',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.TYPE18)
+    }
+  ]
+
+  if (optionAgeType && typeof optionAgeType === 'object') {
+    chartAgeType.setOption(optionAgeType);
+  }
+}
+
+function showAgeEdu(arr) {
+  optionAgeEdu.yAxis = [
+    {
+      type: 'category',
+      data: arr.map(x => x.CAT)
+    }
+  ]
+
+  optionAgeEdu.series = [
+    {
+      name: 'สูงกว่าปริญญาตรี',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.HIG)
+    }, {
+      name: 'ปริญญาตรีหรือเทียบเท่า',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.MID)
+    }, {
+      name: 'ต่ำกว่าปริญญาตรี',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.LOW)
+    }, {
+      name: 'อื่น ๆ',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OTH)
+    }
+  ]
+
+  if (optionAgeEdu && typeof optionAgeEdu === 'object') {
+    chartAgeEdu.setOption(optionAgeEdu);
+  }
+}
+
+function showAgeOcc(arr) {
+  optionAgeOcc.yAxis = [
+    {
+      type: 'category',
+      data: arr.map(x => x.CAT)
+    }
+  ]
+  optionAgeOcc.series = [
+    {
+      name: 'occ_001',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_001)
+    }, {
+      name: 'occ_002',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_002)
+    }, {
+      name: 'occ_003',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_003)
+    }, {
+      name: 'occ_004',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_004)
+    }, {
+      name: 'occ_005',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_005)
+    }, {
+      name: 'occ_006',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_006)
+    }, {
+      name: 'occ_007',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_007)
+    }, {
+      name: 'occ_008',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_008)
+    }, {
+      name: 'occ_009',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_009)
+    }, {
+      name: 'occ_010',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_010)
+    }, {
+      name: 'occ_011',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_011)
+    }, {
+      name: 'occ_012',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_012)
+    }, {
+      name: 'occ_013',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_013)
+    }, {
+      name: 'occ_014',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_014)
+    }, {
+      name: 'occ_015',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_015)
+    }, {
+      name: 'occ_016',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_016)
+    }, {
+      name: 'occ_017',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_017)
+    }, {
+      name: 'occ_018',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_018)
+    }, {
+      name: 'occ_019',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_019)
+    }, {
+      name: 'occ_020',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_020)
+    }, {
+      name: 'occ_999',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_999)
+    }
+  ]
+
+  if (optionAgeOcc && typeof optionAgeOcc === 'object') {
+    chartAgeOcc.setOption(optionAgeOcc);
+  }
+}
+
+function selectAddress(ad_code) {
+  axios.post(`${url}/api/get_by_region_total`, { address_code: ad_code }).then(async (r) => {
+    $('#region').empty().append(`<option value="tam">ทุกภาค</option>`);
+    r.data.map(i => $('#region').append(`<option value="${i.REGION_CODE}">${i.REGION_NAME_THAI}</option>`))
     showTotal(r.data)
+  })
+
+  axios.post(`${url}/api/get_by_region_sex`, { address_code: ad_code }).then(async (r) => {
     showSex(r.data)
+  })
+
+  axios.post(`${url}/api/get_by_region_type`, { address_code: ad_code }).then(async (r) => {
     showType(r.data)
+  })
+
+  axios.post(`${url}/api/get_by_region_age`, { address_code: ad_code }).then(async (r) => {
     showAge(r.data)
   })
 
   axios.post(`${url}/api/get_by_region_edu`, { address_code: ad_code }).then(async (r) => {
-    console.log(r.data);
     showEdu(r.data)
   })
+
+  axios.post(`${url}/api/get_by_region_agetype`, { address_code: ad_code }).then(async (r) => {
+    showAgeType(r.data)
+  })
+
+  axios.post(`${url}/api/get_by_region_ageedu`, { address_code: ad_code }).then(async (r) => {
+    showAgeEdu(r.data)
+  })
+
+  axios.post(`${url}/api/get_by_region_ageocc`, { address_code: ad_code }).then(async (r) => {
+    showAgeOcc(r.data)
+  })
+
 }
 
 selectAddress("02")

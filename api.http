@@ -18,7 +18,7 @@ POST http://localhost:3000/api/get_all_tam HTTP/1:1
 Content-Type: application/json
 
 ### get by region
-POST http://localhost:3000/api/get_by_region HTTP/1:1
+POST http://localhost:3000/api/get_by_region_total HTTP/1:1
 Content-Type: application/json
 
 {
@@ -33,7 +33,29 @@ Content-Type: application/json
     "address_code":"02"            
 }
 
+### get by region
+POST http://localhost:3000/api/get_by_region_agetype HTTP/1:1
+Content-Type: application/json
 
+{
+    "address_code":"02"            
+}
+
+### get by region
+POST http://localhost:3000/api/get_by_region_ageedu HTTP/1:1
+Content-Type: application/json
+
+{
+    "address_code":"02"            
+}
+
+### get by region
+POST http://localhost:3000/api/get_by_region_ageocc HTTP/1:1
+Content-Type: application/json
+
+{
+    "address_code":"02"            
+}
 // เลือกข้อมูลใน address_code = "01" "02"
 
 ### get by province

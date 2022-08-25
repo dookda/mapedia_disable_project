@@ -49,6 +49,13 @@ body {
   overflow: hidden;
 }
 
+#chartdiv8 {
+  position: relative;
+  height: 60vh;
+  overflow: hidden;
+}
+
+
 .border-radius {
   border-radius: 5px;
   background-color: #FFF;
