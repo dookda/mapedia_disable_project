@@ -1,6 +1,6 @@
 const urleg = "https://engrids.soc.cmu.ac.th/api";
 // const urleec = "https://eec-onep.online/api";
-const url = "http://192.168.3.110:3000";
+const url = "http://localhost:3000";
 
 let latlng = {
   lat: 13.305567,
@@ -92,10 +92,7 @@ var chartPie = echarts.init(domPie, null, {
   useDirtyRect: false
 });
 var appPie = {};
-
-var optionPie;
-
-optionPie = {
+var optionPie = {
   legend: {
     top: 'bottom'
   },
@@ -108,11 +105,7 @@ optionPie = {
       saveAsImage: { show: true }
     }
   },
-
 };
-
-
-
 window.addEventListener('resize', chartPie.resize);
 
 // chart2
@@ -122,10 +115,7 @@ var chartSex = echarts.init(domSex, null, {
   useDirtyRect: false
 });
 var appSex = {};
-
-var optionSex;
-
-optionSex = {
+var optionSex = {
   tooltip: {
     trigger: 'axis',
     axisPointer: {
@@ -139,17 +129,100 @@ optionSex = {
     bottom: '3%',
     containLabel: true
   },
-
   yAxis: [
     {
       type: 'value'
     }
   ],
-
 };
-
 window.addEventListener('resize', chartSex.resize);
 
+// chart3
+var domType = document.getElementById('chartdiv3');
+var chartType = echarts.init(domType, null, {
+  renderer: 'canvas',
+  useDirtyRect: false
+});
+var appType = {};
+var optionType = {
+  tooltip: {
+    trigger: 'axis',
+    axisPointer: {
+      type: 'shadow'
+    }
+  },
+  legend: {},
+  grid: {
+    left: '3%',
+    right: '4%',
+    bottom: '3%',
+    containLabel: true
+  },
+  xAxis: [
+    {
+      type: 'value'
+    }
+  ],
+};
+window.addEventListener('resize', chartType.resize);
+
+// chart4
+var domAge = document.getElementById('chartdiv4');
+var chartAge = echarts.init(domAge, null, {
+  renderer: 'canvas',
+  useDirtyRect: false
+});
+var appAge = {};
+var optionAge = {
+  tooltip: {
+    trigger: 'axis',
+    axisPointer: {
+      type: 'shadow'
+    }
+  },
+  legend: {},
+  grid: {
+    left: '3%',
+    right: '4%',
+    bottom: '3%',
+    containLabel: true
+  },
+  yAxis: [
+    {
+      type: 'value'
+    }
+  ],
+};
+window.addEventListener('resize', chartAge.resize);
+
+// chart4 Edu
+var domEdu = document.getElementById('chartdiv5');
+var chartEdu = echarts.init(domEdu, null, {
+  renderer: 'canvas',
+  useDirtyRect: false
+});
+var appEdu = {};
+var optionEdu = {
+  tooltip: {
+    trigger: 'axis',
+    axisPointer: {
+      type: 'shadow'
+    }
+  },
+  legend: {},
+  grid: {
+    left: '3%',
+    right: '4%',
+    bottom: '3%',
+    containLabel: true
+  },
+  yAxis: [
+    {
+      type: 'value'
+    }
+  ],
+};
+window.addEventListener('resize', chartEdu.resize);
 /// DOM 
 async function showTotal(arr) {
   optionPie.series = [
@@ -162,7 +235,7 @@ async function showTotal(arr) {
       itemStyle: {
         borderRadius: 8
       },
-      data: arr.map(x => ({ value: x.CNT, name: x.REGION_NAME_THAI }))
+      data: arr.map(x => ({ value: x.CNT, name: x.CAT }))
     }
   ]
 
@@ -172,12 +245,11 @@ async function showTotal(arr) {
 
 }
 
-async function showBySex(arr) {
-
+async function showSex(arr) {
   optionSex.xAxis = [
     {
       type: 'category',
-      data: arr.map(x => x.REGION_NAME_THAI)
+      data: arr.map(x => x.CAT)
     }
   ]
 
@@ -186,18 +258,15 @@ async function showBySex(arr) {
       name: 'Male',
       type: 'bar',
       stack: 'Sex',
-      emphasis: {
-        focus: 'series'
-      },
+      label: { show: true },
+      emphasis: { focus: 'series' },
       data: arr.map(x => x.M)
-    },
-    {
+    }, {
       name: 'Female',
       type: 'bar',
       stack: 'Sex',
-      emphasis: {
-        focus: 'series'
-      },
+      label: { show: true },
+      emphasis: { focus: 'series' },
       data: arr.map(x => x.F)
     }
   ]
@@ -205,7 +274,184 @@ async function showBySex(arr) {
   if (optionSex && typeof optionSex === 'object') {
     chartSex.setOption(optionSex);
   }
+}
 
+function showType(arr) {
+  optionType.yAxis = [
+    {
+      type: 'category',
+      data: arr.map(x => x.CAT)
+    }
+  ]
+
+  optionType.series = [
+    {
+      name: 'TYPE0',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.TYPE0)
+    }, {
+      name: 'TYPE11',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.TYPE11)
+    }, {
+      name: 'TYPE12',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.TYPE12)
+    }, {
+      name: 'TYPE13',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.TYPE13)
+    }, {
+      name: 'TYPE14',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.TYPE14)
+    }, {
+      name: 'TYPE15',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.TYPE15)
+    }, {
+      name: 'TYPE16',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.TYPE16)
+    }, {
+      name: 'TYPE17',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.TYPE17)
+    }, {
+      name: 'TYPE18',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.TYPE18)
+    }
+  ]
+
+  if (optionType && typeof optionType === 'object') {
+    chartType.setOption(optionType);
+  }
+}
+
+
+function showEdu(arr) {
+  optionEdu.xAxis = [
+    {
+      type: 'category',
+      data: arr.map(x => x.CAT)
+    }
+  ]
+
+  optionEdu.series = [
+    {
+      name: 'สูงกว่าปริญญาตรี',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.HIG)
+    }, {
+      name: 'ปริญญาตรีหรือเทียบเท่า',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.MID)
+    }, {
+      name: 'ต่ำกว่าปริญญาตรี',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.LOW)
+    }, {
+      name: 'อื่น ๆ',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OTH)
+    }
+  ]
+
+  if (optionEdu && typeof optionEdu === 'object') {
+    chartEdu.setOption(optionEdu);
+  }
+}
+
+function showEdu(arr) {
+  optionAge.xAxis = [
+    {
+      type: 'category',
+      data: arr.map(x => x.CAT)
+    }
+  ]
+
+  optionAge.series = [
+    {
+      name: '0-5',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.AGE5)
+    }, {
+      name: '6-14',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.AGE14)
+    }, {
+      name: '15-21',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.AGE21)
+    }, {
+      name: '22-59',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.AGE59)
+    }, {
+      name: '>= 60',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.AGE60)
+    }
+  ]
+
+  if (optionAge && typeof optionAge === 'object') {
+    chartAge.setOption(optionAge);
+  }
 }
 
 function selectAddress(ad_code) {
@@ -215,9 +461,19 @@ function selectAddress(ad_code) {
     $('#region').empty().append(`<option value="tam">ทุกภาค</option>`);
     await d.map(i => $('#region').append(`<option value="${i.REGION_CODE}">${i.REGION_NAME_THAI}</option>`))
 
-    let series = await d.filter(i => i.REGION_CODE != null)
-    showTotal(series)
-    showBySex(series)
+    // let series = await d.map(i => {
+    //   return { ...i, CAT: i.CAT === null ? 'ไม่ระบุ' : i.CAT }
+    // })
+    console.log(d);
+    showTotal(r.data)
+    showSex(r.data)
+    showType(r.data)
+    showAge(r.data)
+  })
+
+  axios.post(`${url}/api/get_by_region_edu`, { address_code: ad_code }).then(async (r) => {
+    console.log(r.data);
+    showEdu(r.data)
   })
 }
 

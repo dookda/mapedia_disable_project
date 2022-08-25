@@ -101,19 +101,59 @@ app.post("/api/get_by_region", async (req, res) => {
         SUM(CASE mdp.SEX_CODE WHEN 'M' THEN 1 ELSE 0 END) AS M,
         SUM(CASE mdp.SEX_CODE WHEN 'F' THEN 1 ELSE 0 END) AS F,
         SUM(CASE mdd.DEFORM_ID WHEN '0' THEN 1 ELSE 0 END) AS type0, 
-        SUM(CASE mdd.DEFORM_ID WHEN '11' THEN 1 ELSE 0 END) AS type12,
-        SUM(CASE mdd.DEFORM_ID WHEN '12' THEN 1 ELSE 0 END) AS type13,
-        SUM(CASE mdd.DEFORM_ID WHEN '13' THEN 1 ELSE 0 END) AS type14,
-        SUM(CASE mdd.DEFORM_ID WHEN '14' THEN 1 ELSE 0 END) AS type15,
-        SUM(CASE mdd.DEFORM_ID WHEN '15' THEN 1 ELSE 0 END) AS type16,
-        SUM(CASE mdd.DEFORM_ID WHEN '16' THEN 1 ELSE 0 END) AS type17,
-        SUM(CASE mdd.DEFORM_ID WHEN '17' THEN 1 ELSE 0 END) AS type18
+        SUM(CASE mdd.DEFORM_ID WHEN '11' THEN 1 ELSE 0 END) AS type11,
+        SUM(CASE mdd.DEFORM_ID WHEN '12' THEN 1 ELSE 0 END) AS type12,
+        SUM(CASE mdd.DEFORM_ID WHEN '13' THEN 1 ELSE 0 END) AS type13,
+        SUM(CASE mdd.DEFORM_ID WHEN '14' THEN 1 ELSE 0 END) AS type14,
+        SUM(CASE mdd.DEFORM_ID WHEN '15' THEN 1 ELSE 0 END) AS type15,
+        SUM(CASE mdd.DEFORM_ID WHEN '16' THEN 1 ELSE 0 END) AS type16,
+        SUM(CASE mdd.DEFORM_ID WHEN '17' THEN 1 ELSE 0 END) AS type17,
+        SUM(CASE mdd.DEFORM_ID WHEN '18' THEN 1 ELSE 0 END) AS type18,
+        SUM(CASE WHEN mdp.AGE_NOW  <= 5 THEN 1 ELSE 0 END) AS age5,
+        SUM(CASE WHEN mdp.AGE_NOW  > 5 AND mdp.AGE_NOW  <= 14 THEN 1 ELSE 0 END) AS age14,
+        SUM(CASE WHEN mdp.AGE_NOW  > 14 AND mdp.AGE_NOW  <= 21 THEN 1 ELSE 0 END) AS age21,
+        SUM(CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN 1 ELSE 0 END) AS age59,
+        SUM(CASE WHEN mdp.AGE_NOW  > 59   THEN 1 ELSE 0 END) AS age60
+        
     FROM "DEPGIS".V_MN_DES_PERSON mdp  
     LEFT JOIN "OPP$_DBA".MN_DES_DEFORMED mdd ON mdp.MAIMAD_ID = mdd.MAIMAD_ID 
-    WHERE mdp.ADDRESS_CODE ='${address_code}' 
-    GROUP BY mdp.REGION_NAME_THAI, mdp.REGION_CODE`
+    WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.REGION_CODE IS NOT NULL
+    GROUP BY mdp.REGION_NAME_THAI, mdp.REGION_CODE 
+    ORDER BY mdp.REGION_NAME_THAI`
     // console.log(sql);
 
+    try {
+        const result = await connection.execute(sql, [], { maxRows: 100 });
+        res.status(200).json(result.rows)
+    } catch (err) {
+        console.error(err);
+    } finally {
+        if (connection) {
+            try {
+                await connection.close();
+            } catch (err) {
+                console.error(err);
+            }
+        }
+    }
+})
+
+app.post("/api/get_by_region_edu", async (req, res) => {
+    let { address_code } = req.body
+    let connection = await oracledb.getConnection(dbConfig);
+
+    const sql = `SELECT mdp.REGION_NAME_THAI AS cat,
+        SUM(CASE WHEN bdt.DEGT_GROUP_CODE = '$Low$' OR bdt.DEGT_GROUP_CODE = '$Mid$' OR bdt.DEGT_GROUP_CODE = '$Hig$' OR bdt.DEGT_GROUP_CODE = '$Oth$' THEN 1 ELSE 0 END) AS cnt,
+        SUM(CASE bdt.DEGT_GROUP_CODE WHEN '$Low$' THEN 1 ELSE 0 END) AS low, 
+        SUM(CASE bdt.DEGT_GROUP_CODE WHEN '$Mid$' THEN 1 ELSE 0 END) AS mid,
+        SUM(CASE bdt.DEGT_GROUP_CODE WHEN '$Hig$' THEN 1 ELSE 0 END) AS hig,
+        SUM(CASE bdt.DEGT_GROUP_CODE WHEN '$Oth$' THEN 1 ELSE 0 END) AS oth
+        FROM "DEPGIS".V_MN_DES_PERSON mdp
+        LEFT JOIN "OPP$_DBA".BS_DEGREE_TYPE bdt ON mdp.DEGREE_TYPE_CODE = bdt.DEGREE_TYPE_CODE
+        WHERE mdp.ADDRESS_CODE='${address_code}' AND mdp.REGION_CODE IS NOT NULL
+    GROUP BY mdp.REGION_NAME_THAI
+    ORDER BY mdp.REGION_NAME_THAI`
+    // console.log(sql);
     try {
         const result = await connection.execute(sql, [], { maxRows: 100 });
         res.status(200).json(result.rows)
