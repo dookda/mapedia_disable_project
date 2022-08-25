@@ -4,7 +4,7 @@ const oracledb = require('oracledb');
 const con = require("./db");
 const dbConfig = con.dbConfig;
 
-// oracledb.initOracleClient({ libDir: '/Users/sakdahomhuan/instantclient_19_8' });
+oracledb.initOracleClient({ libDir: '/Users/sakdahomhuan/instantclient_19_8' });
 oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
 oracledb.autoCommit = true;
 
@@ -96,15 +96,23 @@ app.post("/api/get_by_region", async (req, res) => {
     let { address_code } = req.body
     let connection = await oracledb.getConnection(dbConfig);
 
-    const sql = `SELECT mda.REGION_CODE, 
-        mda.REGION_NAME_THAI,
-        COUNT(mda.REGION_CODE) AS cnt,
-        SUM(CASE mda.SEX_CODE WHEN 'M' THEN 1 ELSE 0 END) AS M,
-        SUM(CASE mda.SEX_CODE WHEN 'F' THEN 1 ELSE 0 END) AS F 
-    FROM "DEPGIS".V_MN_DES_PERSON mda
-    WHERE mda.ADDRESS_CODE ='${address_code}' 
-    GROUP BY mda.REGION_CODE, mda.REGION_NAME_THAI 
-    ORDER BY mda.REGION_NAME_THAI`
+    const sql = `SELECT mdp.REGION_NAME_THAI AS cat,
+        SUM(CASE  WHEN mdp.SEX_CODE='M' OR mdp.SEX_CODE='F' OR mdp.SEX_CODE IS NULL  THEN 1 ELSE 0 END) AS cnt,
+        SUM(CASE mdp.SEX_CODE WHEN 'M' THEN 1 ELSE 0 END) AS M,
+        SUM(CASE mdp.SEX_CODE WHEN 'F' THEN 1 ELSE 0 END) AS F,
+        SUM(CASE mdd.DEFORM_ID WHEN '0' THEN 1 ELSE 0 END) AS type0, 
+        SUM(CASE mdd.DEFORM_ID WHEN '11' THEN 1 ELSE 0 END) AS type12,
+        SUM(CASE mdd.DEFORM_ID WHEN '12' THEN 1 ELSE 0 END) AS type13,
+        SUM(CASE mdd.DEFORM_ID WHEN '13' THEN 1 ELSE 0 END) AS type14,
+        SUM(CASE mdd.DEFORM_ID WHEN '14' THEN 1 ELSE 0 END) AS type15,
+        SUM(CASE mdd.DEFORM_ID WHEN '15' THEN 1 ELSE 0 END) AS type16,
+        SUM(CASE mdd.DEFORM_ID WHEN '16' THEN 1 ELSE 0 END) AS type17,
+        SUM(CASE mdd.DEFORM_ID WHEN '17' THEN 1 ELSE 0 END) AS type18
+    FROM "DEPGIS".V_MN_DES_PERSON mdp  
+    LEFT JOIN "OPP$_DBA".MN_DES_DEFORMED mdd ON mdp.MAIMAD_ID = mdd.MAIMAD_ID 
+    WHERE mdp.ADDRESS_CODE ='${address_code}' 
+    GROUP BY mdp.REGION_NAME_THAI, mdp.REGION_CODE`
+    console.log(sql);
 
     try {
         const result = await connection.execute(sql, [], { maxRows: 100 });

@@ -17,7 +17,7 @@ POST http://localhost:3000/api/get_all_tam HTTP/1:1
 Content-Type: application/json
 
 ### get by region
-POST http://192.168.3.110:3000/api/get_by_region HTTP/1:1
+POST http://localhost:3000/api/get_by_region HTTP/1:1
 Content-Type: application/json
 
 {
