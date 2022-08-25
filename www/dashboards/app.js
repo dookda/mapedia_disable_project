@@ -86,16 +86,16 @@ var boundStyle = {
 };
 
 /// chart
-var dom1 = document.getElementById('chartdiv1');
-var myChart1 = echarts.init(dom1, null, {
+var domPie = document.getElementById('chartdiv1');
+var chartPie = echarts.init(domPie, null, {
   renderer: 'canvas',
   useDirtyRect: false
 });
-var app1 = {};
+var appPie = {};
 
-var option1;
+var optionPie;
 
-option1 = {
+optionPie = {
   legend: {
     top: 'bottom'
   },
@@ -108,47 +108,24 @@ option1 = {
       saveAsImage: { show: true }
     }
   },
-  series: [
-    {
-      name: 'Nightingale Chart',
-      type: 'pie',
-      radius: [50, 250],
-      center: ['50%', '50%'],
-      roseType: 'area',
-      itemStyle: {
-        borderRadius: 8
-      },
-      data: [
-        { value: 40, name: 'rose 1' },
-        { value: 38, name: 'rose 2' },
-        { value: 32, name: 'rose 3' },
-        { value: 30, name: 'rose 4' },
-        { value: 28, name: 'rose 5' },
-        { value: 26, name: 'rose 6' },
-        { value: 22, name: 'rose 7' },
-        { value: 18, name: 'rose 8' }
-      ]
-    }
-  ]
+
 };
 
-if (option1 && typeof option1 === 'object') {
-  myChart1.setOption(option1);
-}
 
-window.addEventListener('resize', myChart1.resize);
+
+window.addEventListener('resize', chartPie.resize);
 
 // chart2
-var dom2 = document.getElementById('chartdiv2');
-var myChart2 = echarts.init(dom2, null, {
+var domSex = document.getElementById('chartdiv2');
+var chartSex = echarts.init(domSex, null, {
   renderer: 'canvas',
   useDirtyRect: false
 });
-var app2 = {};
+var appSex = {};
 
-var option2;
+var optionSex;
 
-option2 = {
+optionSex = {
   tooltip: {
     trigger: 'axis',
     axisPointer: {
@@ -162,77 +139,84 @@ option2 = {
     bottom: '3%',
     containLabel: true
   },
-  xAxis: [
-    {
-      type: 'category',
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-    }
-  ],
+
   yAxis: [
     {
       type: 'value'
     }
   ],
-  series: [
-    {
-      name: 'Email',
-      type: 'bar',
-      stack: 'Ad',
-      emphasis: {
-        focus: 'series'
-      },
-      data: [120, 132, 101, 134, 90, 230, 210]
-    },
-    {
-      name: 'Union Ads',
-      type: 'bar',
-      stack: 'Ad',
-      emphasis: {
-        focus: 'series'
-      },
-      data: [220, 182, 191, 234, 290, 330, 310]
-    },
-    {
-      name: 'Video Ads',
-      type: 'bar',
-      stack: 'Ad',
-      emphasis: {
-        focus: 'series'
-      },
-      data: [150, 232, 201, 154, 190, 330, 410]
-    }
-  ]
+
 };
 
-if (option2 && typeof option2 === 'object') {
-  myChart2.setOption(option2);
-}
-
-window.addEventListener('resize', myChart2.resize);
+window.addEventListener('resize', chartSex.resize);
 
 /// DOM 
-async function showByAddress(arr) {
-  let series = arr.map(x => ({ value: x.CNT, category: x.REGION_NAME_THAI }))
-  await console.log(series);
-  await seriesRegion.data.setAll(series);
-  await seriesRegion.appear(1000, 100);
+async function showTotal(arr) {
+  optionPie.series = [
+    {
+      name: 'Nightingale Chart',
+      type: 'pie',
+      radius: [50, 250],
+      center: ['50%', '50%'],
+      roseType: 'area',
+      itemStyle: {
+        borderRadius: 8
+      },
+      data: arr.map(x => ({ value: x.CNT, name: x.REGION_NAME_THAI }))
+    }
+  ]
+
+  if (optionPie && typeof optionPie === 'object') {
+    chartPie.setOption(optionPie);
+  }
+
 }
 
 async function showBySex(arr) {
-  let series = await arr.map(x => ({ europe: x.F, namerica: x.M, year: x.REGION_NAME_THAI }))
-  await console.log(series);
+
+  optionSex.xAxis = [
+    {
+      type: 'category',
+      data: arr.map(x => x.REGION_NAME_THAI)
+    }
+  ]
+
+  optionSex.series = [
+    {
+      name: 'Male',
+      type: 'bar',
+      stack: 'Sex',
+      emphasis: {
+        focus: 'series'
+      },
+      data: arr.map(x => x.M)
+    },
+    {
+      name: 'Female',
+      type: 'bar',
+      stack: 'Sex',
+      emphasis: {
+        focus: 'series'
+      },
+      data: arr.map(x => x.F)
+    }
+  ]
+
+  if (optionSex && typeof optionSex === 'object') {
+    chartSex.setOption(optionSex);
+  }
 
 }
 
 function selectAddress(ad_code) {
   axios.post(`${url}/api/get_by_region`, { address_code: ad_code }).then(async (r) => {
     var d = r.data;
-    console.log(d);
+    // set region option
     $('#region').empty().append(`<option value="tam">ทุกภาค</option>`);
     await d.map(i => $('#region').append(`<option value="${i.REGION_CODE}">${i.REGION_NAME_THAI}</option>`))
 
     let series = await d.filter(i => i.REGION_CODE != null)
-    showByAddress(series)
+    showTotal(series)
     showBySex(series)
   })
 }
