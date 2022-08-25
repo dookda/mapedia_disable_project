@@ -830,38 +830,112 @@ function showAgeOcc(arr) {
   }
 }
 
-function selectAddress(ad_code) {
-  axios.post(`${url}/api/get_by_region_total`, { address_code: ad_code }).then(async (r) => {
+function selectAddress(address_code) {
+  axios.post(`${url}/api/get_by_country_total`, { address_code }).then(async (r) => {
     $('#region').empty().append(`<option value="tam">ทุกภาค</option>`);
     r.data.map(i => $('#region').append(`<option value="${i.REGION_CODE}">${i.REGION_NAME_THAI}</option>`))
     showTotal(r.data)
   })
 
-  axios.post(`${url}/api/get_by_region_sex`, { address_code: ad_code }).then(async (r) => {
+  axios.post(`${url}/api/get_by_country_sex`, { address_code }).then(async (r) => {
     showSex(r.data)
   })
 
-  axios.post(`${url}/api/get_by_region_type`, { address_code: ad_code }).then(async (r) => {
+  axios.post(`${url}/api/get_by_country_type`, { address_code }).then(async (r) => {
     showType(r.data)
   })
 
-  axios.post(`${url}/api/get_by_region_age`, { address_code: ad_code }).then(async (r) => {
+  axios.post(`${url}/api/get_by_country_age`, { address_code }).then(async (r) => {
     showAge(r.data)
   })
 
-  axios.post(`${url}/api/get_by_region_edu`, { address_code: ad_code }).then(async (r) => {
+  axios.post(`${url}/api/get_by_country_edu`, { address_code }).then(async (r) => {
     showEdu(r.data)
   })
 
-  axios.post(`${url}/api/get_by_region_agetype`, { address_code: ad_code }).then(async (r) => {
+  axios.post(`${url}/api/get_by_country_agetype`, { address_code }).then(async (r) => {
     showAgeType(r.data)
   })
 
-  axios.post(`${url}/api/get_by_region_ageedu`, { address_code: ad_code }).then(async (r) => {
+  axios.post(`${url}/api/get_by_country_ageedu`, { address_code }).then(async (r) => {
     showAgeEdu(r.data)
   })
 
-  axios.post(`${url}/api/get_by_region_ageocc`, { address_code: ad_code }).then(async (r) => {
+  axios.post(`${url}/api/get_by_country_ageocc`, { address_code }).then(async (r) => {
+    showAgeOcc(r.data)
+  })
+
+}
+
+function selectRegion(address_code, region_code) {
+  axios.post(`${url}/api/get_by_region_total`, { address_code, region_code }).then(async (r) => {
+    $('#pro').empty().append(`<option value="tam">ทุกจังหวัด</option>`);
+    r.data.map(i => $('#pro').append(`<option value="${i.PROVINCE_CODE}">${i.PROVINCE_NAME}</option>`))
+    showTotal(r.data)
+  })
+
+  axios.post(`${url}/api/get_by_region_sex`, { address_code, region_code }).then(async (r) => {
+    showSex(r.data)
+  })
+
+  axios.post(`${url}/api/get_by_region_type`, { address_code, region_code }).then(async (r) => {
+    showType(r.data)
+  })
+
+  axios.post(`${url}/api/get_by_region_age`, { address_code, region_code }).then(async (r) => {
+    showAge(r.data)
+  })
+
+  axios.post(`${url}/api/get_by_region_edu`, { address_code, region_code }).then(async (r) => {
+    showEdu(r.data)
+  })
+
+  axios.post(`${url}/api/get_by_region_agetype`, { address_code, region_code }).then(async (r) => {
+    showAgeType(r.data)
+  })
+
+  axios.post(`${url}/api/get_by_region_ageedu`, { address_code, region_code }).then(async (r) => {
+    showAgeEdu(r.data)
+  })
+
+  axios.post(`${url}/api/get_by_region_ageocc`, { address_code, region_code }).then(async (r) => {
+    showAgeOcc(r.data)
+  })
+
+}
+
+function selectProvince(address_code, province_code) {
+  axios.post(`${url}/api/get_by_province_total`, { address_code, province_code }).then(async (r) => {
+    $('#amp').empty().append(`<option value="pro">ทุกอำเภอ</option>`);
+    r.data.map(i => $('#amp').append(`<option value="${i.AMPCODE}">${i.DISTRICT_NAME}</option>`))
+    showTotal(r.data)
+  })
+
+  axios.post(`${url}/api/get_by_province_sex`, { address_code, province_code }).then(async (r) => {
+    showSex(r.data)
+  })
+
+  axios.post(`${url}/api/get_by_province_type`, { address_code, province_code }).then(async (r) => {
+    showType(r.data)
+  })
+
+  axios.post(`${url}/api/get_by_province_age`, { address_code, province_code }).then(async (r) => {
+    showAge(r.data)
+  })
+
+  axios.post(`${url}/api/get_by_province_edu`, { address_code, province_code }).then(async (r) => {
+    showEdu(r.data)
+  })
+
+  axios.post(`${url}/api/get_by_province_agetype`, { address_code, province_code }).then(async (r) => {
+    showAgeType(r.data)
+  })
+
+  axios.post(`${url}/api/get_by_province_ageedu`, { address_code, province_code }).then(async (r) => {
+    showAgeEdu(r.data)
+  })
+
+  axios.post(`${url}/api/get_by_province_ageocc`, { address_code, province_code }).then(async (r) => {
     showAgeOcc(r.data)
   })
 
@@ -870,44 +944,27 @@ function selectAddress(ad_code) {
 selectAddress("02")
 
 $("#address").on('change', function () {
-  var ad_code = $('#address').val()
-  console.log(ad_code)
-  selectAddress(ad_code)
-
+  var address_code = $('#address').val()
+  selectAddress(address_code)
 })
 
 $("#region").on('change', function () {
-  var ad_code = $('#address').val()
-  var rg_code = $('#region').val()
-  console.log(rg_code)
-  // let getregion = () => {
-  axios.post(`${url}/api/get_by_province`, { region_code: rg_code, address_code: ad_code }).then(async (r) => {
-    var d = r.data;
-    console.log(d)
-    $('#pro').empty().append(`<option value="pro">ทุกจังหวัด</option>`);
-    d.map(i => $('#pro').append(`<option value="${i.PROVINCE_CODE}">${i.PROVINCE_NAME}</option>`))
-  })
-
+  var address_code = $('#address').val()
+  var region_code = $('#region').val()
+  selectRegion(address_code, region_code)
 })
 
 $("#pro").on('change', function () {
-  var ad_code = $('#address').val()
-  var rg_code = $('#region').val()
-  var pv_code = $('#pro').val()
-  console.log(pv_code)
-  // let getregion = () => {
-  axios.post(`${url}/api/get_by_amp`, { province_code: pv_code, region_code: rg_code, address_code: ad_code }).then(async (r) => {
-    var d = r.data;
-    console.log(d)
-    $('#amp').empty().append(`<option value="amp">ทุกอำเภอ</option>`);
-    d.map(i => $('#amp').append(`<option value="${i.AMPCODE}">${i.DISTRICT_NAME}</option>`))
-  })
-  if (pv_code == "pro") {
+  var address_code = $('#address').val()
+  var province_code = $('#pro').val()
+  selectProvince(address_code, province_code)
+
+  if (province_code == "pro") {
     map.setView([13.305567, 101.383101], 6);
     RemoveLayers();
   } else {
     RemoveLayers();
-    axios.get(`${urleg}/eec-api/get-bound/pro/${pv_code}`).then(async (r) => {
+    axios.get(`${urleg}/eec-api/get-bound/pro/${province_code}`).then(async (r) => {
       let geojson = await JSON.parse(r.data.data[0].geom);
       // console.log(geojson);
       let a = L.geoJSON(geojson, {
