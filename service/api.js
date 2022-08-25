@@ -112,7 +112,7 @@ app.post("/api/get_by_region", async (req, res) => {
     LEFT JOIN "OPP$_DBA".MN_DES_DEFORMED mdd ON mdp.MAIMAD_ID = mdd.MAIMAD_ID 
     WHERE mdp.ADDRESS_CODE ='${address_code}' 
     GROUP BY mdp.REGION_NAME_THAI, mdp.REGION_CODE`
-    console.log(sql);
+    // console.log(sql);
 
     try {
         const result = await connection.execute(sql, [], { maxRows: 100 });
