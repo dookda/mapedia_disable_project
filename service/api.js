@@ -4,7 +4,7 @@ const oracledb = require('oracledb');
 const con = require("./db");
 const dbConfig = con.dbConfig;
 
-oracledb.initOracleClient({ libDir: '/Users/sakdahomhuan/instantclient_19_8' });
+// oracledb.initOracleClient({ libDir: '/Users/sakdahomhuan/instantclient_19_8' });
 oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
 oracledb.autoCommit = true;
 
@@ -883,7 +883,7 @@ app.post("/api/get_by_province_type", async (req, res) => {
     WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.PROVINCE_CODE='${province_code}' AND mdp.DISTRICT_NAME IS NOT NULL
     GROUP BY mdp.DISTRICT_NAME, mdp.AMPCODE 
     ORDER BY mdp.DISTRICT_NAME`
-    console.log(sql);
+    // console.log(sql);
 
     try {
         const result = await connection.execute(sql, [], { maxRows: 100 });
