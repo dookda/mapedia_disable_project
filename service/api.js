@@ -610,7 +610,7 @@ app.post("/api/get_by_region_edu", async (req, res) => {
     }
 })
 
-app.post("/api/get_by_country_occ", async (req, res) => {
+app.post("/api/get_by_region_occ", async (req, res) => {
     let { address_code, region_code } = req.body
     let connection = await oracledb.getConnection(dbConfig);
 
