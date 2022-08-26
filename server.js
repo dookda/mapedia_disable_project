@@ -21,6 +21,9 @@ app.use(bodyParser.urlencoded({
 const api = require('./service/api');
 app.use(api);
 
+const geoapi = require('./service/geoapi');
+app.use(geoapi);
+
 app.use('/', express.static('www'))
 
 app.listen(port, () => {

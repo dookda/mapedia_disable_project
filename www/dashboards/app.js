@@ -1,7 +1,7 @@
 const urleg = "https://engrids.soc.cmu.ac.th/api";
 // const urleec = "https://eec-onep.online/api";
-const url = "http://192.168.3.110:3000";
-// const url = "http://localhost:3000";
+// const url = "http://192.168.3.110:3000";
+const url = "http://localhost:3000";
 
 let latlng = {
   lat: 13.305567,
@@ -1028,8 +1028,8 @@ function showAgeOcc(arr) {
 
 function selectAddress(address_code) {
   axios.post(`${url}/api/get_by_country_total`, { address_code }).then(async (r) => {
-    $('#region').empty().append(`<option value="tam">ทุกภาค</option>`);
-    r.data.map(i => $('#region').append(`<option value="${i.REGION_CODE}">${i.REGION_NAME_THAI}</option>`))
+    $('#reg').empty().append(`<option value="tam">ทุกภาค</option>`);
+    r.data.map(i => $('#reg').append(`<option value="${i.REGION_CODE}">${i.REGION_NAME_THAI}</option>`))
     showTotal(r.data)
   })
 
@@ -1146,6 +1146,47 @@ function selectProvince(address_code, province_code) {
   axios.post(`${url}/api/get_by_province_ageocc`, { address_code, province_code }).then(async (r) => {
     showAgeOcc(r.data)
   })
+}
+
+
+function selectAmphoe(address_code, amphoe_code) {
+  axios.post(`${url}/api/get_by_amphoe_total`, { address_code, amphoe_code }).then(async (r) => {
+    $('#tam').empty().append(`<option value="pro">ทุกตำบล</option>`);
+    r.data.map(i => $('#tam').append(`<option value="${i.AMPCODE}">${i.DISTRICT_NAME}</option>`))
+    showTotal(r.data)
+  })
+
+  axios.post(`${url}/api/get_by_amphoe_sex`, { address_code, amphoe_code }).then(async (r) => {
+    showSex(r.data)
+  })
+
+  axios.post(`${url}/api/get_by_amphoe_type`, { address_code, amphoe_code }).then(async (r) => {
+    showType(r.data)
+  })
+
+  axios.post(`${url}/api/get_by_amphoe_age`, { address_code, amphoe_code }).then(async (r) => {
+    showAge(r.data)
+  })
+
+  axios.post(`${url}/api/get_by_amphoe_edu`, { address_code, amphoe_code }).then(async (r) => {
+    showEdu(r.data)
+  })
+
+  axios.post(`${url}/api/get_by_amphoe_occ`, { address_code, amphoe_code }).then(async (r) => {
+    showOcc(r.data)
+  })
+
+  axios.post(`${url}/api/get_by_amphoe_agetype`, { address_code, amphoe_code }).then(async (r) => {
+    showAgeType(r.data)
+  })
+
+  axios.post(`${url}/api/get_by_amphoe_ageedu`, { address_code, amphoe_code }).then(async (r) => {
+    showAgeEdu(r.data)
+  })
+
+  axios.post(`${url}/api/get_by_amphoe_ageocc`, { address_code, amphoe_code }).then(async (r) => {
+    showAgeOcc(r.data)
+  })
 
 }
 
@@ -1156,10 +1197,26 @@ $("#address").on('change', function () {
   selectAddress(address_code)
 })
 
-$("#region").on('change', function () {
+$("#reg").on('change', function () {
   var address_code = $('#address').val()
-  var region_code = $('#region').val()
+  var region_code = $('#reg').val()
   selectRegion(address_code, region_code)
+
+  if (region_code == "all") {
+    map.setView([13.305567, 101.383101], 6);
+    RemoveLayers();
+  } else {
+    RemoveLayers();
+    axios.get(`${url}/geoapi/get-bound/reg/${region_code}`).then(async (r) => {
+      let geojson = await JSON.parse(r.data.data[0].geom);
+      // console.log(geojson);
+      let a = L.geoJSON(geojson, {
+        style: boundStyle,
+        name: "bnd"
+      }).addTo(map);
+      map.fitBounds(a.getBounds());
+    })
+  }
 })
 
 $("#pro").on('change', function () {
@@ -1172,7 +1229,7 @@ $("#pro").on('change', function () {
     RemoveLayers();
   } else {
     RemoveLayers();
-    axios.get(`${urleg}/eec-api/get-bound/pro/${province_code}`).then(async (r) => {
+    axios.get(`${url}/geoapi/get-bound/pro/${province_code}`).then(async (r) => {
       let geojson = await JSON.parse(r.data.data[0].geom);
       // console.log(geojson);
       let a = L.geoJSON(geojson, {
@@ -1185,24 +1242,16 @@ $("#pro").on('change', function () {
 })
 
 $("#amp").on('change', function () {
-  var ad_code = $('#address').val()
-  var rg_code = $('#region').val()
-  var pv_code = $('#pro').val()
-  var amp_code = $('#amp').val()
-  console.log(amp_code)
-  // let getregion = () => {
-  axios.post(`${url}/api/get_by_tam`, { amphoe_code: amp_code, province_code: pv_code, region_code: rg_code, address_code: ad_code }).then(async (r) => {
-    var d = r.data;
-    console.log(d)
-    $('#tam').empty().append(`<option value="amp">ทุกตำบล</option>`);
-    d.map(i => $('#tam').append(`<option value="${i.TAMCODE}">${i.SUBDISTRICT_NAME}</option>`))
-  })
-  if (amp_code !== "amp") {
-    // map.setView([13.305567, 101.383101], 6);
+  var address_code = $('#address').val()
+  var amphoe_code = $('#amp').val()
+  selectAmphoe(address_code, amphoe_code)
+
+  if (amphoe_code == "all") {
+    map.setView([13.305567, 101.383101], 6);
     RemoveLayers();
   } else {
     RemoveLayers();
-    axios.get(`${urleg}/eec-api/get-bound/amp/${amp_code}`).then(async (r) => {
+    axios.get(`${url}/geoapi/get-bound/amp/${amphoe_code}`).then(async (r) => {
       let geojson = await JSON.parse(r.data.data[0].geom);
       // console.log(geojson);
       let a = L.geoJSON(geojson, {
@@ -1229,7 +1278,7 @@ $("#tam").on('change', function () {
   if (tam_code !== "tam") {
     // map.setView([13.305567, 101.383101], 6);
     RemoveLayers();
-    axios.get(`${urleg}/eec-api/get-bound/tam/${tam_code}`).then(async (r) => {
+    axios.get(`${url}/geoapi/get-bound/tam/${tam_code}`).then(async (r) => {
       let geojson = await JSON.parse(r.data.data[0].geom);
       // console.log(geojson);
       let a = L.geoJSON(geojson, {
