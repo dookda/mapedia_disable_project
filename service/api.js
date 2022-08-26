@@ -4,7 +4,7 @@ const oracledb = require('oracledb');
 const con = require("./db");
 const dbConfig = con.dbConfig;
 
-// oracledb.initOracleClient({ libDir: '/Users/sakdahomhuan/instantclient_19_8' });
+oracledb.initOracleClient({ libDir: '/Users/sakdahomhuan/instantclient_19_8' });
 oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
 oracledb.autoCommit = true;
 
@@ -235,6 +235,53 @@ app.post("/api/get_by_country_edu", async (req, res) => {
         FROM "DEPGIS".V_MN_DES_PERSON mdp
         LEFT JOIN "OPP$_DBA".BS_DEGREE_TYPE bdt ON mdp.DEGREE_TYPE_CODE = bdt.DEGREE_TYPE_CODE
         WHERE mdp.ADDRESS_CODE='${address_code}' AND mdp.REGION_CODE IS NOT NULL
+    GROUP BY mdp.REGION_NAME_THAI
+    ORDER BY mdp.REGION_NAME_THAI`
+    // console.log(sql);
+    try {
+        const result = await connection.execute(sql, [], { maxRows: 100 });
+        res.status(200).json(result.rows)
+    } catch (err) {
+        console.error(err);
+    } finally {
+        if (connection) {
+            try {
+                await connection.close();
+            } catch (err) {
+                console.error(err);
+            }
+        }
+    }
+})
+
+app.post("/api/get_by_country_occ", async (req, res) => {
+    let { address_code } = req.body
+    let connection = await oracledb.getConnection(dbConfig);
+
+    const sql = `SELECT mdp.REGION_NAME_THAI AS cat,
+        SUM(CASE mdp.OCC WHEN '001' THEN 1 ELSE 0 END) AS occ_001,
+        SUM(CASE mdp.OCC WHEN '002' THEN 1 ELSE 0 END) AS occ_002,
+        SUM(CASE mdp.OCC WHEN '003' THEN 1 ELSE 0 END) AS occ_003,
+        SUM(CASE mdp.OCC WHEN '004' THEN 1 ELSE 0 END) AS occ_004,
+        SUM(CASE mdp.OCC WHEN '005' THEN 1 ELSE 0 END) AS occ_005,
+        SUM(CASE mdp.OCC WHEN '006' THEN 1 ELSE 0 END) AS occ_006,
+        SUM(CASE mdp.OCC WHEN '007' THEN 1 ELSE 0 END) AS occ_007,
+        SUM(CASE mdp.OCC WHEN '008' THEN 1 ELSE 0 END) AS occ_008,
+        SUM(CASE mdp.OCC WHEN '009' THEN 1 ELSE 0 END) AS occ_009,
+        SUM(CASE mdp.OCC WHEN '010' THEN 1 ELSE 0 END) AS occ_010,
+        SUM(CASE mdp.OCC WHEN '011' THEN 1 ELSE 0 END) AS occ_011,
+        SUM(CASE mdp.OCC WHEN '012' THEN 1 ELSE 0 END) AS occ_012,
+        SUM(CASE mdp.OCC WHEN '013' THEN 1 ELSE 0 END) AS occ_013,
+        SUM(CASE mdp.OCC WHEN '014' THEN 1 ELSE 0 END) AS occ_014,
+        SUM(CASE mdp.OCC WHEN '015' THEN 1 ELSE 0 END) AS occ_015,
+        SUM(CASE mdp.OCC WHEN '016' THEN 1 ELSE 0 END) AS occ_016,
+        SUM(CASE mdp.OCC WHEN '017' THEN 1 ELSE 0 END) AS occ_017,
+        SUM(CASE mdp.OCC WHEN '018' THEN 1 ELSE 0 END) AS occ_018,
+        SUM(CASE mdp.OCC WHEN '019' THEN 1 ELSE 0 END) AS occ_019,
+        SUM(CASE mdp.OCC WHEN '020' THEN 1 ELSE 0 END) AS occ_020,
+        SUM(CASE mdp.OCC WHEN '999' THEN 1 ELSE 0 END) AS occ_999
+    FROM "DEPGIS".V_MN_DES_PERSON mdp
+    WHERE mdp.ADDRESS_CODE='${address_code}' AND mdp.REGION_CODE IS NOT NULL
     GROUP BY mdp.REGION_NAME_THAI
     ORDER BY mdp.REGION_NAME_THAI`
     // console.log(sql);
@@ -563,6 +610,53 @@ app.post("/api/get_by_region_edu", async (req, res) => {
     }
 })
 
+app.post("/api/get_by_country_occ", async (req, res) => {
+    let { address_code, region_code } = req.body
+    let connection = await oracledb.getConnection(dbConfig);
+
+    const sql = `SELECT mdp.PROVINCE_NAME AS cat,
+        SUM(CASE mdp.OCC WHEN '001' THEN 1 ELSE 0 END) AS occ_001,
+        SUM(CASE mdp.OCC WHEN '002' THEN 1 ELSE 0 END) AS occ_002,
+        SUM(CASE mdp.OCC WHEN '003' THEN 1 ELSE 0 END) AS occ_003,
+        SUM(CASE mdp.OCC WHEN '004' THEN 1 ELSE 0 END) AS occ_004,
+        SUM(CASE mdp.OCC WHEN '005' THEN 1 ELSE 0 END) AS occ_005,
+        SUM(CASE mdp.OCC WHEN '006' THEN 1 ELSE 0 END) AS occ_006,
+        SUM(CASE mdp.OCC WHEN '007' THEN 1 ELSE 0 END) AS occ_007,
+        SUM(CASE mdp.OCC WHEN '008' THEN 1 ELSE 0 END) AS occ_008,
+        SUM(CASE mdp.OCC WHEN '009' THEN 1 ELSE 0 END) AS occ_009,
+        SUM(CASE mdp.OCC WHEN '010' THEN 1 ELSE 0 END) AS occ_010,
+        SUM(CASE mdp.OCC WHEN '011' THEN 1 ELSE 0 END) AS occ_011,
+        SUM(CASE mdp.OCC WHEN '012' THEN 1 ELSE 0 END) AS occ_012,
+        SUM(CASE mdp.OCC WHEN '013' THEN 1 ELSE 0 END) AS occ_013,
+        SUM(CASE mdp.OCC WHEN '014' THEN 1 ELSE 0 END) AS occ_014,
+        SUM(CASE mdp.OCC WHEN '015' THEN 1 ELSE 0 END) AS occ_015,
+        SUM(CASE mdp.OCC WHEN '016' THEN 1 ELSE 0 END) AS occ_016,
+        SUM(CASE mdp.OCC WHEN '017' THEN 1 ELSE 0 END) AS occ_017,
+        SUM(CASE mdp.OCC WHEN '018' THEN 1 ELSE 0 END) AS occ_018,
+        SUM(CASE mdp.OCC WHEN '019' THEN 1 ELSE 0 END) AS occ_019,
+        SUM(CASE mdp.OCC WHEN '020' THEN 1 ELSE 0 END) AS occ_020,
+        SUM(CASE mdp.OCC WHEN '999' THEN 1 ELSE 0 END) AS occ_999
+    FROM "DEPGIS".V_MN_DES_PERSON mdp
+    WHERE mdp.ADDRESS_CODE='${address_code}' AND mdp.REGION_CODE='${region_code}'
+    GROUP BY mdp.PROVINCE_NAME, mdp.PROVINCE_CODE 
+    ORDER BY mdp.PROVINCE_NAME`
+    // console.log(sql);
+    try {
+        const result = await connection.execute(sql, [], { maxRows: 100 });
+        res.status(200).json(result.rows)
+    } catch (err) {
+        console.error(err);
+    } finally {
+        if (connection) {
+            try {
+                await connection.close();
+            } catch (err) {
+                console.error(err);
+            }
+        }
+    }
+})
+
 app.post("/api/get_by_region_agetype", async (req, res) => {
     let { address_code, region_code } = req.body
     let connection = await oracledb.getConnection(dbConfig);
@@ -851,6 +945,53 @@ app.post("/api/get_by_province_edu", async (req, res) => {
         SUM(CASE bdt.DEGT_GROUP_CODE WHEN '$Oth$' THEN 1 ELSE 0 END) AS oth
         FROM "DEPGIS".V_MN_DES_PERSON mdp
         LEFT JOIN "OPP$_DBA".BS_DEGREE_TYPE bdt ON mdp.DEGREE_TYPE_CODE = bdt.DEGREE_TYPE_CODE
+    WHERE mdp.ADDRESS_CODE='${address_code}' AND mdp.PROVINCE_CODE='${province_code}' AND mdp.DISTRICT_NAME IS NOT NULL
+    GROUP BY mdp.DISTRICT_NAME, mdp.AMPCODE 
+    ORDER BY mdp.DISTRICT_NAME`
+    // console.log(sql);
+    try {
+        const result = await connection.execute(sql, [], { maxRows: 100 });
+        res.status(200).json(result.rows)
+    } catch (err) {
+        console.error(err);
+    } finally {
+        if (connection) {
+            try {
+                await connection.close();
+            } catch (err) {
+                console.error(err);
+            }
+        }
+    }
+})
+
+app.post("/api/get_by_province_occ", async (req, res) => {
+    let { address_code, province_code } = req.body
+    let connection = await oracledb.getConnection(dbConfig);
+
+    const sql = `SELECT mdp.DISTRICT_NAME AS cat,
+        SUM(CASE mdp.OCC WHEN '001' THEN 1 ELSE 0 END) AS occ_001,
+        SUM(CASE mdp.OCC WHEN '002' THEN 1 ELSE 0 END) AS occ_002,
+        SUM(CASE mdp.OCC WHEN '003' THEN 1 ELSE 0 END) AS occ_003,
+        SUM(CASE mdp.OCC WHEN '004' THEN 1 ELSE 0 END) AS occ_004,
+        SUM(CASE mdp.OCC WHEN '005' THEN 1 ELSE 0 END) AS occ_005,
+        SUM(CASE mdp.OCC WHEN '006' THEN 1 ELSE 0 END) AS occ_006,
+        SUM(CASE mdp.OCC WHEN '007' THEN 1 ELSE 0 END) AS occ_007,
+        SUM(CASE mdp.OCC WHEN '008' THEN 1 ELSE 0 END) AS occ_008,
+        SUM(CASE mdp.OCC WHEN '009' THEN 1 ELSE 0 END) AS occ_009,
+        SUM(CASE mdp.OCC WHEN '010' THEN 1 ELSE 0 END) AS occ_010,
+        SUM(CASE mdp.OCC WHEN '011' THEN 1 ELSE 0 END) AS occ_011,
+        SUM(CASE mdp.OCC WHEN '012' THEN 1 ELSE 0 END) AS occ_012,
+        SUM(CASE mdp.OCC WHEN '013' THEN 1 ELSE 0 END) AS occ_013,
+        SUM(CASE mdp.OCC WHEN '014' THEN 1 ELSE 0 END) AS occ_014,
+        SUM(CASE mdp.OCC WHEN '015' THEN 1 ELSE 0 END) AS occ_015,
+        SUM(CASE mdp.OCC WHEN '016' THEN 1 ELSE 0 END) AS occ_016,
+        SUM(CASE mdp.OCC WHEN '017' THEN 1 ELSE 0 END) AS occ_017,
+        SUM(CASE mdp.OCC WHEN '018' THEN 1 ELSE 0 END) AS occ_018,
+        SUM(CASE mdp.OCC WHEN '019' THEN 1 ELSE 0 END) AS occ_019,
+        SUM(CASE mdp.OCC WHEN '020' THEN 1 ELSE 0 END) AS occ_020,
+        SUM(CASE mdp.OCC WHEN '999' THEN 1 ELSE 0 END) AS occ_999
+    FROM "DEPGIS".V_MN_DES_PERSON mdp
     WHERE mdp.ADDRESS_CODE='${address_code}' AND mdp.PROVINCE_CODE='${province_code}' AND mdp.DISTRICT_NAME IS NOT NULL
     GROUP BY mdp.DISTRICT_NAME, mdp.AMPCODE 
     ORDER BY mdp.DISTRICT_NAME`

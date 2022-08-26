@@ -7,49 +7,55 @@ body {
   border-radius: 10px;
 }
 
-#chartdiv1 {
+#chart-total {
   position: relative;
   height: 60vh;
   overflow: hidden;
 }
 
-#chartdiv2 {
+#chart-sex {
   position: relative;
   height: 60vh;
   overflow: hidden;
 }
 
-#chartdiv3 {
+#chart-type {
   position: relative;
   height: 60vh;
   overflow: hidden;
 }
 
-#chartdiv4 {
+#chart-age {
   position: relative;
   height: 60vh;
   overflow: hidden;
 }
 
-#chartdiv5 {
+#chart-edu {
   position: relative;
   height: 60vh;
   overflow: hidden;
 }
 
-#chartdiv6 {
+#chart-occ {
   position: relative;
   height: 60vh;
   overflow: hidden;
 }
 
-#chartdiv7 {
+#chart-agetype {
   position: relative;
   height: 60vh;
   overflow: hidden;
 }
 
-#chartdiv8 {
+#chart-ageedu {
+  position: relative;
+  height: 60vh;
+  overflow: hidden;
+}
+
+#chart-ageocc {
   position: relative;
   height: 60vh;
   overflow: hidden;

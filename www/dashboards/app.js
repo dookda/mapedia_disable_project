@@ -1,6 +1,7 @@
 const urleg = "https://engrids.soc.cmu.ac.th/api";
 // const urleec = "https://eec-onep.online/api";
-const url = "http://192.168.3.110:3000";
+// const url = "http://192.168.3.110:3000";
+const url = "http://localhost:3000";
 
 let latlng = {
   lat: 13.305567,
@@ -85,8 +86,8 @@ var boundStyle = {
   "fillOpacity": 0.25
 };
 
-/// chart1 total
-var domPie = document.getElementById('chartdiv1');
+/// chart total
+var domPie = document.getElementById('chart-total');
 var chartPie = echarts.init(domPie, null, {
   renderer: 'canvas',
   useDirtyRect: false
@@ -108,8 +109,8 @@ var optionPie = {
 };
 window.addEventListener('resize', chartPie.resize);
 
-// chart2 Sex
-var domSex = document.getElementById('chartdiv2');
+// chart Sex
+var domSex = document.getElementById('chart-sex');
 var chartSex = echarts.init(domSex, null, {
   renderer: 'canvas',
   useDirtyRect: false
@@ -129,7 +130,7 @@ var optionSex = {
     bottom: '3%',
     containLabel: true
   },
-  yAxis: [
+  xAxis: [
     {
       type: 'value'
     }
@@ -137,8 +138,8 @@ var optionSex = {
 };
 window.addEventListener('resize', chartSex.resize);
 
-// chart3 Type
-var domType = document.getElementById('chartdiv3');
+// chart Type
+var domType = document.getElementById('chart-type');
 var chartType = echarts.init(domType, null, {
   renderer: 'canvas',
   useDirtyRect: false
@@ -166,8 +167,8 @@ var optionType = {
 };
 window.addEventListener('resize', chartType.resize);
 
-// chart4 Age
-var domAge = document.getElementById('chartdiv4');
+// chart Age
+var domAge = document.getElementById('chart-age');
 var chartAge = echarts.init(domAge, null, {
   renderer: 'canvas',
   useDirtyRect: false
@@ -187,7 +188,7 @@ var optionAge = {
     bottom: '3%',
     containLabel: true
   },
-  yAxis: [
+  xAxis: [
     {
       type: 'value'
     }
@@ -195,8 +196,8 @@ var optionAge = {
 };
 window.addEventListener('resize', chartAge.resize);
 
-// chart5 Edu
-var domEdu = document.getElementById('chartdiv5');
+// chart Edu
+var domEdu = document.getElementById('chart-edu');
 var chartEdu = echarts.init(domEdu, null, {
   renderer: 'canvas',
   useDirtyRect: false
@@ -216,7 +217,7 @@ var optionEdu = {
     bottom: '3%',
     containLabel: true
   },
-  yAxis: [
+  xAxis: [
     {
       type: 'value'
     }
@@ -224,8 +225,39 @@ var optionEdu = {
 };
 window.addEventListener('resize', chartEdu.resize);
 
-//  chart6 AgeType
-var domAgeType = document.getElementById('chartdiv6');
+
+// chart Occ
+var domOcc = document.getElementById('chart-occ');
+var chartOcc = echarts.init(domOcc, null, {
+  renderer: 'canvas',
+  useDirtyRect: false
+});
+var appOcc = {};
+var optionOcc = {
+  tooltip: {
+    trigger: 'axis',
+    axisPointer: {
+      type: 'shadow'
+    }
+  },
+  legend: {},
+  grid: {
+    left: '3%',
+    right: '4%',
+    bottom: '3%',
+    containLabel: true
+  },
+  xAxis: [
+    {
+      type: 'value'
+    }
+  ],
+};
+window.addEventListener('resize', chartOcc.resize);
+
+
+//  chart AgeType
+var domAgeType = document.getElementById('chart-agetype');
 var chartAgeType = echarts.init(domAgeType, null, {
   renderer: 'canvas',
   useDirtyRect: false
@@ -245,7 +277,7 @@ var optionAgeType = {
     bottom: '3%',
     containLabel: true
   },
-  xAxis: [
+  yAxis: [
     {
       type: 'value'
     }
@@ -253,8 +285,8 @@ var optionAgeType = {
 };
 window.addEventListener('resize', chartAgeType.resize);
 
-//  chart7 AgeEdu
-var domAgeEdu = document.getElementById('chartdiv7');
+//  chart AgeEdu
+var domAgeEdu = document.getElementById('chart-ageedu');
 var chartAgeEdu = echarts.init(domAgeEdu, null, {
   renderer: 'canvas',
   useDirtyRect: false
@@ -274,7 +306,7 @@ var optionAgeEdu = {
     bottom: '3%',
     containLabel: true
   },
-  xAxis: [
+  yAxis: [
     {
       type: 'value'
     }
@@ -282,8 +314,8 @@ var optionAgeEdu = {
 };
 window.addEventListener('resize', chartAgeEdu.resize);
 
-//  chart8 AgeOcc
-var domAgeOcc = document.getElementById('chartdiv8');
+//  chart AgeOcc
+var domAgeOcc = document.getElementById('chart-ageocc');
 var chartAgeOcc = echarts.init(domAgeOcc, null, {
   renderer: 'canvas',
   useDirtyRect: false
@@ -303,7 +335,7 @@ var optionAgeOcc = {
     bottom: '3%',
     containLabel: true
   },
-  xAxis: [
+  yAxis: [
     {
       type: 'value'
     }
@@ -335,7 +367,7 @@ async function showTotal(arr) {
 }
 
 async function showSex(arr) {
-  optionSex.xAxis = [
+  optionSex.yAxis = [
     {
       type: 'category',
       data: arr.map(x => x.CAT)
@@ -446,7 +478,7 @@ function showType(arr) {
 }
 
 function showAge(arr) {
-  optionAge.xAxis = [
+  optionAge.yAxis = [
     {
       type: 'category',
       data: arr.map(x => x.CAT)
@@ -498,7 +530,7 @@ function showAge(arr) {
 }
 
 function showEdu(arr) {
-  optionEdu.xAxis = [
+  optionEdu.yAxis = [
     {
       type: 'category',
       data: arr.map(x => x.CAT)
@@ -542,8 +574,172 @@ function showEdu(arr) {
   }
 }
 
+function showOcc(arr) {
+  optionOcc.yAxis = [
+    {
+      type: 'category',
+      data: arr.map(x => x.CAT)
+    }
+  ]
+
+  optionOcc.series = [
+    {
+      name: 'occ_001',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_001)
+    }, {
+      name: 'occ_002',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_002)
+    }, {
+      name: 'occ_003',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_003)
+    }, {
+      name: 'occ_004',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_004)
+    }, {
+      name: 'occ_005',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_005)
+    }, {
+      name: 'occ_006',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_006)
+    }, {
+      name: 'occ_007',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_007)
+    }, {
+      name: 'occ_008',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_008)
+    }, {
+      name: 'occ_009',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_009)
+    }, {
+      name: 'occ_010',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_010)
+    }, {
+      name: 'occ_011',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_011)
+    }, {
+      name: 'occ_012',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_012)
+    }, {
+      name: 'occ_013',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_013)
+    }, {
+      name: 'occ_014',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_014)
+    }, {
+      name: 'occ_015',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_015)
+    }, {
+      name: 'occ_016',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_016)
+    }, {
+      name: 'occ_017',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_017)
+    }, {
+      name: 'occ_018',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_018)
+    }, {
+      name: 'occ_019',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_019)
+    }, {
+      name: 'occ_020',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_020)
+    }, {
+      name: 'occ_999',
+      type: 'bar',
+      stack: 'Type',
+      // label: { show: true },
+      emphasis: { focus: 'series' },
+      data: arr.map(x => x.OCC_999)
+    }
+  ]
+
+  if (optionOcc && typeof optionOcc === 'object') {
+    chartOcc.setOption(optionOcc);
+  }
+}
+
 function showAgeType(arr) {
-  optionAgeType.yAxis = [
+  optionAgeType.xAxis = [
     {
       type: 'category',
       data: arr.map(x => x.CAT)
@@ -623,7 +819,7 @@ function showAgeType(arr) {
 }
 
 function showAgeEdu(arr) {
-  optionAgeEdu.yAxis = [
+  optionAgeEdu.xAxis = [
     {
       type: 'category',
       data: arr.map(x => x.CAT)
@@ -668,7 +864,7 @@ function showAgeEdu(arr) {
 }
 
 function showAgeOcc(arr) {
-  optionAgeOcc.yAxis = [
+  optionAgeOcc.xAxis = [
     {
       type: 'category',
       data: arr.map(x => x.CAT)
@@ -853,6 +1049,10 @@ function selectAddress(address_code) {
     showEdu(r.data)
   })
 
+  axios.post(`${url}/api/get_by_country_occ`, { address_code }).then(async (r) => {
+    showOcc(r.data)
+  })
+
   axios.post(`${url}/api/get_by_country_agetype`, { address_code }).then(async (r) => {
     showAgeType(r.data)
   })
@@ -890,6 +1090,10 @@ function selectRegion(address_code, region_code) {
     showEdu(r.data)
   })
 
+  axios.post(`${url}/api/get_by_region_occ`, { address_code, region_code }).then(async (r) => {
+    showOcc(r.data)
+  })
+
   axios.post(`${url}/api/get_by_region_agetype`, { address_code, region_code }).then(async (r) => {
     showAgeType(r.data)
   })
@@ -925,6 +1129,10 @@ function selectProvince(address_code, province_code) {
 
   axios.post(`${url}/api/get_by_province_edu`, { address_code, province_code }).then(async (r) => {
     showEdu(r.data)
+  })
+
+  axios.post(`${url}/api/get_by_province_occ`, { address_code, province_code }).then(async (r) => {
+    showOcc(r.data)
   })
 
   axios.post(`${url}/api/get_by_province_agetype`, { address_code, province_code }).then(async (r) => {
