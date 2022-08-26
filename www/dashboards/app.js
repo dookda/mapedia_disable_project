@@ -1028,7 +1028,7 @@ function showAgeOcc(arr) {
 
 function selectAddress(address_code) {
   axios.post(`${url}/api/get_by_country_total`, { address_code }).then(async (r) => {
-    $('#reg').empty().append(`<option value="tam">ทุกภาค</option>`);
+    $('#reg').empty().append(`<option value="all">ทุกภาค</option>`);
     r.data.map(i => $('#reg').append(`<option value="${i.REGION_CODE}">${i.REGION_NAME_THAI}</option>`))
     showTotal(r.data)
   })
@@ -1069,7 +1069,7 @@ function selectAddress(address_code) {
 
 function selectRegion(address_code, region_code) {
   axios.post(`${url}/api/get_by_region_total`, { address_code, region_code }).then(async (r) => {
-    $('#pro').empty().append(`<option value="tam">ทุกจังหวัด</option>`);
+    $('#pro').empty().append(`<option value="all">ทุกจังหวัด</option>`);
     r.data.map(i => $('#pro').append(`<option value="${i.PROVINCE_CODE}">${i.PROVINCE_NAME}</option>`))
     showTotal(r.data)
   })
@@ -1110,7 +1110,7 @@ function selectRegion(address_code, region_code) {
 
 function selectProvince(address_code, province_code) {
   axios.post(`${url}/api/get_by_province_total`, { address_code, province_code }).then(async (r) => {
-    $('#amp').empty().append(`<option value="pro">ทุกอำเภอ</option>`);
+    $('#amp').empty().append(`<option value="all">ทุกอำเภอ</option>`);
     r.data.map(i => $('#amp').append(`<option value="${i.AMPCODE}">${i.DISTRICT_NAME}</option>`))
     showTotal(r.data)
   })
@@ -1151,8 +1151,8 @@ function selectProvince(address_code, province_code) {
 
 function selectAmphoe(address_code, amphoe_code) {
   axios.post(`${url}/api/get_by_amphoe_total`, { address_code, amphoe_code }).then(async (r) => {
-    $('#tam').empty().append(`<option value="pro">ทุกตำบล</option>`);
-    r.data.map(i => $('#tam').append(`<option value="${i.AMPCODE}">${i.DISTRICT_NAME}</option>`))
+    $('#tam').empty().append(`<option value="all">ทุกตำบล</option>`);
+    r.data.map(i => $('#tam').append(`<option value="${i.TAMCODE}">${i.SUBDISTRICT_NAME}</option>`))
     showTotal(r.data)
   })
 
@@ -1190,14 +1190,60 @@ function selectAmphoe(address_code, amphoe_code) {
 
 }
 
-selectAddress("02")
+function selectTambon(address_code, tambon_code) {
+  axios.post(`${url}/api/get_by_tambon_total`, { address_code, tambon_code }).then(async (r) => {
+    showTotal(r.data)
+  })
+
+  axios.post(`${url}/api/get_by_tambon_sex`, { address_code, tambon_code }).then(async (r) => {
+    showSex(r.data)
+  })
+
+  axios.post(`${url}/api/get_by_tambon_type`, { address_code, tambon_code }).then(async (r) => {
+    showType(r.data)
+  })
+
+  axios.post(`${url}/api/get_by_tambon_age`, { address_code, tambon_code }).then(async (r) => {
+    showAge(r.data)
+  })
+
+  axios.post(`${url}/api/get_by_tambon_edu`, { address_code, tambon_code }).then(async (r) => {
+    showEdu(r.data)
+  })
+
+  axios.post(`${url}/api/get_by_tambon_occ`, { address_code, tambon_code }).then(async (r) => {
+    showOcc(r.data)
+  })
+
+  axios.post(`${url}/api/get_by_tambon_agetype`, { address_code, tambon_code }).then(async (r) => {
+    showAgeType(r.data)
+  })
+
+  axios.post(`${url}/api/get_by_tambon_ageedu`, { address_code, tambon_code }).then(async (r) => {
+    showAgeEdu(r.data)
+  })
+
+  axios.post(`${url}/api/get_by_tambon_ageocc`, { address_code, tambon_code }).then(async (r) => {
+    showAgeOcc(r.data)
+  })
+
+}
+
+selectAddress("01")
 
 $("#address").on('change', function () {
+  $('#tam').empty()
+  $('#amp').empty()
+  $('#pro').empty()
+  $('#reg').empty()
   var address_code = $('#address').val()
   selectAddress(address_code)
 })
 
 $("#reg").on('change', function () {
+  $('#tam').empty()
+  $('#amp').empty()
+  $('#pro').empty()
   var address_code = $('#address').val()
   var region_code = $('#reg').val()
   selectRegion(address_code, region_code)
@@ -1220,11 +1266,13 @@ $("#reg").on('change', function () {
 })
 
 $("#pro").on('change', function () {
+  $('#tam').empty()
+  $('#amp').empty()
   var address_code = $('#address').val()
   var province_code = $('#pro').val()
   selectProvince(address_code, province_code)
 
-  if (province_code == "pro") {
+  if (province_code == "all") {
     map.setView([13.305567, 101.383101], 6);
     RemoveLayers();
   } else {
@@ -1242,6 +1290,7 @@ $("#pro").on('change', function () {
 })
 
 $("#amp").on('change', function () {
+  $('#tam').empty()
   var address_code = $('#address').val()
   var amphoe_code = $('#amp').val()
   selectAmphoe(address_code, amphoe_code)
@@ -1264,32 +1313,17 @@ $("#amp").on('change', function () {
 })
 
 $("#tam").on('change', function () {
-  var ad_code = $('#address').val()
-  var rg_code = $('#region').val()
-  var pv_code = $('#pro').val()
-  var amp_code = $('#amp').val()
-  var tam_code = $('#tam').val()
-  console.log(tam_code)
-  // let getregion = () => {
-  axios.post(`${url}/api/get_by_tam`, { tambon_code: tam_code, amphoe_code: amp_code, province_code: pv_code, region_code: rg_code, address_code: ad_code }).then(async (r) => {
-    var d = r.data;
-    console.log(d)
-  })
-  if (tam_code !== "tam") {
-    // map.setView([13.305567, 101.383101], 6);
+  var address_code = $('#address').val()
+  var tambon_code = $('#tam').val()
+  console.log(tambon_code);
+  selectTambon(address_code, tambon_code)
+
+  if (tambon_code == "all") {
+    map.setView([13.305567, 101.383101], 6);
     RemoveLayers();
-    axios.get(`${url}/geoapi/get-bound/tam/${tam_code}`).then(async (r) => {
-      let geojson = await JSON.parse(r.data.data[0].geom);
-      // console.log(geojson);
-      let a = L.geoJSON(geojson, {
-        style: boundStyle,
-        name: "bnd"
-      }).addTo(map);
-      map.fitBounds(a.getBounds());
-    })
   } else {
     RemoveLayers();
-    axios.get(`${urleg}/eec-api/get-bound/amp/${amp_code}`).then(async (r) => {
+    axios.get(`${url}/geoapi/get-bound/tam/${tambon_code}`).then(async (r) => {
       let geojson = await JSON.parse(r.data.data[0].geom);
       // console.log(geojson);
       let a = L.geoJSON(geojson, {
