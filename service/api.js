@@ -4,7 +4,7 @@ const oracledb = require('oracledb');
 const con = require("./db");
 const dbConfig = con.dbConfig;
 
-oracledb.initOracleClient({ libDir: '/Users/sakdahomhuan/instantclient_19_8' });
+// oracledb.initOracleClient({ libDir: '/Users/sakdahomhuan/instantclient_19_8' });
 oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
 oracledb.autoCommit = true;
 

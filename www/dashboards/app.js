@@ -1,7 +1,7 @@
 const urleg = "https://engrids.soc.cmu.ac.th/api";
 // const urleec = "https://eec-onep.online/api";
-// const url = "http://192.168.3.110:3000";
-const url = "http://localhost:3000";
+const url = "http://192.168.3.110:3000";
+// const url = "http://localhost:3000";
 
 let latlng = {
   lat: 13.305567,
