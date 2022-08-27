@@ -34,7 +34,10 @@ app.get("/geoapi/get-bound/:lyr/:val", (req, res) => {
     const val = req.params.val;
     let sql;
 
-    if (lyr == "reg") {
+    if (lyr == "th") {
+        sql = `SELECT ST_AsGeoJSON(geom) as geom
+            FROM th_bound`;
+    } else if (lyr == "reg") {
         sql = `SELECT ST_AsGeoJSON(geom) as geom
             FROM th_region_sim
             WHERE rg_code = '${val}'`;

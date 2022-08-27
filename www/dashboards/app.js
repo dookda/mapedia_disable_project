@@ -1028,7 +1028,7 @@ function showAgeOcc(arr) {
 
 function selectAddress(address_code) {
   axios.post(`${url}/api/get_by_country_total`, { address_code }).then(async (r) => {
-    $('#reg').empty().append(`<option value="all">ทุกภาค</option>`);
+    $('#reg').empty().append(`<option value="all">เลือกภาค</option>`);
     r.data.map(i => $('#reg').append(`<option value="${i.REGION_CODE}">${i.REGION_NAME_THAI}</option>`))
     showTotal(r.data)
   })
@@ -1069,7 +1069,7 @@ function selectAddress(address_code) {
 
 function selectRegion(address_code, region_code) {
   axios.post(`${url}/api/get_by_region_total`, { address_code, region_code }).then(async (r) => {
-    $('#pro').empty().append(`<option value="all">ทุกจังหวัด</option>`);
+    $('#pro').empty().append(`<option value="all">เลือกจังหวัด</option>`);
     r.data.map(i => $('#pro').append(`<option value="${i.PROVINCE_CODE}">${i.PROVINCE_NAME}</option>`))
     showTotal(r.data)
   })
@@ -1110,7 +1110,7 @@ function selectRegion(address_code, region_code) {
 
 function selectProvince(address_code, province_code) {
   axios.post(`${url}/api/get_by_province_total`, { address_code, province_code }).then(async (r) => {
-    $('#amp').empty().append(`<option value="all">ทุกอำเภอ</option>`);
+    $('#amp').empty().append(`<option value="all">เลือกอำเภอ</option>`);
     r.data.map(i => $('#amp').append(`<option value="${i.AMPCODE}">${i.DISTRICT_NAME}</option>`))
     showTotal(r.data)
   })
@@ -1151,7 +1151,7 @@ function selectProvince(address_code, province_code) {
 
 function selectAmphoe(address_code, amphoe_code) {
   axios.post(`${url}/api/get_by_amphoe_total`, { address_code, amphoe_code }).then(async (r) => {
-    $('#tam').empty().append(`<option value="all">ทุกตำบล</option>`);
+    $('#tam').empty().append(`<option value="all">เลือกตำบล</option>`);
     r.data.map(i => $('#tam').append(`<option value="${i.TAMCODE}">${i.SUBDISTRICT_NAME}</option>`))
     showTotal(r.data)
   })
@@ -1238,6 +1238,17 @@ $("#address").on('change', function () {
   $('#reg').empty()
   var address_code = $('#address').val()
   selectAddress(address_code)
+
+  RemoveLayers();
+  axios.get(`${url}/geoapi/get-bound/th/${address_code}`).then(async (r) => {
+    let geojson = await JSON.parse(r.data.data[0].geom);
+    console.log(geojson);
+    let a = L.geoJSON(geojson, {
+      style: boundStyle,
+      name: "bnd"
+    }).addTo(map);
+    map.fitBounds(a.getBounds());
+  })
 })
 
 $("#reg").on('change', function () {
