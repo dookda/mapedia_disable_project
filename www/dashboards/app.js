@@ -1,5 +1,4 @@
 const urleg = "https://engrids.soc.cmu.ac.th/api";
-// const urleec = "https://eec-onep.online/api";
 const url = "http://192.168.3.110:3000";
 // const url = "http://localhost:3000";
 
@@ -9,7 +8,7 @@ let latlng = {
 };
 let map = L.map("map", {
   center: latlng,
-  zoom: 6
+  zoom: 5
 });
 const mapbox = L.tileLayer(
   "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw",
@@ -94,18 +93,37 @@ var chartPie = echarts.init(domPie, null, {
 });
 var appPie = {};
 var optionPie = {
+  title: {
+    textStyle: {
+      fontFamily: 'Prompt',
+      fontSize: 24,
+      color: 'black',
+      fontWeight: 600
+    },
+    text: 'ข้อมูลคนพิการXX',
+    left: 'left'
+  },
+  tooltip: {
+    textStyle: {
+      fontFamily: 'Prompt',
+    },
+    trigger: 'item',
+    formatter: '{b}: {c} คน ({d}%)',
+  },
   legend: {
-    top: 'bottom'
-  },
-  toolbox: {
-    show: true,
-    feature: {
-      mark: { show: true },
-      dataView: { show: true, readOnly: false },
-      restore: { show: true },
-      saveAsImage: { show: true }
-    }
-  },
+    textStyle: {
+      fontFamily: 'Prompt',
+      fontSize: 14,
+      color: 'black',
+      fontWeight: 400
+    },
+    type: 'scroll',
+    orient: 'vertical',
+    right: 10,
+    top: 40,
+    bottom: 20,
+
+  }
 };
 window.addEventListener('resize', chartPie.resize);
 
@@ -117,22 +135,51 @@ var chartSex = echarts.init(domSex, null, {
 });
 var appSex = {};
 var optionSex = {
+  title: {
+    textStyle: {
+      fontFamily: 'Prompt',
+      fontSize: 24,
+      color: 'black',
+      fontWeight: 600
+    },
+    text: 'ข้อมูลคนพิการตามเพศ',
+    left: 'left'
+  },
   tooltip: {
+    textStyle: {
+      fontFamily: 'Prompt',
+    },
     trigger: 'axis',
     axisPointer: {
       type: 'shadow'
     }
   },
-  legend: {},
+  legend: {
+    textStyle: {
+      fontFamily: 'Prompt',
+      fontSize: 14,
+      color: 'black',
+      fontWeight: 400
+    },
+    top: 'bottom'
+  },
   grid: {
     left: '3%',
-    right: '4%',
-    bottom: '3%',
+    right: '5%',
+    bottom: '10%',
+    top: '12%',
     containLabel: true
   },
   xAxis: [
     {
-      type: 'value'
+      type: 'value',
+      axisLabel: {
+        show: true,
+        interval: 0,
+        fontWeight: "normal",
+        fontFamily: "Prompt",
+        fontSize: 12
+      },
     }
   ],
 };
@@ -146,22 +193,55 @@ var chartType = echarts.init(domType, null, {
 });
 var appType = {};
 var optionType = {
+  title: {
+    textStyle: {
+      fontFamily: 'Prompt',
+      fontSize: 24,
+      color: 'black',
+      fontWeight: 600
+    },
+    text: 'ข้อมูลคนพิการตามประเภทความพิการ',
+    left: 'left'
+  },
   tooltip: {
+    textStyle: {
+      fontFamily: 'Prompt',
+    },
     trigger: 'axis',
     axisPointer: {
       type: 'shadow'
     }
   },
-  legend: {},
+  legend: {
+    textStyle: {
+      fontFamily: 'Prompt',
+      fontSize: 14,
+      color: 'black',
+      fontWeight: 400
+    },
+    type: 'scroll',
+    orient: 'horizontal',
+    right: 10,
+    left: 10,
+    bottom: 'bottom'
+  },
   grid: {
     left: '3%',
-    right: '4%',
-    bottom: '3%',
+    right: '5%',
+    bottom: '10%',
+    top: '12%',
     containLabel: true
   },
   xAxis: [
     {
-      type: 'value'
+      type: 'value',
+      axisLabel: {
+        show: true,
+        interval: 0,
+        fontWeight: "normal",
+        fontFamily: "Prompt",
+        fontSize: 12
+      },
     }
   ],
 };
@@ -175,22 +255,51 @@ var chartAge = echarts.init(domAge, null, {
 });
 var appAge = {};
 var optionAge = {
+  title: {
+    textStyle: {
+      fontFamily: 'Prompt',
+      fontSize: 24,
+      color: 'black',
+      fontWeight: 600
+    },
+    text: 'ข้อมูลคนพิการตามช่วงอายุ',
+    left: 'left'
+  },
   tooltip: {
+    textStyle: {
+      fontFamily: 'Prompt',
+    },
     trigger: 'axis',
     axisPointer: {
       type: 'shadow'
     }
   },
-  legend: {},
+  legend: {
+    textStyle: {
+      fontFamily: 'Prompt',
+      fontSize: 14,
+      color: 'black',
+      fontWeight: 400
+    },
+    top: 'bottom'
+  },
   grid: {
     left: '3%',
-    right: '4%',
-    bottom: '3%',
+    right: '5%',
+    bottom: '11%',
+    top: '12%',
     containLabel: true
   },
   xAxis: [
     {
-      type: 'value'
+      type: 'value',
+      axisLabel: {
+        show: true,
+        interval: 0,
+        fontWeight: "normal",
+        fontFamily: "Prompt",
+        fontSize: 12
+      },
     }
   ],
 };
@@ -204,22 +313,51 @@ var chartEdu = echarts.init(domEdu, null, {
 });
 var appEdu = {};
 var optionEdu = {
+  title: {
+    textStyle: {
+      fontFamily: 'Prompt',
+      fontSize: 24,
+      color: 'black',
+      fontWeight: 600
+    },
+    text: 'ข้อมูลคนพิการตามการศึกษา',
+    left: 'left'
+  },
   tooltip: {
+    textStyle: {
+      fontFamily: 'Prompt',
+    },
     trigger: 'axis',
     axisPointer: {
       type: 'shadow'
     }
   },
-  legend: {},
+  legend: {
+    textStyle: {
+      fontFamily: 'Prompt',
+      fontSize: 14,
+      color: 'black',
+      fontWeight: 400
+    },
+    top: 'bottom'
+  },
   grid: {
     left: '3%',
     right: '4%',
-    bottom: '3%',
+    bottom: '10%',
+    top: '12%',
     containLabel: true
   },
   xAxis: [
     {
-      type: 'value'
+      type: 'value',
+      axisLabel: {
+        show: true,
+        interval: 0,
+        fontWeight: "normal",
+        fontFamily: "Prompt",
+        fontSize: 12
+      },
     }
   ],
 };
@@ -234,22 +372,56 @@ var chartOcc = echarts.init(domOcc, null, {
 });
 var appOcc = {};
 var optionOcc = {
+  title: {
+    textStyle: {
+      fontFamily: 'Prompt',
+      fontSize: 24,
+      color: 'black',
+      fontWeight: 600
+    },
+    text: 'ข้อมูลคนพิการตามอาชีพ',
+    left: 'left'
+  },
   tooltip: {
+    textStyle: {
+      fontFamily: 'Prompt',
+      fontSize: 12,
+    },
     trigger: 'axis',
     axisPointer: {
       type: 'shadow'
     }
   },
-  legend: {},
+  legend: {
+    textStyle: {
+      fontFamily: 'Prompt',
+      fontSize: 14,
+      color: 'black',
+      fontWeight: 400
+    },
+    type: 'scroll',
+    orient: 'horizontal',
+    right: 10,
+    left: 10,
+    bottom: 'bottom'
+  },
   grid: {
     left: '3%',
-    right: '4%',
-    bottom: '3%',
+    right: '5%',
+    bottom: '10%',
+    top: '12%',
     containLabel: true
   },
   xAxis: [
     {
-      type: 'value'
+      type: 'value',
+      axisLabel: {
+        show: true,
+        interval: 0,
+        fontWeight: "normal",
+        fontFamily: "Prompt",
+        fontSize: 12
+      },
     }
   ],
 };
@@ -264,22 +436,56 @@ var chartAgeType = echarts.init(domAgeType, null, {
 });
 var appAgeType = {};
 var optionAgeType = {
+  title: {
+    textStyle: {
+      fontFamily: 'Prompt',
+      fontSize: 24,
+      color: 'black',
+      fontWeight: 600
+    },
+    text: 'ข้อมูลคนพิการตามช่วงอายุและประเภทความพิการ',
+    left: 'left'
+  },
   tooltip: {
+    textStyle: {
+      fontFamily: 'Prompt',
+    },
     trigger: 'axis',
     axisPointer: {
       type: 'shadow'
     }
   },
-  legend: {},
+  legend: {
+    textStyle: {
+      fontFamily: 'Prompt',
+      fontSize: 14,
+      color: 'black',
+      fontWeight: 400
+    },
+    type: 'scroll',
+    orient: 'horizontal',
+    right: 10,
+    left: 10,
+    bottom: 'bottom'
+  },
   grid: {
     left: '3%',
-    right: '4%',
-    bottom: '3%',
+    right: '5%',
+    bottom: '10%',
+    top: '12%',
     containLabel: true
   },
   yAxis: [
     {
-      type: 'value'
+      type: 'value',
+      barWidth: 40,
+      axisLabel: {
+        show: true,
+        interval: 0,
+        fontWeight: "normal",
+        fontFamily: "Prompt",
+        fontSize: 12
+      },
     }
   ],
 };
@@ -293,22 +499,51 @@ var chartAgeEdu = echarts.init(domAgeEdu, null, {
 });
 var appAgeEdu = {};
 var optionAgeEdu = {
+  title: {
+    textStyle: {
+      fontFamily: 'Prompt',
+      fontSize: 24,
+      color: 'black',
+      fontWeight: 600
+    },
+    text: 'ข้อมูลคนพิการตามช่วงอายุและการศึกษา',
+    left: 'left'
+  },
   tooltip: {
+    textStyle: {
+      fontFamily: 'Prompt',
+    },
     trigger: 'axis',
     axisPointer: {
       type: 'shadow'
     }
   },
-  legend: {},
+  legend: {
+    textStyle: {
+      fontFamily: 'Prompt',
+      fontSize: 14,
+      color: 'black',
+      fontWeight: 400
+    },
+    top: 'bottom'
+  },
   grid: {
     left: '3%',
-    right: '4%',
-    bottom: '3%',
+    right: '5%',
+    bottom: '10%',
+    top: '12%',
     containLabel: true
   },
   yAxis: [
     {
-      type: 'value'
+      type: 'value',
+      axisLabel: {
+        show: true,
+        interval: 0,
+        fontWeight: "normal",
+        fontFamily: "Prompt",
+        fontSize: 12
+      },
     }
   ],
 };
@@ -322,71 +557,144 @@ var chartAgeOcc = echarts.init(domAgeOcc, null, {
 });
 var appAgeOcc = {};
 var optionAgeOcc = {
+  title: {
+    textStyle: {
+      fontFamily: 'Prompt',
+      fontSize: 24,
+      color: 'black',
+      fontWeight: 600
+    },
+    text: 'ข้อมูลคนพิการตามช่วงอายุและอาชีพ',
+    left: 'left'
+  },
   tooltip: {
+    textStyle: {
+      fontFamily: 'Prompt',
+    },
     trigger: 'axis',
     axisPointer: {
       type: 'shadow'
     }
   },
-  legend: {},
+  legend: {
+    textStyle: {
+      fontFamily: 'Prompt',
+      fontSize: 14,
+      color: 'black',
+      fontWeight: 400
+    },
+    type: 'scroll',
+    orient: 'horizontal',
+    right: 10,
+    left: 10,
+    bottom: 'bottom'
+  },
   grid: {
     left: '3%',
-    right: '4%',
-    bottom: '3%',
+    right: '5%',
+    bottom: '10%',
+    top: '12%',
     containLabel: true
   },
   yAxis: [
     {
-      type: 'value'
+      type: 'value',
+      axisLabel: {
+        show: true,
+        interval: 0,
+        fontWeight: "normal",
+        fontFamily: "Prompt",
+        fontSize: 12
+      },
     }
   ],
 };
 window.addEventListener('resize', chartAgeOcc.resize);
 
-
 /// DOM 
 async function showTotal(arr) {
   optionPie.series = [
     {
-      name: 'Nightingale Chart',
+      name: 'Access From',
       type: 'pie',
-      radius: [50, 250],
-      center: ['50%', '50%'],
-      roseType: 'area',
+      color: [
+        '#5E227F',
+        '#d7bdff',
+        '#f3dbff',
+        '#D22780',
+        '#EB548C',
+        // '#EA7369',
+        // '#F0A58F',
+        // '#FCEAE6',
+      ],
+      center: ['40%', '50%'],
+      radius: ['45%', '75%'],
+      avoidLabelOverlap: false,
       itemStyle: {
-        borderRadius: 8
+        // borderRadius: 10,
+        // borderColor: '#fff',
+        // borderWidth: 2
+      },
+      label: {
+        show: false,
+        position: 'center'
+      },
+      emphasis: {
+        label: {
+          show: true,
+          fontSize: '20',
+          fontFamily: "Prompt",
+          fontWeight: 'bold'
+        }
+      },
+      labelLine: {
+        show: false
       },
       data: arr.map(x => ({ value: x.CNT, name: x.CAT }))
     }
   ]
-
   if (optionPie && typeof optionPie === 'object') {
     chartPie.setOption(optionPie);
   }
-
 }
 
 async function showSex(arr) {
   optionSex.yAxis = [
     {
       type: 'category',
+      axisTick: {
+        alignWithLabel: false,
+        length: 5,
+        inside: false
+      },
+      axisLabel: {
+        show: true,
+        fontFamily: "Prompt",
+        fontSize: 12
+      },
       data: arr.map(x => x.CAT)
     }
   ]
 
   optionSex.series = [
     {
-      name: 'Male',
+      name: 'เพศชาย',
       type: 'bar',
+      color: [
+        '#2e4783',
+      ],
       stack: 'Sex',
-      label: { show: true },
+
       emphasis: { focus: 'series' },
       data: arr.map(x => x.M)
     }, {
-      name: 'Female',
+      name: 'เพศหญิง',
       type: 'bar',
+      color: [
+        '#ffb3b7',
+      ],
       stack: 'Sex',
-      label: { show: true },
+
       emphasis: { focus: 'series' },
       data: arr.map(x => x.F)
     }
@@ -401,70 +709,98 @@ function showType(arr) {
   optionType.yAxis = [
     {
       type: 'category',
+      axisTick: {
+        alignWithLabel: false,
+        length: 5,
+        inside: false
+      },
+      axisLabel: {
+        show: true,
+        fontFamily: "Prompt",
+        fontSize: 12
+      },
       data: arr.map(x => x.CAT)
     }
   ]
-
   optionType.series = [
     {
-      name: 'TYPE0',
+      name: 'ไม่มีข้อมูล',
       type: 'bar',
       stack: 'Type',
+      color: [
+        '#5E227F',
+      ],
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.TYPE0)
     }, {
-      name: 'TYPE11',
+      name: 'ทางการเห็น',
       type: 'bar',
-      stack: 'Type',
-      // label: { show: true },
-      emphasis: { focus: 'series' },
-      data: arr.map(x => x.TYPE11)
-    }, {
-      name: 'TYPE12',
-      type: 'bar',
+      color: [
+        '#2e4783',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.TYPE12)
     }, {
-      name: 'TYPE13',
+      name: 'ทางการได้ยินหรือสื่อความหมาย',
       type: 'bar',
+      color: [
+        '#82b6e9',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.TYPE13)
     }, {
-      name: 'TYPE14',
+      name: 'ทางการเคลื่อนไหวหรือทางร่างกาย',
       type: 'bar',
+      color: [
+
+        '#a2d0fc',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.TYPE14)
     }, {
-      name: 'TYPE15',
+      name: 'ทางจิตใจหรือพฤติกรรม',
       type: 'bar',
+      color: [
+        '#5E227F',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.TYPE15)
     }, {
-      name: 'TYPE16',
+      name: 'ทางสติปัญญา',
       type: 'bar',
+      color: [
+        '#CFCBF1',
+
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.TYPE16)
     }, {
-      name: 'TYPE17',
+      name: 'ทางการเรียนรู้',
       type: 'bar',
+      color: [
+        '#D22780',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.TYPE17)
     }, {
-      name: 'TYPE18',
+      name: 'ทางออทิสติก',
       type: 'bar',
+      color: [
+        '#f9edff',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
@@ -481,42 +817,69 @@ function showAge(arr) {
   optionAge.yAxis = [
     {
       type: 'category',
+      axisTick: {
+        alignWithLabel: false,
+        length: 5,
+        inside: false
+      },
+      axisLabel: {
+        show: true,
+        fontFamily: "Prompt",
+        fontSize: 12
+      },
       data: arr.map(x => x.CAT)
     }
   ]
 
   optionAge.series = [
     {
-      name: '0-5',
+      name: '0-5 ปี',
       type: 'bar',
+      color: [
+        // '#116530',
+        '#FFF5E4 ',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.AGE5)
     }, {
-      name: '6-14',
+      name: '6-14 ปี',
       type: 'bar',
+      color: [
+        '#116530',
+
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.AGE14)
     }, {
-      name: '15-21',
+      name: '15-21 ปี',
       type: 'bar',
+      color: [
+        '#18A558 ',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.AGE21)
     }, {
-      name: '22-59',
+      name: '22-59 ปี',
       type: 'bar',
+      color: [
+        '#A3EBB1',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.AGE59)
     }, {
-      name: '>= 60',
+      name: '60 ปีขึ้นไป',
       type: 'bar',
+      color: [
+        '#F0A58F',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
@@ -533,6 +896,16 @@ function showEdu(arr) {
   optionEdu.yAxis = [
     {
       type: 'category',
+      axisTick: {
+        alignWithLabel: false,
+        length: 5,
+        inside: false
+      },
+      axisLabel: {
+        show: true,
+        fontFamily: "Prompt",
+        fontSize: 12
+      },
       data: arr.map(x => x.CAT)
     }
   ]
@@ -541,6 +914,9 @@ function showEdu(arr) {
     {
       name: 'สูงกว่าปริญญาตรี',
       type: 'bar',
+      color: [
+        '#EA7369',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
@@ -548,6 +924,9 @@ function showEdu(arr) {
     }, {
       name: 'ปริญญาตรีหรือเทียบเท่า',
       type: 'bar',
+      color: [
+        '#5E227F',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
@@ -555,6 +934,10 @@ function showEdu(arr) {
     }, {
       name: 'ต่ำกว่าปริญญาตรี',
       type: 'bar',
+      color: [
+        '#f3dbff',
+
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
@@ -562,6 +945,9 @@ function showEdu(arr) {
     }, {
       name: 'อื่น ๆ',
       type: 'bar',
+      color: [
+        '#d7bdff',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
@@ -578,154 +964,208 @@ function showOcc(arr) {
   optionOcc.yAxis = [
     {
       type: 'category',
+      axisTick: {
+        alignWithLabel: false,
+        length: 5,
+        inside: false
+      },
+      axisLabel: {
+        show: true,
+        fontFamily: "Prompt",
+        fontSize: 12
+      },
+
       data: arr.map(x => x.CAT)
     }
   ]
 
   optionOcc.series = [
     {
-      name: 'occ_001',
+      name: 'รับราชการ',
       type: 'bar',
+      color: [
+        '#EA7369',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.OCC_001)
     }, {
-      name: 'occ_002',
+      name: 'รัฐวิสาหกิจ',
       type: 'bar',
+      color: [
+        '#5E227F',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.OCC_002)
     }, {
-      name: 'occ_003',
+      name: 'รับจ้าง',
       type: 'bar',
+      color: [
+        '#D22780',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.OCC_003)
     }, {
-      name: 'occ_004',
+      name: 'กิจการส่วนตัว/อาชีพอิสระ/ค้าขาย',
       type: 'bar',
+      color: [
+        '#f9edff',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.OCC_004)
     }, {
-      name: 'occ_005',
+      name: 'กำลังศึกษา',
       type: 'bar',
+      color: [
+        '#CFCBF1',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.OCC_005)
     }, {
-      name: 'occ_006',
+      name: 'เกษตรกรรม',
       type: 'bar',
+      color: [
+        '#82b6e9',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.OCC_006)
     }, {
-      name: 'occ_007',
+      name: 'คอมพิวเตอร์',
       type: 'bar',
+      color: [
+        '#2e4783',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.OCC_007)
     }, {
-      name: 'occ_008',
+      name: 'นวดแผนโบราณ',
       type: 'bar',
+      color: [
+        '#a2d0fc'
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.OCC_008)
     }, {
-      name: 'occ_009',
+      name: 'ค้าขาย',
       type: 'bar',
-      stack: 'Type',
-      // label: { show: true },
-      emphasis: { focus: 'series' },
-      data: arr.map(x => x.OCC_009)
-    }, {
-      name: 'occ_010',
-      type: 'bar',
+      color: [
+        '#EA7369',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.OCC_010)
     }, {
-      name: 'occ_011',
+      name: 'ค้าสลาก',
       type: 'bar',
+      color: [
+        '#5E227F',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.OCC_011)
     }, {
-      name: 'occ_012',
+      name: 'พนักงานบริษัท',
       type: 'bar',
+      color: [
+        '#D22780',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.OCC_012)
     }, {
-      name: 'occ_013',
+      name: 'ไม่ระบุอาชีพ',
       type: 'bar',
+      color: [
+        '#f9edff',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.OCC_013)
     }, {
-      name: 'occ_014',
+      name: 'ลูกจ้าง',
       type: 'bar',
+      color: [
+        '#CFCBF1',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.OCC_014)
     }, {
-      name: 'occ_015',
+      name: 'ไม่ได้ประกอบอาชีพ',
       type: 'bar',
+      color: [
+        '#82b6e9',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.OCC_015)
     }, {
-      name: 'occ_016',
+      name: 'ลูกจ้างเอกชน',
       type: 'bar',
+      color: [
+        '#2e4783',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.OCC_016)
     }, {
-      name: 'occ_017',
+      name: 'ผู้ประกอบกิจการส่วนตัว/อาชีพอิสระ/ธุรกิจ',
       type: 'bar',
+      color: [
+        '#a2d0fc',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.OCC_017)
     }, {
-      name: 'occ_018',
+      name: 'รับราชการ/รัฐวิสาหกิจ',
       type: 'bar',
-      stack: 'Type',
-      // label: { show: true },
-      emphasis: { focus: 'series' },
-      data: arr.map(x => x.OCC_018)
-    }, {
-      name: 'occ_019',
-      type: 'bar',
+      color: [
+        '#f9edff',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.OCC_019)
     }, {
-      name: 'occ_020',
+      name: 'หัตถกรรม',
       type: 'bar',
+      color: [
+        '#EA7369',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.OCC_020)
     }, {
-      name: 'occ_999',
+      name: 'อื่นๆ',
       type: 'bar',
+      color: [
+        '#5E227F',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
@@ -742,70 +1182,97 @@ function showAgeType(arr) {
   optionAgeType.xAxis = [
     {
       type: 'category',
+      axisTick: {
+        alignWithLabel: false,
+        length: 5,
+        inside: false
+      },
+      axisLabel: {
+        show: true,
+        fontFamily: "Prompt",
+        fontSize: 12
+      },
       data: arr.map(x => x.CAT)
     }
   ]
 
   optionAgeType.series = [
     {
-      name: 'TYPE0',
+      name: 'ไม่มีข้อมูล',
       type: 'bar',
+      color: [
+        '#5E227F',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.TYPE0)
     }, {
-      name: 'TYPE11',
+      name: 'ทางการเห็น',
       type: 'bar',
-      stack: 'Type',
-      // label: { show: true },
-      emphasis: { focus: 'series' },
-      data: arr.map(x => x.TYPE11)
-    }, {
-      name: 'TYPE12',
-      type: 'bar',
+      color: [
+        '#d7bdff',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.TYPE12)
     }, {
-      name: 'TYPE13',
+      name: 'ทางการได้ยินหรือสื่อความหมาย',
       type: 'bar',
+      color: [
+        '#f3dbff',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.TYPE13)
     }, {
-      name: 'TYPE14',
+      name: 'ทางการเคลื่อนไหวหรือทางร่างกาย',
       type: 'bar',
+      color: [
+        '#D22780',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.TYPE14)
     }, {
-      name: 'TYPE15',
+      name: 'ทางจิตใจหรือพฤติกรรม',
       type: 'bar',
+      color: [
+        '#EB548C',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.TYPE15)
     }, {
-      name: 'TYPE16',
+      name: 'ทางสติปัญญา',
       type: 'bar',
+      color: [
+        '#EA7369',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.TYPE16)
     }, {
-      name: 'TYPE17',
+      name: 'ทางการเรียนรู้',
       type: 'bar',
+      color: [
+        '#F0A58F',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.TYPE17)
     }, {
-      name: 'TYPE18',
+      name: 'ทางออทิสติก',
       type: 'bar',
+      color: [
+        '#FCEAE6',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
@@ -822,6 +1289,16 @@ function showAgeEdu(arr) {
   optionAgeEdu.xAxis = [
     {
       type: 'category',
+      axisTick: {
+        alignWithLabel: false,
+        length: 5,
+        inside: false
+      },
+      axisLabel: {
+        show: true,
+        fontFamily: "Prompt",
+        fontSize: 12
+      },
       data: arr.map(x => x.CAT)
     }
   ]
@@ -830,6 +1307,9 @@ function showAgeEdu(arr) {
     {
       name: 'สูงกว่าปริญญาตรี',
       type: 'bar',
+      color: [
+        '#78A1E5',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
@@ -837,6 +1317,9 @@ function showAgeEdu(arr) {
     }, {
       name: 'ปริญญาตรีหรือเทียบเท่า',
       type: 'bar',
+      color: [
+        '#D15D84',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
@@ -844,6 +1327,9 @@ function showAgeEdu(arr) {
     }, {
       name: 'ต่ำกว่าปริญญาตรี',
       type: 'bar',
+      color: [
+        '#002952',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
@@ -851,6 +1337,9 @@ function showAgeEdu(arr) {
     }, {
       name: 'อื่น ๆ',
       type: 'bar',
+      color: [
+        '#D8E1E7',
+      ],
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
@@ -867,152 +1356,148 @@ function showAgeOcc(arr) {
   optionAgeOcc.xAxis = [
     {
       type: 'category',
+      axisTick: {
+        alignWithLabel: false,
+        length: 5,
+        inside: false
+      },
+      axisLabel: {
+        show: true,
+        fontFamily: "Prompt",
+        fontSize: 12
+      },
       data: arr.map(x => x.CAT)
     }
   ]
   optionAgeOcc.series = [
     {
-      name: 'occ_001',
+      name: 'รับราชการ',
       type: 'bar',
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.OCC_001)
     }, {
-      name: 'occ_002',
+      name: 'รัฐวิสาหกิจ',
       type: 'bar',
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.OCC_002)
     }, {
-      name: 'occ_003',
+      name: 'รับจ้าง',
       type: 'bar',
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.OCC_003)
     }, {
-      name: 'occ_004',
+      name: 'กิจการส่วนตัว/อาชีพอิสระ/ค้าขาย',
       type: 'bar',
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.OCC_004)
     }, {
-      name: 'occ_005',
+      name: 'กำลังศึกษา',
       type: 'bar',
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.OCC_005)
     }, {
-      name: 'occ_006',
+      name: 'เกษตรกรรม',
       type: 'bar',
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.OCC_006)
     }, {
-      name: 'occ_007',
+      name: 'คอมพิวเตอร์',
       type: 'bar',
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.OCC_007)
     }, {
-      name: 'occ_008',
+      name: 'นวดแผนโบราณ',
       type: 'bar',
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.OCC_008)
     }, {
-      name: 'occ_009',
-      type: 'bar',
-      stack: 'Type',
-      // label: { show: true },
-      emphasis: { focus: 'series' },
-      data: arr.map(x => x.OCC_009)
-    }, {
-      name: 'occ_010',
+      name: 'ค้าขาย',
       type: 'bar',
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.OCC_010)
     }, {
-      name: 'occ_011',
+      name: 'ค้าสลาก',
       type: 'bar',
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.OCC_011)
     }, {
-      name: 'occ_012',
+      name: 'พนักงานบริษัท',
       type: 'bar',
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.OCC_012)
     }, {
-      name: 'occ_013',
+      name: 'ไม่ระบุอาชีพ',
       type: 'bar',
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.OCC_013)
     }, {
-      name: 'occ_014',
+      name: 'ลูกจ้าง',
       type: 'bar',
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.OCC_014)
     }, {
-      name: 'occ_015',
+      name: 'ไม่ได้ประกอบอาชีพ',
       type: 'bar',
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.OCC_015)
     }, {
-      name: 'occ_016',
+      name: 'ลูกจ้างเอกชน',
       type: 'bar',
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.OCC_016)
     }, {
-      name: 'occ_017',
+      name: 'ผู้ประกอบกิจการส่วนตัว/อาชีพอิสระ/ธุรกิจ',
       type: 'bar',
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.OCC_017)
     }, {
-      name: 'occ_018',
-      type: 'bar',
-      stack: 'Type',
-      // label: { show: true },
-      emphasis: { focus: 'series' },
-      data: arr.map(x => x.OCC_018)
-    }, {
-      name: 'occ_019',
+      name: 'รับราชการ/รัฐวิสาหกิจ',
       type: 'bar',
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.OCC_019)
     }, {
-      name: 'occ_020',
+      name: 'หัตถกรรม',
       type: 'bar',
       stack: 'Type',
       // label: { show: true },
       emphasis: { focus: 'series' },
       data: arr.map(x => x.OCC_020)
     }, {
-      name: 'occ_999',
+      name: 'อื่นๆ',
       type: 'bar',
       stack: 'Type',
       // label: { show: true },
@@ -1072,38 +1557,47 @@ function selectRegion(address_code, region_code) {
     $('#pro').empty().append(`<option value="all">เลือกจังหวัด</option>`);
     r.data.map(i => $('#pro').append(`<option value="${i.PROVINCE_CODE}">${i.PROVINCE_NAME}</option>`))
     showTotal(r.data)
+    console.log(r.data)
   })
 
   axios.post(`${url}/api/get_by_region_sex`, { address_code, region_code }).then(async (r) => {
     showSex(r.data)
+    console.log(r.data)
   })
 
   axios.post(`${url}/api/get_by_region_type`, { address_code, region_code }).then(async (r) => {
     showType(r.data)
+    console.log(r.data)
   })
 
   axios.post(`${url}/api/get_by_region_age`, { address_code, region_code }).then(async (r) => {
     showAge(r.data)
+    console.log(r.data)
   })
 
   axios.post(`${url}/api/get_by_region_edu`, { address_code, region_code }).then(async (r) => {
     showEdu(r.data)
+    console.log(r.data)
   })
 
   axios.post(`${url}/api/get_by_region_occ`, { address_code, region_code }).then(async (r) => {
     showOcc(r.data)
+    console.log(r.data)
   })
 
   axios.post(`${url}/api/get_by_region_agetype`, { address_code, region_code }).then(async (r) => {
     showAgeType(r.data)
+    console.log(r.data)
   })
 
   axios.post(`${url}/api/get_by_region_ageedu`, { address_code, region_code }).then(async (r) => {
     showAgeEdu(r.data)
+    console.log(r.data)
   })
 
   axios.post(`${url}/api/get_by_region_ageocc`, { address_code, region_code }).then(async (r) => {
     showAgeOcc(r.data)
+    console.log(r.data)
   })
 
 }

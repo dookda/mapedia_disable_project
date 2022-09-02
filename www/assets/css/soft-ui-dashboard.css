@@ -51,7 +51,7 @@
   --bs-black-rgb: 0, 0, 0;
   --bs-body-color-rgb: 103, 116, 142;
   --bs-body-bg-rgb: 255, 255, 255;
-  --bs-font-sans-serif: Open Sans; 
+  --bs-font-sans-serif: Open Sans;
   --bs-font-mirt: Mitr;
   --bs-font-Prompt: Prompt;
   --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
@@ -24877,11 +24877,12 @@ p {
 .text-sans-serif {
   font-family: "Open Sans" !important;
 }
+
 .text-Prompt {
   font-family: "Prompt" !important;
 }
 
-.text-Mitr{
+.text-Mitr {
   font-family: "Mitr" !important;
 }
 

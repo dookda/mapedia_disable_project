@@ -3,61 +3,61 @@ body {
 }
 
 #map {
-  height: 60vh;
+  height: 50vh;
   border-radius: 10px;
 }
 
 #chart-total {
   position: relative;
-  height: 60vh;
+  height: 50vh;
   overflow: hidden;
 }
 
 #chart-sex {
   position: relative;
-  height: 60vh;
+  height: 50vh;
   overflow: hidden;
 }
 
 #chart-type {
   position: relative;
-  height: 60vh;
+  height: 50vh;
   overflow: hidden;
 }
 
 #chart-age {
   position: relative;
-  height: 60vh;
+  height: 50vh;
   overflow: hidden;
 }
 
 #chart-edu {
   position: relative;
-  height: 60vh;
+  height: 50vh;
   overflow: hidden;
 }
 
 #chart-occ {
   position: relative;
-  height: 60vh;
+  height: 50vh;
   overflow: hidden;
 }
 
 #chart-agetype {
   position: relative;
-  height: 60vh;
+  height: 50vh;
   overflow: hidden;
 }
 
 #chart-ageedu {
   position: relative;
-  height: 60vh;
+  height: 50vh;
   overflow: hidden;
 }
 
 #chart-ageocc {
   position: relative;
-  height: 60vh;
+  height: 50vh;
   overflow: hidden;
 }
 

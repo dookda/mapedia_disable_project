@@ -6,27 +6,47 @@ POST http://192.168.3.110:3000/api/get_all_region HTTP/1:1
 Content-Type: application/json
 
 ### get all pro
-POST http://localhost:3000/api/get_all_pro HTTP/1:1
+POST http://192.168.3.110:3000/api/get_all_pro HTTP/1:1
 Content-Type: application/json
 
 ### get all amp
-POST http://localhost:3000/api/get_all_amp HTTP/1:1
+POST http://192.168.3.110:3000/api/get_all_amp HTTP/1:1
 Content-Type: application/json
 
 ### get all tam
-POST http://localhost:3000/api/get_all_tam HTTP/1:1
+POST http://192.168.3.110:3000/api/get_all_tam HTTP/1:1
 Content-Type: application/json
 
 ### get by region
-POST http://localhost:3000/api/get_by_region_total HTTP/1:1
+POST http://192.168.3.110:3000/api/get_by_region_total HTTP/1:1
 Content-Type: application/json
 
 {
-    "address_code":"02"            
+    "address_code":"02" ,  
+    "region_code":"00002"         
 }
 
 ### get by region edu
-POST http://localhost:3000/api/get_by_region_edu HTTP/1:1
+POST http://192.168.3.110:3000/api/get_by_region_type HTTP/1:1
+Content-Type: application/json
+
+{
+     "address_code":"02" ,  
+    "region_code":"00002"         
+}
+
+
+### get by region edu
+POST http://192.168.3.110:3000/api/get_by_region_edu HTTP/1:1
+Content-Type: application/json
+
+{
+    "address_code":"02" ,   
+    "region_code":"00002"          
+}
+
+### get by region
+POST http://192.168.3.110:3000/api/get_by_region_agetype HTTP/1:1
 Content-Type: application/json
 
 {
@@ -34,7 +54,7 @@ Content-Type: application/json
 }
 
 ### get by region
-POST http://localhost:3000/api/get_by_region_agetype HTTP/1:1
+POST http://192.168.3.110:3000/api/get_by_region_ageedu HTTP/1:1
 Content-Type: application/json
 
 {
@@ -42,15 +62,7 @@ Content-Type: application/json
 }
 
 ### get by region
-POST http://localhost:3000/api/get_by_region_ageedu HTTP/1:1
-Content-Type: application/json
-
-{
-    "address_code":"02"            
-}
-
-### get by region
-POST http://localhost:3000/api/get_by_region_ageocc HTTP/1:1
+POST http://192.168.3.110:3000/api/get_by_region_ageocc HTTP/1:1
 Content-Type: application/json
 
 {
@@ -59,19 +71,18 @@ Content-Type: application/json
 // เลือกข้อมูลใน address_code = "01" "02"
 
 ### get by province
-POST http://localhost:3000/api/get_by_province HTTP/1:1
+POST http://192.168.3.110:3000/api/get_by_province HTTP/1:1
 Content-Type: application/json
 
 {
     "region_code":"00001",
-    "province_code":"",
     "address_code": "02"            
 }
 
 // "province_code" = "ALL", "02", "04", ... (รหัสจังหวัด)
 
 ### get by amp 
-POST http://localhost:3000/api/get_by_amp HTTP/1:1
+POST http://192.168.3.110:3000/api/get_by_amp HTTP/1:1
 Content-Type: application/json
 
 {
