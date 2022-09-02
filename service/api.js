@@ -3,8 +3,19 @@ const app = express();
 const oracledb = require('oracledb');
 const con = require("./db");
 const dbConfig = con.dbConfig;
-
+const fs = require('fs')
 // oracledb.initOracleClient({ libDir: '/Users/sakdahomhuan/instantclient_19_8' });
+
+let libPath;
+if (process.platform === 'win32') {           // Windows
+    libPath = 'C:\\instantclient_21_6';
+} else if (process.platform === 'darwin') {   // macOS
+    libPath = '/Users/sakdahomhuan/instantclient_19_8';
+}
+if (libPath && fs.existsSync(libPath)) {
+    oracledb.initOracleClient({ libDir: libPath });
+}
+
 oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
 oracledb.autoCommit = true;
 
