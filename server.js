@@ -24,6 +24,9 @@ app.use(api);
 const geoapi = require('./service/geoapi');
 app.use(geoapi);
 
+const capi = require('./service/capi')
+app.use(capi)
+
 app.use('/', express.static('www'))
 
 app.listen(port, () => {
