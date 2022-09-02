@@ -12,9 +12,10 @@ if (process.platform === 'win32') {           // Windows
 } else if (process.platform === 'darwin') {   // macOS
     libPath = '/Users/sakdahomhuan/instantclient_19_8';
 }
-if (libPath && fs.existsSync(libPath)) {
-    oracledb.initOracleClient({ libDir: libPath });
-}
+
+// if (libPath && fs.existsSync(libPath)) {
+//     oracledb.initOracleClient({ libDir: libPath });
+// }
 
 oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
 oracledb.autoCommit = true;
