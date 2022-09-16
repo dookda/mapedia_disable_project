@@ -17,7 +17,7 @@ if (libPath && fs.existsSync(libPath)) {
 oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
 oracledb.autoCommit = true;
 
-app.get("/api/get_a", async (req, res) => {
+app.post("/api/get_distotal", async (req, res) => {
     let connection = await oracledb.getConnection(dbConfig);
 
     let sql = `SELECT  

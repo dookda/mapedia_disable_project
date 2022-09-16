@@ -316,10 +316,10 @@ app.post("/api/get_by_country_agetype", async (req, res) => {
         SUM(CASE ad.DEFORM_ID WHEN '17' THEN 1 ELSE 0 END) AS type17,
         SUM(CASE ad.DEFORM_ID WHEN '18' THEN 1 ELSE 0 END) AS type18
     FROM (SELECT mdp.REGION_NAME_THAI,
-                CASE WHEN mdp.AGE_NOW  <= 5 THEN '1) <5' ELSE 
-                    CASE WHEN mdp.AGE_NOW  > 5 AND mdp.AGE_NOW  <= 14 THEN '2) 6-14' ELSE 
-                        CASE WHEN mdp.AGE_NOW  > 14 AND mdp.AGE_NOW  <= 21 THEN '3) 15-21' ELSE 
-                            CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59' ELSE '5) >60' 
+                CASE WHEN mdp.AGE_NOW  <= 5 THEN '1) 0-5 ปี' ELSE 
+                    CASE WHEN mdp.AGE_NOW  > 5 AND mdp.AGE_NOW  <= 14 THEN '2) 6-14 ปี' ELSE 
+                        CASE WHEN mdp.AGE_NOW  > 14 AND mdp.AGE_NOW  <= 21 THEN '3) 15-21 ปี' ELSE 
+                            CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59 ปี' ELSE '5) 60 ปีขึ้นไป' 
                             END 
                         END  
                     END 
@@ -358,10 +358,10 @@ app.post("/api/get_by_country_ageedu", async (req, res) => {
         SUM(CASE ad.DEGT_GROUP_CODE WHEN '$Hig$' THEN 1 ELSE 0 END) AS hig,
         SUM(CASE ad.DEGT_GROUP_CODE WHEN '$Oth$' THEN 1 ELSE 0 END) AS oth
     FROM (SELECT mdp.REGION_NAME_THAI,
-            CASE WHEN mdp.AGE_NOW  <= 5 THEN '1) <5' ELSE 
-                CASE WHEN mdp.AGE_NOW  > 5 AND mdp.AGE_NOW  <= 14 THEN '2) 6-14' ELSE 
-                    CASE WHEN mdp.AGE_NOW  > 14 AND mdp.AGE_NOW  <= 21 THEN '3) 15-21' ELSE 
-                        CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59' ELSE '5) >60' 
+            CASE WHEN mdp.AGE_NOW  <= 5 THEN '1) 0-5 ปี' ELSE 
+                CASE WHEN mdp.AGE_NOW  > 5 AND mdp.AGE_NOW  <= 14 THEN '2) 6-14 ปี' ELSE 
+                    CASE WHEN mdp.AGE_NOW  > 14 AND mdp.AGE_NOW  <= 21 THEN '3) 15-21 ปี' ELSE 
+                        CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59 ปี' ELSE '5) 60 ปีขึ้นไป' 
                         END 
                     END  
                 END 
@@ -417,10 +417,10 @@ app.post("/api/get_by_country_ageocc", async (req, res) => {
         SUM(CASE ad.OCC WHEN '020' THEN 1 ELSE 0 END) AS occ_020,
         SUM(CASE ad.OCC WHEN '999' THEN 1 ELSE 0 END) AS occ_999
     FROM (SELECT mdp.REGION_NAME_THAI,
-            CASE WHEN mdp.AGE_NOW  <= 5 THEN '1) <5' ELSE 
-                CASE WHEN mdp.AGE_NOW  > 5 AND mdp.AGE_NOW  <= 14 THEN '2) 6-14' ELSE 
-                    CASE WHEN mdp.AGE_NOW  > 14 AND mdp.AGE_NOW  <= 21 THEN '3) 15-21' ELSE 
-                        CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59' ELSE '5) >60' 
+            CASE WHEN mdp.AGE_NOW  <= 5 THEN '1) 0-5 ปี' ELSE 
+                CASE WHEN mdp.AGE_NOW  > 5 AND mdp.AGE_NOW  <= 14 THEN '2) 6-14 ปี' ELSE 
+                    CASE WHEN mdp.AGE_NOW  > 14 AND mdp.AGE_NOW  <= 21 THEN '3) 15-21 ปี' ELSE 
+                        CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59 ปี' ELSE '5) 60 ปีขึ้นไป' 
                         END 
                     END  
                 END 
@@ -672,10 +672,10 @@ app.post("/api/get_by_region_agetype", async (req, res) => {
         SUM(CASE ad.DEFORM_ID WHEN '17' THEN 1 ELSE 0 END) AS type17,
         SUM(CASE ad.DEFORM_ID WHEN '18' THEN 1 ELSE 0 END) AS type18
     FROM (SELECT mdp.PROVINCE_NAME,
-                CASE WHEN mdp.AGE_NOW  <= 5 THEN '1) <5' ELSE 
-                    CASE WHEN mdp.AGE_NOW  > 5 AND mdp.AGE_NOW  <= 14 THEN '2) 6-14' ELSE 
-                        CASE WHEN mdp.AGE_NOW  > 14 AND mdp.AGE_NOW  <= 21 THEN '3) 15-21' ELSE 
-                            CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59' ELSE '5) >60' 
+                CASE WHEN mdp.AGE_NOW  <= 5 THEN '1) 0-5 ปี' ELSE 
+                    CASE WHEN mdp.AGE_NOW  > 5 AND mdp.AGE_NOW  <= 14 THEN '2) 6-14 ปี' ELSE 
+                        CASE WHEN mdp.AGE_NOW  > 14 AND mdp.AGE_NOW  <= 21 THEN '3) 15-21 ปี' ELSE 
+                            CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59 ปี' ELSE '5) 60 ปีขึ้นไป' 
                             END 
                         END  
                     END 
@@ -714,10 +714,10 @@ app.post("/api/get_by_region_ageedu", async (req, res) => {
         SUM(CASE ad.DEGT_GROUP_CODE WHEN '$Hig$' THEN 1 ELSE 0 END) AS hig,
         SUM(CASE ad.DEGT_GROUP_CODE WHEN '$Oth$' THEN 1 ELSE 0 END) AS oth
     FROM (SELECT mdp.PROVINCE_NAME,
-            CASE WHEN mdp.AGE_NOW  <= 5 THEN '1) <5' ELSE 
-                CASE WHEN mdp.AGE_NOW  > 5 AND mdp.AGE_NOW  <= 14 THEN '2) 6-14' ELSE 
-                    CASE WHEN mdp.AGE_NOW  > 14 AND mdp.AGE_NOW  <= 21 THEN '3) 15-21' ELSE 
-                        CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59' ELSE '5) >60' 
+            CASE WHEN mdp.AGE_NOW  <= 5 THEN '1) 0-5 ปี' ELSE 
+                CASE WHEN mdp.AGE_NOW  > 5 AND mdp.AGE_NOW  <= 14 THEN '2) 6-14 ปี' ELSE 
+                    CASE WHEN mdp.AGE_NOW  > 14 AND mdp.AGE_NOW  <= 21 THEN '3) 15-21 ปี' ELSE 
+                        CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59 ปี' ELSE '5) 60 ปีขึ้นไป' 
                         END 
                     END  
                 END 
@@ -773,10 +773,10 @@ app.post("/api/get_by_region_ageocc", async (req, res) => {
         SUM(CASE ad.OCC WHEN '020' THEN 1 ELSE 0 END) AS occ_020,
         SUM(CASE ad.OCC WHEN '999' THEN 1 ELSE 0 END) AS occ_999
     FROM (SELECT mdp.PROVINCE_NAME,
-            CASE WHEN mdp.AGE_NOW  <= 5 THEN '1) <5' ELSE 
-                CASE WHEN mdp.AGE_NOW  > 5 AND mdp.AGE_NOW  <= 14 THEN '2) 6-14' ELSE 
-                    CASE WHEN mdp.AGE_NOW  > 14 AND mdp.AGE_NOW  <= 21 THEN '3) 15-21' ELSE 
-                        CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59' ELSE '5) >60' 
+            CASE WHEN mdp.AGE_NOW  <= 5 THEN '1) 0-5 ปี' ELSE 
+                CASE WHEN mdp.AGE_NOW  > 5 AND mdp.AGE_NOW  <= 14 THEN '2) 6-14 ปี' ELSE 
+                    CASE WHEN mdp.AGE_NOW  > 14 AND mdp.AGE_NOW  <= 21 THEN '3) 15-21 ปี' ELSE 
+                        CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59 ปี' ELSE '5) 60 ปีขึ้นไป' 
                         END 
                     END  
                 END 
@@ -1027,10 +1027,10 @@ app.post("/api/get_by_province_agetype", async (req, res) => {
         SUM(CASE ad.DEFORM_ID WHEN '17' THEN 1 ELSE 0 END) AS type17,
         SUM(CASE ad.DEFORM_ID WHEN '18' THEN 1 ELSE 0 END) AS type18
     FROM (SELECT mdp.DISTRICT_NAME,
-                CASE WHEN mdp.AGE_NOW  <= 5 THEN '1) <5' ELSE 
-                    CASE WHEN mdp.AGE_NOW  > 5 AND mdp.AGE_NOW  <= 14 THEN '2) 6-14' ELSE 
-                        CASE WHEN mdp.AGE_NOW  > 14 AND mdp.AGE_NOW  <= 21 THEN '3) 15-21' ELSE 
-                            CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59' ELSE '5) >60' 
+                CASE WHEN mdp.AGE_NOW  <= 5 THEN '1) 0-5 ปี' ELSE 
+                    CASE WHEN mdp.AGE_NOW  > 5 AND mdp.AGE_NOW  <= 14 THEN '2) 6-14 ปี' ELSE 
+                        CASE WHEN mdp.AGE_NOW  > 14 AND mdp.AGE_NOW  <= 21 THEN '3) 15-21 ปี' ELSE 
+                            CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59 ปี' ELSE '5) 60 ปีขึ้นไป' 
                             END 
                         END  
                     END 
@@ -1069,10 +1069,10 @@ app.post("/api/get_by_province_ageedu", async (req, res) => {
         SUM(CASE ad.DEGT_GROUP_CODE WHEN '$Hig$' THEN 1 ELSE 0 END) AS hig,
         SUM(CASE ad.DEGT_GROUP_CODE WHEN '$Oth$' THEN 1 ELSE 0 END) AS oth
     FROM (SELECT mdp.DISTRICT_NAME,
-            CASE WHEN mdp.AGE_NOW  <= 5 THEN '1) <5' ELSE 
-                CASE WHEN mdp.AGE_NOW  > 5 AND mdp.AGE_NOW  <= 14 THEN '2) 6-14' ELSE 
-                    CASE WHEN mdp.AGE_NOW  > 14 AND mdp.AGE_NOW  <= 21 THEN '3) 15-21' ELSE 
-                        CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59' ELSE '5) >60' 
+            CASE WHEN mdp.AGE_NOW  <= 5 THEN '1) 0-5 ปี' ELSE 
+                CASE WHEN mdp.AGE_NOW  > 5 AND mdp.AGE_NOW  <= 14 THEN '2) 6-14 ปี' ELSE 
+                    CASE WHEN mdp.AGE_NOW  > 14 AND mdp.AGE_NOW  <= 21 THEN '3) 15-21 ปี' ELSE 
+                        CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59 ปี' ELSE '5) 60 ปีขึ้นไป' 
                         END 
                     END  
                 END 
@@ -1128,10 +1128,10 @@ app.post("/api/get_by_province_ageocc", async (req, res) => {
         SUM(CASE ad.OCC WHEN '020' THEN 1 ELSE 0 END) AS occ_020,
         SUM(CASE ad.OCC WHEN '999' THEN 1 ELSE 0 END) AS occ_999
     FROM (SELECT mdp.DISTRICT_NAME,
-            CASE WHEN mdp.AGE_NOW  <= 5 THEN '1) <5' ELSE 
-                CASE WHEN mdp.AGE_NOW  > 5 AND mdp.AGE_NOW  <= 14 THEN '2) 6-14' ELSE 
-                    CASE WHEN mdp.AGE_NOW  > 14 AND mdp.AGE_NOW  <= 21 THEN '3) 15-21' ELSE 
-                        CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59' ELSE '5) >60' 
+            CASE WHEN mdp.AGE_NOW  <= 5 THEN '1) 0-5 ปี' ELSE 
+                CASE WHEN mdp.AGE_NOW  > 5 AND mdp.AGE_NOW  <= 14 THEN '2) 6-14 ปี' ELSE 
+                    CASE WHEN mdp.AGE_NOW  > 14 AND mdp.AGE_NOW  <= 21 THEN '3) 15-21 ปี' ELSE 
+                        CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59 ปี' ELSE '5) 60 ปีขึ้นไป' 
                         END 
                     END  
                 END 
@@ -1382,10 +1382,10 @@ app.post("/api/get_by_amphoe_agetype", async (req, res) => {
         SUM(CASE ad.DEFORM_ID WHEN '17' THEN 1 ELSE 0 END) AS type17,
         SUM(CASE ad.DEFORM_ID WHEN '18' THEN 1 ELSE 0 END) AS type18
     FROM (SELECT mdp.DISTRICT_NAME,
-                CASE WHEN mdp.AGE_NOW  <= 5 THEN '1) <5' ELSE 
-                    CASE WHEN mdp.AGE_NOW  > 5 AND mdp.AGE_NOW  <= 14 THEN '2) 6-14' ELSE 
-                        CASE WHEN mdp.AGE_NOW  > 14 AND mdp.AGE_NOW  <= 21 THEN '3) 15-21' ELSE 
-                            CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59' ELSE '5) >60' 
+                CASE WHEN mdp.AGE_NOW  <= 5 THEN '1) 0-5 ปี' ELSE 
+                    CASE WHEN mdp.AGE_NOW  > 5 AND mdp.AGE_NOW  <= 14 THEN '2) 6-14 ปี' ELSE 
+                        CASE WHEN mdp.AGE_NOW  > 14 AND mdp.AGE_NOW  <= 21 THEN '3) 15-21 ปี' ELSE 
+                            CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59 ปี' ELSE '5) 60 ปีขึ้นไป' 
                             END 
                         END  
                     END 
@@ -1424,10 +1424,10 @@ app.post("/api/get_by_amphoe_ageedu", async (req, res) => {
         SUM(CASE ad.DEGT_GROUP_CODE WHEN '$Hig$' THEN 1 ELSE 0 END) AS hig,
         SUM(CASE ad.DEGT_GROUP_CODE WHEN '$Oth$' THEN 1 ELSE 0 END) AS oth
     FROM (SELECT mdp.DISTRICT_NAME,
-            CASE WHEN mdp.AGE_NOW  <= 5 THEN '1) <5' ELSE 
-                CASE WHEN mdp.AGE_NOW  > 5 AND mdp.AGE_NOW  <= 14 THEN '2) 6-14' ELSE 
-                    CASE WHEN mdp.AGE_NOW  > 14 AND mdp.AGE_NOW  <= 21 THEN '3) 15-21' ELSE 
-                        CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59' ELSE '5) >60' 
+            CASE WHEN mdp.AGE_NOW  <= 5 THEN '1) 0-5 ปี' ELSE 
+                CASE WHEN mdp.AGE_NOW  > 5 AND mdp.AGE_NOW  <= 14 THEN '2) 6-14 ปี' ELSE 
+                    CASE WHEN mdp.AGE_NOW  > 14 AND mdp.AGE_NOW  <= 21 THEN '3) 15-21 ปี' ELSE 
+                        CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59 ปี' ELSE '5) 60 ปีขึ้นไป' 
                         END 
                     END  
                 END 
@@ -1483,10 +1483,10 @@ app.post("/api/get_by_amphoe_ageocc", async (req, res) => {
         SUM(CASE ad.OCC WHEN '020' THEN 1 ELSE 0 END) AS occ_020,
         SUM(CASE ad.OCC WHEN '999' THEN 1 ELSE 0 END) AS occ_999
     FROM (SELECT mdp.DISTRICT_NAME,
-            CASE WHEN mdp.AGE_NOW  <= 5 THEN '1) <5' ELSE 
-                CASE WHEN mdp.AGE_NOW  > 5 AND mdp.AGE_NOW  <= 14 THEN '2) 6-14' ELSE 
-                    CASE WHEN mdp.AGE_NOW  > 14 AND mdp.AGE_NOW  <= 21 THEN '3) 15-21' ELSE 
-                        CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59' ELSE '5) >60' 
+            CASE WHEN mdp.AGE_NOW  <= 5 THEN '1) 0-5 ปี' ELSE 
+                CASE WHEN mdp.AGE_NOW  > 5 AND mdp.AGE_NOW  <= 14 THEN '2) 6-14 ปี' ELSE 
+                    CASE WHEN mdp.AGE_NOW  > 14 AND mdp.AGE_NOW  <= 21 THEN '3) 15-21 ปี' ELSE 
+                        CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59 ปี' ELSE '5) 60 ปีขึ้นไป' 
                         END 
                     END  
                 END 
@@ -1738,10 +1738,10 @@ app.post("/api/get_by_tambon_agetype", async (req, res) => {
         SUM(CASE ad.DEFORM_ID WHEN '17' THEN 1 ELSE 0 END) AS type17,
         SUM(CASE ad.DEFORM_ID WHEN '18' THEN 1 ELSE 0 END) AS type18
     FROM (SELECT mdp.DISTRICT_NAME,
-                CASE WHEN mdp.AGE_NOW  <= 5 THEN '1) <5' ELSE 
-                    CASE WHEN mdp.AGE_NOW  > 5 AND mdp.AGE_NOW  <= 14 THEN '2) 6-14' ELSE 
-                        CASE WHEN mdp.AGE_NOW  > 14 AND mdp.AGE_NOW  <= 21 THEN '3) 15-21' ELSE 
-                            CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59' ELSE '5) >60' 
+                CASE WHEN mdp.AGE_NOW  <= 5 THEN '1) 0-5 ปี' ELSE 
+                    CASE WHEN mdp.AGE_NOW  > 5 AND mdp.AGE_NOW  <= 14 THEN '2) 6-14 ปี' ELSE 
+                        CASE WHEN mdp.AGE_NOW  > 14 AND mdp.AGE_NOW  <= 21 THEN '3) 15-21 ปี' ELSE 
+                            CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59 ปี' ELSE '5) >60' 
                             END 
                         END  
                     END 
@@ -1780,10 +1780,10 @@ app.post("/api/get_by_tambon_ageedu", async (req, res) => {
         SUM(CASE ad.DEGT_GROUP_CODE WHEN '$Hig$' THEN 1 ELSE 0 END) AS hig,
         SUM(CASE ad.DEGT_GROUP_CODE WHEN '$Oth$' THEN 1 ELSE 0 END) AS oth
     FROM (SELECT mdp.DISTRICT_NAME,
-            CASE WHEN mdp.AGE_NOW  <= 5 THEN '1) <5' ELSE 
-                CASE WHEN mdp.AGE_NOW  > 5 AND mdp.AGE_NOW  <= 14 THEN '2) 6-14' ELSE 
-                    CASE WHEN mdp.AGE_NOW  > 14 AND mdp.AGE_NOW  <= 21 THEN '3) 15-21' ELSE 
-                        CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59' ELSE '5) >60' 
+            CASE WHEN mdp.AGE_NOW  <= 5 THEN '1) 0-5 ปี' ELSE 
+                CASE WHEN mdp.AGE_NOW  > 5 AND mdp.AGE_NOW  <= 14 THEN '2) 6-14 ปี' ELSE 
+                    CASE WHEN mdp.AGE_NOW  > 14 AND mdp.AGE_NOW  <= 21 THEN '3) 15-21 ปี' ELSE 
+                        CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59 ปี' ELSE '5) >60' 
                         END 
                     END  
                 END 
@@ -1839,10 +1839,10 @@ app.post("/api/get_by_tambon_ageocc", async (req, res) => {
         SUM(CASE ad.OCC WHEN '020' THEN 1 ELSE 0 END) AS occ_020,
         SUM(CASE ad.OCC WHEN '999' THEN 1 ELSE 0 END) AS occ_999
     FROM (SELECT mdp.DISTRICT_NAME,
-            CASE WHEN mdp.AGE_NOW  <= 5 THEN '1) <5' ELSE 
-                CASE WHEN mdp.AGE_NOW  > 5 AND mdp.AGE_NOW  <= 14 THEN '2) 6-14' ELSE 
-                    CASE WHEN mdp.AGE_NOW  > 14 AND mdp.AGE_NOW  <= 21 THEN '3) 15-21' ELSE 
-                        CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59' ELSE '5) >60' 
+            CASE WHEN mdp.AGE_NOW  <= 5 THEN '1) 0-5 ปี' ELSE 
+                CASE WHEN mdp.AGE_NOW  > 5 AND mdp.AGE_NOW  <= 14 THEN '2) 6-14 ปี' ELSE 
+                    CASE WHEN mdp.AGE_NOW  > 14 AND mdp.AGE_NOW  <= 21 THEN '3) 15-21 ปี' ELSE 
+                        CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59 ปี' ELSE '5) >60' 
                         END 
                     END  
                 END 

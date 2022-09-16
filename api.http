@@ -1,5 +1,10 @@
-<<<<<<< HEAD
 ### change localhost -> 192.168.3.110
+
+
+### get all dis
+POST http://localhost:3000/api/get_distotal HTTP/1:1
+Content-Type: application/json
+  
 
 ### get all region
 POST http://192.168.3.110:3000/api/get_all_region HTTP/1:1
@@ -24,6 +29,16 @@ Content-Type: application/json
 {
     "address_code":"02" ,  
     "region_code":"00002"         
+}
+
+### get by region
+POST http://192.168.3.110:3000/api/get_by_province_total HTTP/1:1
+Content-Type: application/json
+
+{
+    "address_code":"02" ,  
+    "region_code":"00002",
+    "province_code":"40"            
 }
 
 ### get by region edu
@@ -76,7 +91,8 @@ Content-Type: application/json
 
 {
     "region_code":"00001",
-    "address_code": "02"            
+    "address_code": "02",    
+    "province_code":"40"        
 }
 
 // "province_code" = "ALL", "02", "04", ... (รหัสจังหวัด)
