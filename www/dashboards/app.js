@@ -1833,10 +1833,8 @@ function selectAddress(address_code) {
   console.log(address_code)
   axios.post(`${url}/api/get_by_country_total`, { address_code }).then(async (r) => {
     $('#reg').empty().append(`<option value="all">เลือกภาค</option>`);
-    // $('#inforeg').empty()
     r.data.map(i => {
       $('#reg').append(`<option value="${i.REGION_CODE}">${i.REGION_NAME_THAI}</option>`)
-      // $('#inforeg').append(`${i.CAT} : ${i.CNT} คน <br>`)
       showTotal(r.data)
       // console.log(r.data)
     })
@@ -1844,9 +1842,7 @@ function selectAddress(address_code) {
   })
 
   axios.post(`${url}/api/get_by_country_sex`, { address_code }).then(async (r) => {
-    // $('#inforeg').empty()
     r.data.map(i => {
-      // $('#inforeg').append(` <b>${i.CAT}:</b> <br> เพศชาย ${i.M} คน  เพศหญิง ${i.F} คน  <br>`)
     })
     showSex(r.data)
     // console.log(r.data)
@@ -2062,7 +2058,7 @@ function selectTambon(address_code, tambon_code) {
 }
 
 function selectinfo(Category) {
-  $('#inforeg').empty()
+  $('#infoview').empty()
   var Category = Category;
   var address_code = $('#address').val();
   var region_code = $('#reg').val();
@@ -2079,7 +2075,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_country_total`, { address_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b> ${i.CAT} : </b> ${i.CNT} คน <br>`)
+          $('#infoview').append(` <b> ${i.CAT} : </b> ${i.CNT} คน <br>`)
         })
       })
     }
@@ -2088,7 +2084,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_region_total`, { address_code, region_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b> ${i.CAT} : </b> ${i.CNT} คน <br>`)
+          $('#infoview').append(` <b> ${i.CAT} : </b> ${i.CNT} คน <br>`)
         })
       })
     }
@@ -2097,7 +2093,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_province_total`, { address_code, province_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b> ${i.CAT} : </b> ${i.CNT} คน <br>`)
+          $('#infoview').append(` <b> ${i.CAT} : </b> ${i.CNT} คน <br>`)
         })
       })
     }
@@ -2106,7 +2102,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_amphoe_total`, { address_code, amphoe_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b> ${i.CAT} : </b> ${i.CNT} คน <br>`)
+          $('#infoview').append(` <b> ${i.CAT} : </b> ${i.CNT} คน <br>`)
         })
       })
     }
@@ -2115,7 +2111,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_tambon_total`, { address_code, tambon_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b> ${i.CAT} : </b> ${i.CNT} คน <br>`)
+          $('#infoview').append(` <b> ${i.CAT} : </b> ${i.CNT} คน <br>`)
         })
       })
     }
@@ -2126,7 +2122,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_country_sex`, { address_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b>${i.CAT}:</b> <br> เพศชาย ${i.M} คน  เพศหญิง ${i.F} คน  <br>`)
+          $('#infoview').append(` <b>${i.CAT}:</b> <br> เพศชาย ${i.M} คน  เพศหญิง ${i.F} คน  <br>`)
         })
       })
     }
@@ -2135,7 +2131,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_region_sex`, { address_code, region_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b>${i.CAT}:</b> <br> เพศชาย ${i.M} คน  เพศหญิง ${i.F} คน  <br>`)
+          $('#infoview').append(` <b>${i.CAT}:</b> <br> เพศชาย ${i.M} คน  เพศหญิง ${i.F} คน  <br>`)
         })
       })
     }
@@ -2144,7 +2140,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_province_sex`, { address_code, province_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b>${i.CAT}:</b> <br> เพศชาย ${i.M} คน  เพศหญิง ${i.F} คน  <br>`)
+          $('#infoview').append(` <b>${i.CAT}:</b> <br> เพศชาย ${i.M} คน  เพศหญิง ${i.F} คน  <br>`)
         })
       })
     }
@@ -2153,7 +2149,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_amphoe_sex`, { address_code, amphoe_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b>${i.CAT}:</b> <br> เพศชาย ${i.M} คน  เพศหญิง ${i.F} คน  <br>`)
+          $('#infoview').append(` <b>${i.CAT}:</b> <br> เพศชาย ${i.M} คน  เพศหญิง ${i.F} คน  <br>`)
         })
       })
     }
@@ -2162,7 +2158,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_tambon_sex`, { address_code, tambon_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b>${i.CAT}:</b> <br> เพศชาย ${i.M} คน  เพศหญิง ${i.F} คน  <br>`)
+          $('#infoview').append(` <b>${i.CAT}:</b> <br> เพศชาย ${i.M} คน  เพศหญิง ${i.F} คน  <br>`)
         })
       })
     }
@@ -2173,7 +2169,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_country_type`, { address_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b>${i.CAT}:</b> <br> ไม่มีข้อมูล: ${i.TYPE0} คน <br> ทางการเห็น: ${i.TYPE12
+          $('#infoview').append(` <b>${i.CAT}:</b> <br> ไม่มีข้อมูล: ${i.TYPE0} คน <br> ทางการเห็น: ${i.TYPE12
             } คน <br> ทางการได้ยินหรือสื่อความหมาย: ${i.TYPE13} คน <br> ทางการเคลื่อนไหวหรือทางร่างกาย: ${i.TYPE14} คน <br> ทางจิตใจหรือพฤติกรรม: ${i.TYPE15} คน <br> ทางสติปัญญา: ${i.TYPE16} คน <br> ทางการเรียนรู้: ${i.TYPE17} คน <br> ทางออทิสติก: ${i.TYPE18} คน <br>`)
         })
       })
@@ -2183,7 +2179,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_region_type`, { address_code, region_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b>${i.CAT}:</b> <br> ไม่มีข้อมูล: ${i.TYPE0} คน <br> ทางการเห็น: ${i.TYPE12
+          $('#infoview').append(` <b>${i.CAT}:</b> <br> ไม่มีข้อมูล: ${i.TYPE0} คน <br> ทางการเห็น: ${i.TYPE12
             } คน <br> ทางการได้ยินหรือสื่อความหมาย: ${i.TYPE13} คน <br> ทางการเคลื่อนไหวหรือทางร่างกาย: ${i.TYPE14} คน <br> ทางจิตใจหรือพฤติกรรม: ${i.TYPE15} คน <br> ทางสติปัญญา: ${i.TYPE16} คน <br> ทางการเรียนรู้: ${i.TYPE17} คน <br> ทางออทิสติก: ${i.TYPE18} คน <br>`)
         })
       })
@@ -2193,7 +2189,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_province_type`, { address_code, province_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b>${i.CAT}:</b> <br> ไม่มีข้อมูล: ${i.TYPE0} คน <br> ทางการเห็น: ${i.TYPE12
+          $('#infoview').append(` <b>${i.CAT}:</b> <br> ไม่มีข้อมูล: ${i.TYPE0} คน <br> ทางการเห็น: ${i.TYPE12
             } คน <br> ทางการได้ยินหรือสื่อความหมาย: ${i.TYPE13} คน <br> ทางการเคลื่อนไหวหรือทางร่างกาย: ${i.TYPE14} คน <br> ทางจิตใจหรือพฤติกรรม: ${i.TYPE15} คน <br> ทางสติปัญญา: ${i.TYPE16} คน <br> ทางการเรียนรู้: ${i.TYPE17} คน <br> ทางออทิสติก: ${i.TYPE18} คน <br>`)
         })
       })
@@ -2203,7 +2199,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_amphoe_type`, { address_code, amphoe_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b>${i.CAT}:</b> <br> ไม่มีข้อมูล: ${i.TYPE0} คน <br> ทางการเห็น: ${i.TYPE12
+          $('#infoview').append(` <b>${i.CAT}:</b> <br> ไม่มีข้อมูล: ${i.TYPE0} คน <br> ทางการเห็น: ${i.TYPE12
             } คน <br> ทางการได้ยินหรือสื่อความหมาย: ${i.TYPE13} คน <br> ทางการเคลื่อนไหวหรือทางร่างกาย: ${i.TYPE14} คน <br> ทางจิตใจหรือพฤติกรรม: ${i.TYPE15} คน <br> ทางสติปัญญา: ${i.TYPE16} คน <br> ทางการเรียนรู้: ${i.TYPE17} คน <br> ทางออทิสติก: ${i.TYPE18} คน <br>`)
         })
       })
@@ -2213,7 +2209,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_tambon_type`, { address_code, tambon_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b>${i.CAT}:</b> <br> ไม่มีข้อมูล: ${i.TYPE0} คน <br> ทางการเห็น: ${i.TYPE12
+          $('#infoview').append(` <b>${i.CAT}:</b> <br> ไม่มีข้อมูล: ${i.TYPE0} คน <br> ทางการเห็น: ${i.TYPE12
             } คน <br> ทางการได้ยินหรือสื่อความหมาย: ${i.TYPE13} คน <br> ทางการเคลื่อนไหวหรือทางร่างกาย: ${i.TYPE14} คน <br> ทางจิตใจหรือพฤติกรรม: ${i.TYPE15} คน <br> ทางสติปัญญา: ${i.TYPE16} คน <br> ทางการเรียนรู้: ${i.TYPE17} คน <br> ทางออทิสติก: ${i.TYPE18} คน <br>`)
         })
       })
@@ -2225,7 +2221,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_country_age`, { address_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b>${i.CAT}:</b> <br> ช่วงอายุ 0-5 ปี: ${i.AGE5} คน <br>  ช่วงอายุ 6-14 ปี: ${i.AGE14
+          $('#infoview').append(` <b>${i.CAT}:</b> <br> ช่วงอายุ 0-5 ปี: ${i.AGE5} คน <br>  ช่วงอายุ 6-14 ปี: ${i.AGE14
             } คน <br> ช่วงอายุ 15-21 ปี: ${i.AGE21} คน <br> ช่วงอายุ 22-59 ปี: ${i.AGE59} คน <br> ช่วงอายุ 60 ปีขึ้นไป: ${i.AGE60} คน <br>`)
         })
       })
@@ -2235,7 +2231,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_region_age`, { address_code, region_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b>${i.CAT}:</b> <br> ช่วงอายุ 0-5 ปี: ${i.AGE5} คน <br>  ช่วงอายุ 6-14 ปี: ${i.AGE14
+          $('#infoview').append(` <b>${i.CAT}:</b> <br> ช่วงอายุ 0-5 ปี: ${i.AGE5} คน <br>  ช่วงอายุ 6-14 ปี: ${i.AGE14
             } คน <br> ช่วงอายุ 15-21 ปี: ${i.AGE21} คน <br> ช่วงอายุ 22-59 ปี: ${i.AGE59} คน <br> ช่วงอายุ 60 ปีขึ้นไป: ${i.AGE60} คน <br>`)
         })
       })
@@ -2245,7 +2241,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_province_age`, { address_code, province_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b>${i.CAT}:</b> <br> ช่วงอายุ 0-5 ปี: ${i.AGE5} คน <br>  ช่วงอายุ 6-14 ปี: ${i.AGE14
+          $('#infoview').append(` <b>${i.CAT}:</b> <br> ช่วงอายุ 0-5 ปี: ${i.AGE5} คน <br>  ช่วงอายุ 6-14 ปี: ${i.AGE14
             } คน <br> ช่วงอายุ 15-21 ปี: ${i.AGE21} คน <br> ช่วงอายุ 22-59 ปี: ${i.AGE59} คน <br> ช่วงอายุ 60 ปีขึ้นไป: ${i.AGE60} คน <br>`)
         })
       })
@@ -2255,7 +2251,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_amphoe_age`, { address_code, amphoe_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b>${i.CAT}:</b> <br> ช่วงอายุ 0-5 ปี: ${i.AGE5} คน <br>  ช่วงอายุ 6-14 ปี: ${i.AGE14
+          $('#infoview').append(` <b>${i.CAT}:</b> <br> ช่วงอายุ 0-5 ปี: ${i.AGE5} คน <br>  ช่วงอายุ 6-14 ปี: ${i.AGE14
             } คน <br> ช่วงอายุ 15-21 ปี: ${i.AGE21} คน <br> ช่วงอายุ 22-59 ปี: ${i.AGE59} คน <br> ช่วงอายุ 60 ปีขึ้นไป: ${i.AGE60} คน <br>`)
         })
       })
@@ -2265,7 +2261,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_tambon_age`, { address_code, tambon_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b>${i.CAT}:</b> <br> ช่วงอายุ 0-5 ปี: ${i.AGE5} คน <br>  ช่วงอายุ 6-14 ปี: ${i.AGE14
+          $('#infoview').append(` <b>${i.CAT}:</b> <br> ช่วงอายุ 0-5 ปี: ${i.AGE5} คน <br>  ช่วงอายุ 6-14 ปี: ${i.AGE14
             } คน <br> ช่วงอายุ 15-21 ปี: ${i.AGE21} คน <br> ช่วงอายุ 22-59 ปี: ${i.AGE59} คน <br> ช่วงอายุ 60 ปีขึ้นไป: ${i.AGE60} คน <br>`)
         })
       })
@@ -2278,7 +2274,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_country_edu`, { address_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b>${i.CAT}:</b> <br> สูงกว่าปริญญาตรี: ${i.HIG} คน <br>  ปริญญาตรีหรือเทียบเท่า: ${i.MID
+          $('#infoview').append(` <b>${i.CAT}:</b> <br> สูงกว่าปริญญาตรี: ${i.HIG} คน <br>  ปริญญาตรีหรือเทียบเท่า: ${i.MID
             } คน <br> ต่ำกว่าปริญญาตรี: ${i.LOW} คน <br> อื่นๆ: ${i.OTH} คน <br>`)
         })
       })
@@ -2288,7 +2284,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_region_edu`, { address_code, region_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b>${i.CAT}:</b> <br> สูงกว่าปริญญาตรี: ${i.HIG} คน <br>  ปริญญาตรีหรือเทียบเท่า: ${i.MID
+          $('#infoview').append(` <b>${i.CAT}:</b> <br> สูงกว่าปริญญาตรี: ${i.HIG} คน <br>  ปริญญาตรีหรือเทียบเท่า: ${i.MID
             } คน <br> ต่ำกว่าปริญญาตรี: ${i.LOW} คน <br> อื่นๆ: ${i.OTH} คน <br>`)
         })
       })
@@ -2298,7 +2294,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_province_edu`, { address_code, province_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b>${i.CAT}:</b> <br> สูงกว่าปริญญาตรี: ${i.HIG} คน <br>  ปริญญาตรีหรือเทียบเท่า: ${i.MID
+          $('#infoview').append(` <b>${i.CAT}:</b> <br> สูงกว่าปริญญาตรี: ${i.HIG} คน <br>  ปริญญาตรีหรือเทียบเท่า: ${i.MID
             } คน <br> ต่ำกว่าปริญญาตรี: ${i.LOW} คน <br> อื่นๆ: ${i.OTH} คน <br>`)
         })
       })
@@ -2308,7 +2304,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_amphoe_edu`, { address_code, amphoe_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b>${i.CAT}:</b> <br> สูงกว่าปริญญาตรี: ${i.HIG} คน <br>  ปริญญาตรีหรือเทียบเท่า: ${i.MID
+          $('#infoview').append(` <b>${i.CAT}:</b> <br> สูงกว่าปริญญาตรี: ${i.HIG} คน <br>  ปริญญาตรีหรือเทียบเท่า: ${i.MID
             } คน <br> ต่ำกว่าปริญญาตรี: ${i.LOW} คน <br> อื่นๆ: ${i.OTH} คน <br>`)
         })
       })
@@ -2318,7 +2314,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_tambon_edu`, { address_code, tambon_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b>${i.CAT}:</b> <br> สูงกว่าปริญญาตรี: ${i.HIG} คน <br>  ปริญญาตรีหรือเทียบเท่า: ${i.MID
+          $('#infoview').append(` <b>${i.CAT}:</b> <br> สูงกว่าปริญญาตรี: ${i.HIG} คน <br>  ปริญญาตรีหรือเทียบเท่า: ${i.MID
             } คน <br> ต่ำกว่าปริญญาตรี: ${i.LOW} คน <br> อื่นๆ: ${i.OTH} คน <br>`)
         })
       })
@@ -2331,7 +2327,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_country_occ`, { address_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b>${i.CAT}:</b> <br> รับราชการ: ${i.OCC_001} คน <br> รัฐวิสาหกิจ: ${i.OCC_002
+          $('#infoview').append(` <b>${i.CAT}:</b> <br> รับราชการ: ${i.OCC_001} คน <br> รัฐวิสาหกิจ: ${i.OCC_002
             } คน <br> รับจ้าง: ${i.OCC_003} คน <br> กิจการส่วนตัว/อาชีพอิสระ/ค้าขาย: ${i.OCC_004} คน <br> กำลังศึกษา: ${i.OCC_005} คน <br> เกษตรกรรม: ${i.OCC_006} คน <br> 
             คอมพิวเตอร์: ${i.OCC_007} คน <br> นวดแผนโบราณ: ${i.OCC_008} คน <br> ค้าขาย: ${i.OCC_010} คน <br> ค้าสลาก: ${i.OCC_011} คน <br> พนักงานบริษัท: ${i.OCC_012} คน <br> 
             ไม่ระบุอาชีพ: ${i.OCC_013} คน <br> ลูกจ้าง: ${i.OCC_014} คน <br> ไม่ได้ประกอบอาชีพ: ${i.OCC_015} คน <br> ลูกจ้างเอกชน: ${i.OCC_016} คน <br> ผู้ประกอบกิจการส่วนตัว/อาชีพอิสระ/ธุรกิจ: ${i.OCC_017} คน <br> 
@@ -2344,7 +2340,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_region_occ`, { address_code, region_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b>${i.CAT}:</b> <br> รับราชการ: ${i.OCC_001} คน <br> รัฐวิสาหกิจ: ${i.OCC_002
+          $('#infoview').append(` <b>${i.CAT}:</b> <br> รับราชการ: ${i.OCC_001} คน <br> รัฐวิสาหกิจ: ${i.OCC_002
             } คน <br> รับจ้าง: ${i.OCC_003} คน <br> กิจการส่วนตัว/อาชีพอิสระ/ค้าขาย: ${i.OCC_004} คน <br> กำลังศึกษา: ${i.OCC_005} คน <br> เกษตรกรรม: ${i.OCC_006} คน <br> 
           คอมพิวเตอร์: ${i.OCC_007} คน <br> นวดแผนโบราณ: ${i.OCC_008} คน <br> ค้าขาย: ${i.OCC_010} คน <br> ค้าสลาก: ${i.OCC_011} คน <br> พนักงานบริษัท: ${i.OCC_012} คน <br> 
           ไม่ระบุอาชีพ: ${i.OCC_013} คน <br> ลูกจ้าง: ${i.OCC_014} คน <br> ไม่ได้ประกอบอาชีพ: ${i.OCC_015} คน <br> ลูกจ้างเอกชน: ${i.OCC_016} คน <br> ผู้ประกอบกิจการส่วนตัว/อาชีพอิสระ/ธุรกิจ: ${i.OCC_017} คน <br> 
@@ -2357,7 +2353,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_province_occ`, { address_code, province_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b>${i.CAT}:</b> <br> รับราชการ: ${i.OCC_001} คน <br> รัฐวิสาหกิจ: ${i.OCC_002
+          $('#infoview').append(` <b>${i.CAT}:</b> <br> รับราชการ: ${i.OCC_001} คน <br> รัฐวิสาหกิจ: ${i.OCC_002
             } คน <br> รับจ้าง: ${i.OCC_003} คน <br> กิจการส่วนตัว/อาชีพอิสระ/ค้าขาย: ${i.OCC_004} คน <br> กำลังศึกษา: ${i.OCC_005} คน <br> เกษตรกรรม: ${i.OCC_006} คน <br> 
           คอมพิวเตอร์: ${i.OCC_007} คน <br> นวดแผนโบราณ: ${i.OCC_008} คน <br> ค้าขาย: ${i.OCC_010} คน <br> ค้าสลาก: ${i.OCC_011} คน <br> พนักงานบริษัท: ${i.OCC_012} คน <br> 
           ไม่ระบุอาชีพ: ${i.OCC_013} คน <br> ลูกจ้าง: ${i.OCC_014} คน <br> ไม่ได้ประกอบอาชีพ: ${i.OCC_015} คน <br> ลูกจ้างเอกชน: ${i.OCC_016} คน <br> ผู้ประกอบกิจการส่วนตัว/อาชีพอิสระ/ธุรกิจ: ${i.OCC_017} คน <br> 
@@ -2370,7 +2366,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_amphoe_occ`, { address_code, amphoe_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b>${i.CAT}:</b> <br> รับราชการ: ${i.OCC_001} คน <br> รัฐวิสาหกิจ: ${i.OCC_002
+          $('#infoview').append(` <b>${i.CAT}:</b> <br> รับราชการ: ${i.OCC_001} คน <br> รัฐวิสาหกิจ: ${i.OCC_002
             } คน <br> รับจ้าง: ${i.OCC_003} คน <br> กิจการส่วนตัว/อาชีพอิสระ/ค้าขาย: ${i.OCC_004} คน <br> กำลังศึกษา: ${i.OCC_005} คน <br> เกษตรกรรม: ${i.OCC_006} คน <br> 
           คอมพิวเตอร์: ${i.OCC_007} คน <br> นวดแผนโบราณ: ${i.OCC_008} คน <br> ค้าขาย: ${i.OCC_010} คน <br> ค้าสลาก: ${i.OCC_011} คน <br> พนักงานบริษัท: ${i.OCC_012} คน <br> 
           ไม่ระบุอาชีพ: ${i.OCC_013} คน <br> ลูกจ้าง: ${i.OCC_014} คน <br> ไม่ได้ประกอบอาชีพ: ${i.OCC_015} คน <br> ลูกจ้างเอกชน: ${i.OCC_016} คน <br> ผู้ประกอบกิจการส่วนตัว/อาชีพอิสระ/ธุรกิจ: ${i.OCC_017} คน <br> 
@@ -2383,7 +2379,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_tambon_occ`, { address_code, tambon_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b>${i.CAT}:</b> <br> รับราชการ: ${i.OCC_001} คน <br> รัฐวิสาหกิจ: ${i.OCC_002
+          $('#infoview').append(` <b>${i.CAT}:</b> <br> รับราชการ: ${i.OCC_001} คน <br> รัฐวิสาหกิจ: ${i.OCC_002
             } คน <br> รับจ้าง: ${i.OCC_003} คน <br> กิจการส่วนตัว/อาชีพอิสระ/ค้าขาย: ${i.OCC_004} คน <br> กำลังศึกษา: ${i.OCC_005} คน <br> เกษตรกรรม: ${i.OCC_006} คน <br> 
           คอมพิวเตอร์: ${i.OCC_007} คน <br> นวดแผนโบราณ: ${i.OCC_008} คน <br> ค้าขาย: ${i.OCC_010} คน <br> ค้าสลาก: ${i.OCC_011} คน <br> พนักงานบริษัท: ${i.OCC_012} คน <br> 
           ไม่ระบุอาชีพ: ${i.OCC_013} คน <br> ลูกจ้าง: ${i.OCC_014} คน <br> ไม่ได้ประกอบอาชีพ: ${i.OCC_015} คน <br> ลูกจ้างเอกชน: ${i.OCC_016} คน <br> ผู้ประกอบกิจการส่วนตัว/อาชีพอิสระ/ธุรกิจ: ${i.OCC_017} คน <br> 
@@ -2400,7 +2396,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_country_agetype`, { address_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b> ${i.CAT}:</b> <br> ไม่มีข้อมูล: ${i.TYPE0} คน <br> ทางการเห็น: ${i.TYPE12
+          $('#infoview').append(` <b> ${i.CAT}:</b> <br> ไม่มีข้อมูล: ${i.TYPE0} คน <br> ทางการเห็น: ${i.TYPE12
             } คน <br> ทางการได้ยินหรือสื่อความหมาย: ${i.TYPE13} คน <br> ทางการเคลื่อนไหวหรือทางร่างกาย: ${i.TYPE14} คน <br> ทางจิตใจหรือพฤติกรรม: ${i.TYPE15} คน <br> ทางสติปัญญา: ${i.TYPE16} คน <br> ทางการเรียนรู้: ${i.TYPE17} คน <br> ทางออทิสติก: ${i.TYPE18} คน <br>`)
         })
       })
@@ -2410,7 +2406,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_region_agetype`, { address_code, region_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b> ${i.CAT}:</b> <br> ไม่มีข้อมูล: ${i.TYPE0} คน <br> ทางการเห็น: ${i.TYPE12
+          $('#infoview').append(` <b> ${i.CAT}:</b> <br> ไม่มีข้อมูล: ${i.TYPE0} คน <br> ทางการเห็น: ${i.TYPE12
             } คน <br> ทางการได้ยินหรือสื่อความหมาย: ${i.TYPE13} คน <br> ทางการเคลื่อนไหวหรือทางร่างกาย: ${i.TYPE14} คน <br> ทางจิตใจหรือพฤติกรรม: ${i.TYPE15} คน <br> ทางสติปัญญา: ${i.TYPE16} คน <br> ทางการเรียนรู้: ${i.TYPE17} คน <br> ทางออทิสติก: ${i.TYPE18} คน <br>`)
         })
       })
@@ -2420,7 +2416,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_province_agetype`, { address_code, province_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b> ${i.CAT}:</b> <br> ไม่มีข้อมูล: ${i.TYPE0} คน <br> ทางการเห็น: ${i.TYPE12
+          $('#infoview').append(` <b> ${i.CAT}:</b> <br> ไม่มีข้อมูล: ${i.TYPE0} คน <br> ทางการเห็น: ${i.TYPE12
             } คน <br> ทางการได้ยินหรือสื่อความหมาย: ${i.TYPE13} คน <br> ทางการเคลื่อนไหวหรือทางร่างกาย: ${i.TYPE14} คน <br> ทางจิตใจหรือพฤติกรรม: ${i.TYPE15} คน <br> ทางสติปัญญา: ${i.TYPE16} คน <br> ทางการเรียนรู้: ${i.TYPE17} คน <br> ทางออทิสติก: ${i.TYPE18} คน <br>`)
         })
       })
@@ -2430,7 +2426,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_amphoe_agetype`, { address_code, amphoe_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b> ${i.CAT}:</b> <br> ไม่มีข้อมูล: ${i.TYPE0} คน <br> ทางการเห็น: ${i.TYPE12
+          $('#infoview').append(` <b> ${i.CAT}:</b> <br> ไม่มีข้อมูล: ${i.TYPE0} คน <br> ทางการเห็น: ${i.TYPE12
             } คน <br> ทางการได้ยินหรือสื่อความหมาย: ${i.TYPE13} คน <br> ทางการเคลื่อนไหวหรือทางร่างกาย: ${i.TYPE14} คน <br> ทางจิตใจหรือพฤติกรรม: ${i.TYPE15} คน <br> ทางสติปัญญา: ${i.TYPE16} คน <br> ทางการเรียนรู้: ${i.TYPE17} คน <br> ทางออทิสติก: ${i.TYPE18} คน <br>`)
         })
       })
@@ -2440,7 +2436,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_tambon_agetype`, { address_code, tambon_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b> ${i.CAT}:</b> <br> ไม่มีข้อมูล: ${i.TYPE0} คน <br> ทางการเห็น: ${i.TYPE12
+          $('#infoview').append(` <b> ${i.CAT}:</b> <br> ไม่มีข้อมูล: ${i.TYPE0} คน <br> ทางการเห็น: ${i.TYPE12
             } คน <br> ทางการได้ยินหรือสื่อความหมาย: ${i.TYPE13} คน <br> ทางการเคลื่อนไหวหรือทางร่างกาย: ${i.TYPE14} คน <br> ทางจิตใจหรือพฤติกรรม: ${i.TYPE15} คน <br> ทางสติปัญญา: ${i.TYPE16} คน <br> ทางการเรียนรู้: ${i.TYPE17} คน <br> ทางออทิสติก: ${i.TYPE18} คน <br>`)
         })
       })
@@ -2453,7 +2449,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_country_ageedu`, { address_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b>${i.CAT}:</b> <br> สูงกว่าปริญญาตรี: ${i.HIG} คน <br>  ปริญญาตรีหรือเทียบเท่า: ${i.MID
+          $('#infoview').append(` <b>${i.CAT}:</b> <br> สูงกว่าปริญญาตรี: ${i.HIG} คน <br>  ปริญญาตรีหรือเทียบเท่า: ${i.MID
             } คน <br> ต่ำกว่าปริญญาตรี: ${i.LOW} คน <br> อื่นๆ: ${i.OTH} คน <br>`)
         })
       })
@@ -2463,7 +2459,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_region_ageedu`, { address_code, region_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b>${i.CAT}:</b> <br> สูงกว่าปริญญาตรี: ${i.HIG} คน <br>  ปริญญาตรีหรือเทียบเท่า: ${i.MID
+          $('#infoview').append(` <b>${i.CAT}:</b> <br> สูงกว่าปริญญาตรี: ${i.HIG} คน <br>  ปริญญาตรีหรือเทียบเท่า: ${i.MID
             } คน <br> ต่ำกว่าปริญญาตรี: ${i.LOW} คน <br> อื่นๆ: ${i.OTH} คน <br>`)
         })
       })
@@ -2473,7 +2469,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_province_ageedu`, { address_code, province_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b>${i.CAT}:</b> <br> สูงกว่าปริญญาตรี: ${i.HIG} คน <br>  ปริญญาตรีหรือเทียบเท่า: ${i.MID
+          $('#infoview').append(` <b>${i.CAT}:</b> <br> สูงกว่าปริญญาตรี: ${i.HIG} คน <br>  ปริญญาตรีหรือเทียบเท่า: ${i.MID
             } คน <br> ต่ำกว่าปริญญาตรี: ${i.LOW} คน <br> อื่นๆ: ${i.OTH} คน <br>`)
         })
       })
@@ -2483,7 +2479,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_amphoe_ageedu`, { address_code, amphoe_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b>${i.CAT}:</b> <br> สูงกว่าปริญญาตรี: ${i.HIG} คน <br>  ปริญญาตรีหรือเทียบเท่า: ${i.MID
+          $('#infoview').append(` <b>${i.CAT}:</b> <br> สูงกว่าปริญญาตรี: ${i.HIG} คน <br>  ปริญญาตรีหรือเทียบเท่า: ${i.MID
             } คน <br> ต่ำกว่าปริญญาตรี: ${i.LOW} คน <br> อื่นๆ: ${i.OTH} คน <br>`)
         })
       })
@@ -2493,7 +2489,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_tambon_ageedu`, { address_code, tambon_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b>${i.CAT}:</b> <br> สูงกว่าปริญญาตรี: ${i.HIG} คน <br>  ปริญญาตรีหรือเทียบเท่า: ${i.MID
+          $('#infoview').append(` <b>${i.CAT}:</b> <br> สูงกว่าปริญญาตรี: ${i.HIG} คน <br>  ปริญญาตรีหรือเทียบเท่า: ${i.MID
             } คน <br> ต่ำกว่าปริญญาตรี: ${i.LOW} คน <br> อื่นๆ: ${i.OTH} คน <br>`)
         })
       })
@@ -2506,7 +2502,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_country_ageocc`, { address_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b>${i.CAT}:</b> <br> รับราชการ: ${i.OCC_001} คน <br> รัฐวิสาหกิจ: ${i.OCC_002
+          $('#infoview').append(` <b>${i.CAT}:</b> <br> รับราชการ: ${i.OCC_001} คน <br> รัฐวิสาหกิจ: ${i.OCC_002
             } คน <br> รับจ้าง: ${i.OCC_003} คน <br> กิจการส่วนตัว/อาชีพอิสระ/ค้าขาย: ${i.OCC_004} คน <br> กำลังศึกษา: ${i.OCC_005} คน <br> เกษตรกรรม: ${i.OCC_006} คน <br> 
             คอมพิวเตอร์: ${i.OCC_007} คน <br> นวดแผนโบราณ: ${i.OCC_008} คน <br> ค้าขาย: ${i.OCC_010} คน <br> ค้าสลาก: ${i.OCC_011} คน <br> พนักงานบริษัท: ${i.OCC_012} คน <br> 
             ไม่ระบุอาชีพ: ${i.OCC_013} คน <br> ลูกจ้าง: ${i.OCC_014} คน <br> ไม่ได้ประกอบอาชีพ: ${i.OCC_015} คน <br> ลูกจ้างเอกชน: ${i.OCC_016} คน <br> ผู้ประกอบกิจการส่วนตัว/อาชีพอิสระ/ธุรกิจ: ${i.OCC_017} คน <br> 
@@ -2519,7 +2515,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_region_ageocc`, { address_code, region_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b>${i.CAT}:</b> <br> รับราชการ: ${i.OCC_001} คน <br> รัฐวิสาหกิจ: ${i.OCC_002
+          $('#infoview').append(` <b>${i.CAT}:</b> <br> รับราชการ: ${i.OCC_001} คน <br> รัฐวิสาหกิจ: ${i.OCC_002
             } คน <br> รับจ้าง: ${i.OCC_003} คน <br> กิจการส่วนตัว/อาชีพอิสระ/ค้าขาย: ${i.OCC_004} คน <br> กำลังศึกษา: ${i.OCC_005} คน <br> เกษตรกรรม: ${i.OCC_006} คน <br> 
           คอมพิวเตอร์: ${i.OCC_007} คน <br> นวดแผนโบราณ: ${i.OCC_008} คน <br> ค้าขาย: ${i.OCC_010} คน <br> ค้าสลาก: ${i.OCC_011} คน <br> พนักงานบริษัท: ${i.OCC_012} คน <br> 
           ไม่ระบุอาชีพ: ${i.OCC_013} คน <br> ลูกจ้าง: ${i.OCC_014} คน <br> ไม่ได้ประกอบอาชีพ: ${i.OCC_015} คน <br> ลูกจ้างเอกชน: ${i.OCC_016} คน <br> ผู้ประกอบกิจการส่วนตัว/อาชีพอิสระ/ธุรกิจ: ${i.OCC_017} คน <br> 
@@ -2532,7 +2528,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_province_ageocc`, { address_code, province_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b>${i.CAT}:</b> <br> รับราชการ: ${i.OCC_001} คน <br> รัฐวิสาหกิจ: ${i.OCC_002
+          $('#infoview').append(` <b>${i.CAT}:</b> <br> รับราชการ: ${i.OCC_001} คน <br> รัฐวิสาหกิจ: ${i.OCC_002
             } คน <br> รับจ้าง: ${i.OCC_003} คน <br> กิจการส่วนตัว/อาชีพอิสระ/ค้าขาย: ${i.OCC_004} คน <br> กำลังศึกษา: ${i.OCC_005} คน <br> เกษตรกรรม: ${i.OCC_006} คน <br> 
           คอมพิวเตอร์: ${i.OCC_007} คน <br> นวดแผนโบราณ: ${i.OCC_008} คน <br> ค้าขาย: ${i.OCC_010} คน <br> ค้าสลาก: ${i.OCC_011} คน <br> พนักงานบริษัท: ${i.OCC_012} คน <br> 
           ไม่ระบุอาชีพ: ${i.OCC_013} คน <br> ลูกจ้าง: ${i.OCC_014} คน <br> ไม่ได้ประกอบอาชีพ: ${i.OCC_015} คน <br> ลูกจ้างเอกชน: ${i.OCC_016} คน <br> ผู้ประกอบกิจการส่วนตัว/อาชีพอิสระ/ธุรกิจ: ${i.OCC_017} คน <br> 
@@ -2545,7 +2541,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_amphoe_ageocc`, { address_code, amphoe_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b>${i.CAT}:</b> <br> รับราชการ: ${i.OCC_001} คน <br> รัฐวิสาหกิจ: ${i.OCC_002
+          $('#infoview').append(` <b>${i.CAT}:</b> <br> รับราชการ: ${i.OCC_001} คน <br> รัฐวิสาหกิจ: ${i.OCC_002
             } คน <br> รับจ้าง: ${i.OCC_003} คน <br> กิจการส่วนตัว/อาชีพอิสระ/ค้าขาย: ${i.OCC_004} คน <br> กำลังศึกษา: ${i.OCC_005} คน <br> เกษตรกรรม: ${i.OCC_006} คน <br> 
           คอมพิวเตอร์: ${i.OCC_007} คน <br> นวดแผนโบราณ: ${i.OCC_008} คน <br> ค้าขาย: ${i.OCC_010} คน <br> ค้าสลาก: ${i.OCC_011} คน <br> พนักงานบริษัท: ${i.OCC_012} คน <br> 
           ไม่ระบุอาชีพ: ${i.OCC_013} คน <br> ลูกจ้าง: ${i.OCC_014} คน <br> ไม่ได้ประกอบอาชีพ: ${i.OCC_015} คน <br> ลูกจ้างเอกชน: ${i.OCC_016} คน <br> ผู้ประกอบกิจการส่วนตัว/อาชีพอิสระ/ธุรกิจ: ${i.OCC_017} คน <br> 
@@ -2558,7 +2554,7 @@ function selectinfo(Category) {
       axios.post(`${url}/api/get_by_tambon_ageocc`, { address_code, tambon_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
-          $('#inforeg').append(` <b>${i.CAT}:</b> <br> รับราชการ: ${i.OCC_001} คน <br> รัฐวิสาหกิจ: ${i.OCC_002
+          $('#infoview').append(` <b>${i.CAT}:</b> <br> รับราชการ: ${i.OCC_001} คน <br> รัฐวิสาหกิจ: ${i.OCC_002
             } คน <br> รับจ้าง: ${i.OCC_003} คน <br> กิจการส่วนตัว/อาชีพอิสระ/ค้าขาย: ${i.OCC_004} คน <br> กำลังศึกษา: ${i.OCC_005} คน <br> เกษตรกรรม: ${i.OCC_006} คน <br> 
           คอมพิวเตอร์: ${i.OCC_007} คน <br> นวดแผนโบราณ: ${i.OCC_008} คน <br> ค้าขาย: ${i.OCC_010} คน <br> ค้าสลาก: ${i.OCC_011} คน <br> พนักงานบริษัท: ${i.OCC_012} คน <br> 
           ไม่ระบุอาชีพ: ${i.OCC_013} คน <br> ลูกจ้าง: ${i.OCC_014} คน <br> ไม่ได้ประกอบอาชีพ: ${i.OCC_015} คน <br> ลูกจ้างเอกชน: ${i.OCC_016} คน <br> ผู้ประกอบกิจการส่วนตัว/อาชีพอิสระ/ธุรกิจ: ${i.OCC_017} คน <br> 
@@ -2574,7 +2570,7 @@ function selectinfo(Category) {
 selectAddress("01")
 
 $("#address").on('change', function () {
-  $('#inforeg').empty()
+  $('#infoview').empty()
   $('#tam').empty()
   $('#amp').empty()
   $('#pro').empty()
@@ -2696,3 +2692,22 @@ $("#checkAll").click(function () {
 });
 
 
+// Preloader
+$(window).on('load', function () {
+  if ($('#preloader').length) {
+    $('#preloader').delay(100).fadeOut('slow', function () {
+      $(this).remove();
+    });
+  }
+});
+
+var myVar;
+
+function myFunction() {
+  myVar = setTimeout(showPage, 3000);
+}
+
+function showPage() {
+  document.getElementById("loader").style.display = "none";
+  document.getElementById("myDiv").style.display = "block";
+}
