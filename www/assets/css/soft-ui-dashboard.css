@@ -24849,6 +24849,10 @@ p,
   font-size: 1.25rem;
 }
 
+.text-xl {
+  font-size: 24px !important;
+}
+
 .text-lg {
   font-size: 20px !important;
 }

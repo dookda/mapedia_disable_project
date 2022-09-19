@@ -9,7 +9,7 @@ body {
 
 #chart-total {
   position: relative;
-  height: 50vh;
+  height: 54vh;
   overflow: hidden;
 }
 
@@ -21,7 +21,7 @@ body {
 
 #chart-type {
   position: relative;
-  height: 50vh;
+  height: 54vh;
   overflow: hidden;
 }
 
@@ -45,7 +45,7 @@ body {
 
 #chart-agetype {
   position: relative;
-  height: 50vh;
+  height: 54vh;
   overflow: hidden;
 }
 
@@ -61,10 +61,9 @@ body {
   overflow: hidden;
 }
 
-#chart-test {
-  position: relative;
-  height: 50vh;
-  overflow: hidden;
+#chart {
+  max-width: 400px;
+  margin: 35px auto;
 }
 
 
