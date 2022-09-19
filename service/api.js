@@ -1984,5 +1984,33 @@ app.post("/api/get_by_tam", async (req, res) => {
     }
 })
 
+app.post("/api/get_tam_tb", async (req, res) => {
+    let { tambon_code, address_code } = req.body
+    let connection = await oracledb.getConnection(dbConfig);
+
+    let sql = `SELECT mda.*
+        FROM "DEPGIS".V_MN_DES_PERSON mda 
+        WHERE mda.ADDRESS_CODE = '${address_code}' AND mda.TAMCODE ='${tambon_code}'`
+
+    console.log(sql);
+
+    try {
+        const result = await connection.execute(sql, [], { maxRows: 1000 });
+        res.status(200).json({
+            data: result.rows
+        })
+    } catch (err) {
+        console.error(err);
+    } finally {
+        if (connection) {
+            try {
+                await connection.close();
+            } catch (err) {
+                console.error(err);
+            }
+        }
+    }
+})
+
 
 module.exports = app;

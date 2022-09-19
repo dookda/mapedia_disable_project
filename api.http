@@ -280,4 +280,12 @@ Content-Type: application/json
 #     "address_code": "02"           
 # }
 
->>>>>>> Cherry
+####
+
+POST http://localhost:3000/api/get_tam_tb
+Content-Type: application/json
+
+{
+    "address_code": "01" ,
+    "tambon_code": "550605"
+}
