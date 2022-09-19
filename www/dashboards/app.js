@@ -1829,9 +1829,9 @@ function showAgeOcc(arr) {
 
 // }
 
-function selectAddress(address_code) {
-  console.log(address_code)
-  axios.post(`${url}/api/get_by_country_total`, { address_code }).then(async (r) => {
+function selectAddress(address_code, privilege) {
+  console.log(address_code, privilege)
+  axios.post(`${url}/api/get_by_country_total`, { address_code, privilege }).then(async (r) => {
     $('#reg').empty().append(`<option value="all">เลือกภาค</option>`);
     r.data.map(i => {
       $('#reg').append(`<option value="${i.REGION_CODE}">${i.REGION_NAME_THAI}</option>`)
@@ -1870,7 +1870,7 @@ function selectAddress(address_code) {
 
   axios.post(`${url}/api/get_by_country_agetype`, { address_code }).then(async (r) => {
     showAgeType(r.data)
-    console.log(r.data)
+    // console.log(r.data)
   })
 
   axios.post(`${url}/api/get_by_country_ageedu`, { address_code }).then(async (r) => {
@@ -2563,11 +2563,33 @@ function selectinfo(Category) {
       })
     }
   }
-
 }
 
+selectAddress("01", "00")
 
-selectAddress("01")
+$("#privilege").on('change', function () {
+  $('#inforeg').empty()
+  $('#tam').empty()
+  $('#amp').empty()
+  $('#pro').empty()
+  $('#reg').empty()
+  document.getElementById("tb").style.visibility = "hidden";
+  var address_code = $('#address').val()
+  var privilege = $('#privilege').val()
+  selectAddress(address_code, privilege)
+
+  RemoveLayers();
+  axios.get(`${url}/geoapi/get-bound/th/${address_code}`).then(async (r) => {
+    let geojson = await JSON.parse(r.data.data[0].geom);
+    console.log(geojson);
+    let a = L.geoJSON(geojson, {
+      style: boundStyle,
+      name: "bnd"
+    }).addTo(map);
+    map.fitBounds(a.getBounds());
+  })
+
+})
 
 $("#address").on('change', function () {
   $('#infoview').empty()
@@ -2575,9 +2597,10 @@ $("#address").on('change', function () {
   $('#amp').empty()
   $('#pro').empty()
   $('#reg').empty()
-
+  document.getElementById("tb").style.visibility = "hidden";
   var address_code = $('#address').val()
-  selectAddress(address_code)
+  var privilege = $('#privilege').val()
+  selectAddress(address_code, privilege)
 
   RemoveLayers();
   axios.get(`${url}/geoapi/get-bound/th/${address_code}`).then(async (r) => {
@@ -2596,6 +2619,7 @@ $("#reg").on('change', function () {
   $('#tam').empty()
   $('#amp').empty()
   $('#pro').empty()
+  document.getElementById("tb").style.visibility = "hidden";
   var address_code = $('#address').val()
   var region_code = $('#reg').val()
   selectRegion(address_code, region_code)
@@ -2620,6 +2644,7 @@ $("#reg").on('change', function () {
 $("#pro").on('change', function () {
   $('#tam').empty()
   $('#amp').empty()
+  document.getElementById("tb").style.visibility = "hidden";
   var address_code = $('#address').val()
   var province_code = $('#pro').val()
   selectProvince(address_code, province_code)
@@ -2643,6 +2668,7 @@ $("#pro").on('change', function () {
 
 $("#amp").on('change', function () {
   $('#tam').empty()
+  document.getElementById("tb").style.visibility = "hidden";
   var address_code = $('#address').val()
   var amphoe_code = $('#amp').val()
   selectAmphoe(address_code, amphoe_code)
@@ -2667,7 +2693,7 @@ $("#amp").on('change', function () {
 $("#tam").on('change', function () {
   var address_code = $('#address').val()
   var tambon_code = $('#tam').val()
-  console.log(tambon_code);
+  console.log(address_code, tambon_code);
   selectTambon(address_code, tambon_code)
 
   if (tambon_code == "all") {
@@ -2684,8 +2710,78 @@ $("#tam").on('change', function () {
       }).addTo(map);
       map.fitBounds(a.getBounds());
     })
+    loadTable()
   }
 })
+
+let loadTable = () => {
+  document.getElementById("tb").style.visibility = "visible";
+  var address_code = $('#address').val()
+  var tambon_code = $('#tam').val()
+  $("#tab").dataTable().fnDestroy();
+  showDataTable({ tambon_code, address_code });
+}
+
+let showDataTable = async (json) => {
+  // $.extend(true, $.fn.dataTable.defaults, {
+  //   "language": {
+  //     "sProcessing": "กำลังดำเนินการ...",
+  //     "sLengthMenu": "แสดง_MENU_ แถว",
+  //     "sZeroRecords": "ไม่พบข้อมูล",
+  //     "sInfo": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+  //     "sInfoEmpty": "แสดง 0 ถึง 0 จาก 0 แถว",
+  //     "sInfoFiltered": "(กรองข้อมูล _MAX_ ทุกแถว)",
+  //     "sInfoPostFix": "",
+  //     "sSearch": "ค้นหา:",
+  //     "sUrl": "",
+  //     "oPaginate": {
+  //       "sFirst": "เริ่มต้น",
+  //       "sPrevious": "ก่อนหน้า",
+  //       "sNext": "ถัดไป",
+  //       "sLast": "สุดท้าย"
+  //     },
+  //     "emptyTable": "ไม่พบข้อมูล..."
+  //   }
+  // });
+  let table = $('#tab').DataTable({
+    ajax: {
+      url: url + '/api/get_tam_tb',
+      type: 'POST',
+      data: json,
+      dataSrc: 'data'
+    },
+    columns: [
+      { data: 'MAIMAD_ID' },
+      { data: 'ADDRESS_CODE' },
+      // {
+      //   data: null,
+      //   "render": function (data, type, row) { return Number(data.pm25).toFixed(1) }
+      // }
+    ],
+    // columnDefs: [
+    //   { className: 'text-center', targets: [0, 2, 3, 4, 5, 6, 7, 8] },
+    // ],
+    dom: 'Bfrtip',
+    // buttons: [
+    //   'excel', 'print'
+    // ],
+    scrollX: true,
+    select: true,
+    pageLength: 7,
+    responsive: {
+      details: true
+    }
+  });
+
+  // table.on('search.dt', function () {
+  //   resp = table.rows({ search: 'applied' }).data();
+  //   getsta_2(resp);
+  //   mapAQI()
+  //   $('#paramiter').prop('selectedIndex', 0);
+  // });
+}
+
+document.getElementById("tb").style.visibility = "hidden";
 
 $("#checkAll").click(function () {
   $('input:checkbox').not(this).prop('checked', this.checked);

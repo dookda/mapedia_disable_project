@@ -9,8 +9,9 @@ let libPath;
 if (process.platform === 'win32') {           // Windows
     libPath = 'C:\\instantclient_21_6';
 } else if (process.platform === 'darwin') {   // macOS
-    libPath = process.env.HOME + '/Downloads/instantclient_19_8';
+    libPath = '/Users/sakdahomhuan/instantclient_19_8';
 }
+
 if (libPath && fs.existsSync(libPath)) {
     oracledb.initOracleClient({ libDir: libPath });
 }
@@ -29,7 +30,7 @@ app.post("/api/get_distotal", async (req, res) => {
     try {
         const result = await connection.execute(sql, [], { maxRows: 100 });
         res.status(200).json(result.rows)
-        res.status(200).json({ data: "ok" })
+        // res.status(200).json({ data: "ok" })
     } catch (err) {
         console.error(err);
     } finally {
