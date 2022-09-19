@@ -106,15 +106,17 @@ app.post("/api/get_all_tam", async (req, res) => {
 
 // country
 app.post("/api/get_by_country_total", async (req, res) => {
-    let { address_code } = req.body
+    let { address_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT mdp.REGION_NAME_THAI AS cat, 
         mdp.REGION_NAME_THAI,
         mdp.REGION_CODE,
         SUM(CASE  WHEN mdp.SEX_CODE='M' OR mdp.SEX_CODE='F' OR mdp.SEX_CODE IS NULL  THEN 1 ELSE 0 END) AS cnt
     FROM "DEPGIS".V_MN_DES_PERSON mdp  
-    WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.REGION_CODE IS NOT NULL
+    WHERE mdp.ADDRESS_CODE ='${address_code}' ${pri} AND mdp.REGION_CODE IS NOT NULL
     GROUP BY mdp.REGION_NAME_THAI, mdp.REGION_CODE 
     ORDER BY mdp.REGION_NAME_THAI`
     // console.log(sql);

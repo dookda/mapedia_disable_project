@@ -1829,9 +1829,9 @@ function showAgeOcc(arr) {
 
 // }
 
-function selectAddress(address_code) {
-  console.log(address_code)
-  axios.post(`${url}/api/get_by_country_total`, { address_code }).then(async (r) => {
+function selectAddress(address_code, privilege) {
+  console.log(address_code, privilege)
+  axios.post(`${url}/api/get_by_country_total`, { address_code, privilege }).then(async (r) => {
     $('#reg').empty().append(`<option value="all">เลือกภาค</option>`);
     // $('#inforeg').empty()
     r.data.map(i => {
@@ -2567,11 +2567,33 @@ function selectinfo(Category) {
       })
     }
   }
-
 }
 
+selectAddress("01", "00")
 
-selectAddress("01")
+$("#privilege").on('change', function () {
+  $('#inforeg').empty()
+  $('#tam').empty()
+  $('#amp').empty()
+  $('#pro').empty()
+  $('#reg').empty()
+  document.getElementById("tb").style.visibility = "hidden";
+  var address_code = $('#address').val()
+  var privilege = $('#privilege').val()
+  selectAddress(address_code, privilege)
+
+  RemoveLayers();
+  axios.get(`${url}/geoapi/get-bound/th/${address_code}`).then(async (r) => {
+    let geojson = await JSON.parse(r.data.data[0].geom);
+    console.log(geojson);
+    let a = L.geoJSON(geojson, {
+      style: boundStyle,
+      name: "bnd"
+    }).addTo(map);
+    map.fitBounds(a.getBounds());
+  })
+
+})
 
 $("#address").on('change', function () {
   $('#inforeg').empty()
@@ -2581,7 +2603,8 @@ $("#address").on('change', function () {
   $('#reg').empty()
   document.getElementById("tb").style.visibility = "hidden";
   var address_code = $('#address').val()
-  selectAddress(address_code)
+  var privilege = $('#privilege').val()
+  selectAddress(address_code, privilege)
 
   RemoveLayers();
   axios.get(`${url}/geoapi/get-bound/th/${address_code}`).then(async (r) => {
