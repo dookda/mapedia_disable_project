@@ -40,6 +40,10 @@ let getData = () => {
   let dtArr = dtDat.split("/")
   let dtTh = `${dtArr[0]}-${dtArr[1]}-${Number(dtArr[2]) + 543}`
 
+  loadTable(service_code, dtTh)
+}
+
+let loadTable = (service_code, dtTh) => {
   let table = $('#datatable').dataTable({
     ajax: {
       url: '/api/card_info',
@@ -59,6 +63,7 @@ let getData = () => {
   });
 }
 
+loadTable("CRD_NEW", "01-04-2553")
 // const dataTableSearch = new simpleDatatables.DataTable("#datatable", {
 //   searchable: true,
 //   fixedHeight: true
