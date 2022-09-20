@@ -289,3 +289,12 @@ Content-Type: application/json
     "address_code": "01" ,
     "tambon_code": "550605"
 }
+
+###
+POST http://localhost:3000/api/card_info
+Content-Type: application/json
+
+{
+    "connection": "01" 
+}    
+     

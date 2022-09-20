@@ -1,6 +1,6 @@
 const urleg = "https://engrids.soc.cmu.ac.th/api";
-// const url = "http://192.168.3.110:3000";
-const url = "http://localhost:3000";
+const url = "http://192.168.3.110:3000";
+// const url = "http://localhost:3000";
 
 let latlng = {
   lat: 13.305567,
@@ -29,8 +29,8 @@ const ghyb = L.tileLayer("https://{s}.google.com/vt/lyrs=y,m&x={x}&y={y}&z={z}",
   subdomains: ["mt0", "mt1", "mt2", "mt3"]
 });
 
-const tam = L.tileLayer.wms("https://engrids.soc.cmu.ac.th/geoserver/eac/wms?", {
-  layers: "eac:tam_eac",
+const tam = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
+  layers: "depgis:th_tambon",
   format: "image/png",
   transparent: true,
   maxZoom: 18,
@@ -38,8 +38,8 @@ const tam = L.tileLayer.wms("https://engrids.soc.cmu.ac.th/geoserver/eac/wms?", 
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
 
-const amp = L.tileLayer.wms("https://engrids.soc.cmu.ac.th/geoserver/eac/wms?", {
-  layers: "eac:amp_eac",
+const amp = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
+  layers: "depgis:th_amphoe",
   format: "image/png",
   transparent: true,
   maxZoom: 14,
@@ -47,8 +47,131 @@ const amp = L.tileLayer.wms("https://engrids.soc.cmu.ac.th/geoserver/eac/wms?", 
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
 
-const pro = L.tileLayer.wms("https://engrids.soc.cmu.ac.th/geoserver/eac/wms?", {
-  layers: "eac:prov_eac",
+const pro = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
+  layers: "depgis:th_province",
+  format: "image/png",
+  transparent: true,
+  maxZoom: 10,
+  // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
+});
+
+const flood_2005 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
+  layers: "depgis:flood_2005",
+  format: "image/png",
+  transparent: true,
+  maxZoom: 10,
+  // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
+});
+
+const flood_2006 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
+  layers: "depgis:flood_2006",
+  format: "image/png",
+  transparent: true,
+  maxZoom: 10,
+  // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
+});
+
+const flood_2007 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
+  layers: "depgis:flood_2007",
+  format: "image/png",
+  transparent: true,
+  maxZoom: 10,
+  // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
+});
+
+const flood_2008 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
+  layers: "depgis:flood_2008",
+  format: "image/png",
+  transparent: true,
+  maxZoom: 10,
+  // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
+});
+
+const flood_2009 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
+  layers: "depgis:flood_2009",
+  format: "image/png",
+  transparent: true,
+  maxZoom: 10,
+  // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
+});
+
+const flood_2010 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
+  layers: "depgis:flood_2010",
+  format: "image/png",
+  transparent: true,
+  maxZoom: 10,
+  // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
+});
+
+const flood_2011 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
+  layers: "depgis:flood_2011",
+  format: "image/png",
+  transparent: true,
+  maxZoom: 10,
+  // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
+});
+
+const flood_2012 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
+  layers: "depgis:flood_2012",
+  format: "image/png",
+  transparent: true,
+  maxZoom: 10,
+  // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
+});
+
+const flood_2013 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
+  layers: "depgis:flood_2013",
+  format: "image/png",
+  transparent: true,
+  maxZoom: 10,
+  // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
+});
+
+const flood_2014 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
+  layers: "depgis:flood_2014",
+  format: "image/png",
+  transparent: true,
+  maxZoom: 10,
+  // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
+});
+
+const flood_2015 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
+  layers: "depgis:flood_2015",
+  format: "image/png",
+  transparent: true,
+  maxZoom: 10,
+  // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
+});
+const flood_2016 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
+  layers: "depgis:flood_2016",
+  format: "image/png",
+  transparent: true,
+  maxZoom: 10,
+  // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
+});
+const flood_2017 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
+  layers: "depgis:flood_2017",
+  format: "image/png",
+  transparent: true,
+  maxZoom: 10,
+  // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
+});
+const flood_2018 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
+  layers: "depgis:flood_2018",
+  format: "image/png",
+  transparent: true,
+  maxZoom: 10,
+  // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
+});
+const flood_2019 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
+  layers: "depgis:flood_2019",
+  format: "image/png",
+  transparent: true,
+  maxZoom: 10,
+  // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
+});
+const flood_2020 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
+  layers: "depgis:flood_2020",
   format: "image/png",
   transparent: true,
   maxZoom: 10,
@@ -62,8 +185,24 @@ const baseMaps = {
 
 const overlayMaps = {
   "ขอบเขตจังหวัด": pro.addTo(map),
-  "ขอบเขตอำเภอ": amp,
-  "ขอบเขตตำบล": tam,
+  "ขอบเขตอำเภอ": amp.addTo(map),
+  "ขอบเขตตำบล": tam.addTo(map),
+  "พื้นที่น้ำท่วม 2548": flood_2005,
+  "พื้นที่น้ำท่วม 2549": flood_2006,
+  "พื้นที่น้ำท่วม 2550": flood_2007,
+  "พื้นที่น้ำท่วม 2551": flood_2008,
+  "พื้นที่น้ำท่วม 2552": flood_2009,
+  "พื้นที่น้ำท่วม 2553": flood_2010,
+  "พื้นที่น้ำท่วม 2554": flood_2011,
+  "พื้นที่น้ำท่วม 2555": flood_2012,
+  "พื้นที่น้ำท่วม 2556": flood_2013,
+  "พื้นที่น้ำท่วม 2557": flood_2014,
+  "พื้นที่น้ำท่วม 2558": flood_2015,
+  "พื้นที่น้ำท่วม 2559": flood_2016,
+  "พื้นที่น้ำท่วม 2560": flood_2017,
+  "พื้นที่น้ำท่วม 2561": flood_2018,
+  "พื้นที่น้ำท่วม 2562": flood_2019,
+  "พื้นที่น้ำท่วม 2563": flood_2020.addTo(map),
 };
 
 const lyrControl = L.control.layers(baseMaps, overlayMaps, {
