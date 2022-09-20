@@ -1,3 +1,4 @@
+const url = "http://192.168.3.110:3000";
 
 $(function () {
   $('#txtDate').datepicker({
@@ -46,7 +47,7 @@ let getData = () => {
 let loadTable = (service_code, dtTh) => {
   let table = $('#datatable').dataTable({
     ajax: {
-      url: '/api/card_info',
+      url: url + '/api/card_info',
       type: 'POST',
       data: { service_code, dtTh },
       dataSrc: 'data'
