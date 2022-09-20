@@ -2895,7 +2895,13 @@ let showDataTable = async (json) => {
     },
     columns: [
       { data: 'MAIMAD_ID' },
-      { data: 'ADDRESS_CODE' },
+      { data: 'CARD_ID' },
+      { data: 'FIRST_NAME_THAI' },
+      { data: 'LAST_NAME_THAI' },
+      { data: 'SEX_CODE' },
+      { data: 'BIRTH_DATE' },
+      { data: 'AGE_NOW' },
+      { data: 'ISSUE_DATE' }
       // {
       //   data: null,
       //   "render": function (data, type, row) { return Number(data.pm25).toFixed(1) }
