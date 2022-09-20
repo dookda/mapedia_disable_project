@@ -2999,9 +2999,9 @@ let showDataTable = async (json) => {
       { className: 'text-center', targets: [0, 1, 4, 5, 7, 8, 9, 10, 11, 12, 13, 14] },
     ],
     dom: 'Bfrtip',
-    buttons: [
-      'excel', 'print'
-    ],
+    // buttons: [
+    //   'excel', 'print'
+    // ],
     scrollX: true,
     select: true,
     pageLength: 7,

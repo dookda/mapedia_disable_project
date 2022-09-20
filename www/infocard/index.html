@@ -29,24 +29,18 @@
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Mitr&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@200;300;400;600;700&display=swap" rel="stylesheet">
-
   <!--line-awesome-->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
   <link rel="stylesheet"
     href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
-
   <!-- Bootstrap DatePicker -->
   <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css"
     type="text/css" />
-
   <link href="https://cdn.jsdelivr.net/bootstrap.datepicker-fork/1.3.0/css/datepicker3.css" rel="stylesheet" />
-
   <!-- datatable -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
-
-
   <!-- Font Awesome Icons -->
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
   <link href="../../assets/css/nucleo-svg.css" rel="stylesheet" />
@@ -214,17 +208,19 @@
                   <label for="group" class="text-sm">เหตุผลขอทำบัตรใหม่:</label>
                   <select class="form-control">
                     <option value="total">ทั้งหมด</option>
-                    <option value="expired">บัตรหมดอายุ</option>
-                    <option value="disappear">สูญหาย</option>
-                    <option value="defective">ชำรุด</option>
-                    <option value="edit">แก้ไขข้อมูลสำคัญ</option>
+                    <option value="CRD_RENEW">ต่ออายุ</option>
+                    <option value="CRD_EXP">บัตรหมดอายุ</option>
+                    <option value="CRD_LOS">สูญหาย</option>
+                    <option value="CRD_DEC">ชำรุด</option>
+                    <option value="CRD_EDT">แก้ไขข้อมูลสำคัญ</option>
                   </select>
                 </div>
               </div>
               <div class="col-sm-3 py-4">
                 <div class="form-group">
                   <label for="disdate" class="text-sm">ข้อมูลวันที่:</label>
-                  <input id="txtDate" type="text" placeholder="01-04-2553" class="form-control" required>
+                  <input class="form-control" type="text" id="txtDate" data-provide="datepicker"
+                    data-date-language="th-th" required>
                 </div>
               </div>
               <div class="col-sm-3 py-4 mt-3 ">
@@ -241,13 +237,13 @@
                   <table id="datatable" class="table table-striped" style="width:100%">
                     <thead>
                       <tr>
-                        <th>REQUEST_DATE</th>
-                        <th>ISSUE_DATE</th>
+                        <th>วันที่ขอรับบริการ</th>
+                        <th>วันที่มีปัญหา</th>
                         <th>ชื่อ</th>
                         <th>นามสกุล</th>
-                        <th>ตำบล</th>
-                        <th>อำเภอ</th>
                         <th>จังหวัด</th>
+                        <th>อำเภอ</th>
+                        <th>ตำบล</th>
                       </tr>
                     </thead>
                   </table>
@@ -304,6 +300,9 @@
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
 
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/i18n/datepicker-th.js"></script>
 
   <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
   <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>

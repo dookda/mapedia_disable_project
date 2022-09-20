@@ -1755,7 +1755,7 @@ app.post("/api/get_by_tambon_agetype", async (req, res) => {
                 CASE WHEN mdp.AGE_NOW  <= 5 THEN '1) 0-5 ปี' ELSE 
                     CASE WHEN mdp.AGE_NOW  > 5 AND mdp.AGE_NOW  <= 14 THEN '2) 6-14 ปี' ELSE 
                         CASE WHEN mdp.AGE_NOW  > 14 AND mdp.AGE_NOW  <= 21 THEN '3) 15-21 ปี' ELSE 
-                            CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59 ปี' ELSE '5) >60' 
+                            CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59 ปี' ELSE '5) 60 ปีขึ้นไป' 
                             END 
                         END  
                     END 
@@ -1797,7 +1797,7 @@ app.post("/api/get_by_tambon_ageedu", async (req, res) => {
             CASE WHEN mdp.AGE_NOW  <= 5 THEN '1) 0-5 ปี' ELSE 
                 CASE WHEN mdp.AGE_NOW  > 5 AND mdp.AGE_NOW  <= 14 THEN '2) 6-14 ปี' ELSE 
                     CASE WHEN mdp.AGE_NOW  > 14 AND mdp.AGE_NOW  <= 21 THEN '3) 15-21 ปี' ELSE 
-                        CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59 ปี' ELSE '5) >60' 
+                        CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59 ปี' ELSE '5) 60 ปีขึ้นไป' 
                         END 
                     END  
                 END 
@@ -1856,7 +1856,7 @@ app.post("/api/get_by_tambon_ageocc", async (req, res) => {
             CASE WHEN mdp.AGE_NOW  <= 5 THEN '1) 0-5 ปี' ELSE 
                 CASE WHEN mdp.AGE_NOW  > 5 AND mdp.AGE_NOW  <= 14 THEN '2) 6-14 ปี' ELSE 
                     CASE WHEN mdp.AGE_NOW  > 14 AND mdp.AGE_NOW  <= 21 THEN '3) 15-21 ปี' ELSE 
-                        CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59 ปี' ELSE '5) >60' 
+                        CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59 ปี' ELSE '5) 60 ปีขึ้นไป' 
                         END 
                     END  
                 END 
