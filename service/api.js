@@ -1994,10 +1994,8 @@ app.post("/api/get_tam_tb", async (req, res) => {
         FROM "DEPGIS".V_MN_DES_PERSON mda 
         WHERE mda.ADDRESS_CODE = '${address_code}' AND mda.TAMCODE ='${tambon_code}'`
 
-    console.log(sql);
-
     try {
-        const result = await connection.execute(sql, [], { maxRows: 1000 });
+        const result = await connection.execute(sql, [], { maxRows: 10000 });
         res.status(200).json({
             data: result.rows
         })
@@ -2014,5 +2012,43 @@ app.post("/api/get_tam_tb", async (req, res) => {
     }
 })
 
+app.post('/api/card_info', async (req, res) => {
+    const { service_code, dtTh } = req.body
+    console.log(service_code, dtTh);
+
+    let connection = await oracledb.getConnection(dbConfig);
+    let sql = `SELECT 
+            mcr.REQUEST_DATE, 
+            mcr.REQUEST_SERVICE_CODE,
+            mcr.REQUEST_FIRST_NAME,
+            mcr.REQUEST_LAST_NAME, 
+            mcr.REQUEST_AGE,
+            mcr.ISSUE_DATE,
+            bp.PROVINCE_NAME,
+            bd2.DISTRICT_NAME,
+            bs.SUBDISTRICT_NAME
+            FROM NEP_CARD.MN_CRD_REQUEST mcr 
+            LEFT JOIN "OPP$_DBA".BS_PROVINCE bp ON mcr.REQUEST_PROVINCE_CODE = bp.PROVINCE_CODE 
+            LEFT JOIN "OPP$_DBA".BS_DISTRICT bd2 ON CONCAT(mcr.REQUEST_PROVINCE_CODE,mcr.REQUEST_DISTRICT_CODE)  = CONCAT(bd2.PROVINCE_CODE,bd2.DISTRICT_CODE) 
+            LEFT JOIN "OPP$_DBA".BS_SUBDISTRICT bs ON CONCAT(mcr.REQUEST_PROVINCE_CODE, CONCAT(mcr.REQUEST_DISTRICT_CODE, SUBSTR(mcr.REQUEST_SUBDISTRICT_CODE, 1,2))) = CONCAT(bs.PROVINCE_CODE, CONCAT(bs.DISTRICT_CODE, SUBSTR(bs.SUBDISTRICT_CODE, 1,2))) 
+            WHERE mcr.REQUEST_SERVICE_CODE = '${service_code}' AND mcr.REQUEST_DATE = '${dtTh}'`
+
+    try {
+        const result = await connection.execute(sql, [], { maxRows: 2000 });
+        res.status(200).json({
+            data: result.rows
+        })
+    } catch (err) {
+        console.error(err);
+    } finally {
+        if (connection) {
+            try {
+                await connection.close();
+            } catch (err) {
+                console.error(err);
+            }
+        }
+    }
+})
 
 module.exports = app;
