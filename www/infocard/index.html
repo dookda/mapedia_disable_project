@@ -212,12 +212,11 @@
               <div class="col-sm-3 py-4" id="reason">
                 <div class="form-group">
                   <label for="group" class="text-sm">เหตุผลขอทำบัตรใหม่:</label>
-                  <select class="form-control">
-                    <option value="total">ทั้งหมด</option>
-                    <option value="expired">บัตรหมดอายุ</option>
-                    <option value="disappear">สูญหาย</option>
-                    <option value="defective">ชำรุด</option>
-                    <option value="edit">แก้ไขข้อมูลสำคัญ</option>
+                  <select class="form-control" id="disabilitycard2">
+                    <option value="CRD_RENEW">ต่ออายุ</option>
+                    <option value="CRD_LOS">สูญหาย</option>
+                    <option value="CRD_DEC">ชำรุด</option>
+                    <option value="CRD_EDT">แก้ไขข้อมูลสำคัญ</option>
                   </select>
                 </div>
               </div>
@@ -241,8 +240,10 @@
                   <table id="datatable" class="table table-striped" style="width:100%">
                     <thead>
                       <tr>
-                        <th>REQUEST_DATE</th>
-                        <th>ISSUE_DATE</th>
+                        <th>การขอบริการ</th>
+                        <th>วันที่ขอรับบริการ</th>
+                        <th>วันที่ออกบัตร</th>
+                        <th>วันที่หมดอายุ</th>
                         <th>ชื่อ</th>
                         <th>นามสกุล</th>
                         <th>ตำบล</th>
