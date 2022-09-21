@@ -65,22 +65,7 @@ let loadTable = (service_code, dtTh) => {
   });
 }
 
-let addZoro = (d) => {
-  return d < 10 ? '0' + d : String(d)
-}
-
-const date = new Date();
-let yyyy = date.getFullYear();
-let mm = date.getMonth()
-let dd = date.getDate()
-
-yyyy = String(yyyy + 543)
-mm = addZoro(mm)
-dd = addZoro(dd)
-
-let ddmmyyyy = `${dd}-${mm}-${yyyy}`
-// console.log(ddmmyyyy);
-loadTable("CRD_NEW", ddmmyyyy)
+loadTable("CRD_NEW", "01-04-2553")
 // const dataTableSearch = new simpleDatatables.DataTable("#datatable", {
 //   searchable: true,
 //   fixedHeight: true
