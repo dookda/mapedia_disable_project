@@ -2,6 +2,7 @@ const urleg = "https://engrids.soc.cmu.ac.th/api";
 const url = "http://192.168.3.110:3000";
 // const url = "http://localhost:3000";
 
+
 let latlng = {
   lat: 13.305567,
   lng: 101.383101
@@ -2759,9 +2760,6 @@ let showDataTable = async (json) => {
       { data: 'BIRTH_DATE' },
       { data: 'AGE_NOW' },
       { data: 'ISSUE_DATE' }
-    ],
-    columnDefs: [
-      { className: 'text-center', targets: [0, 4, 5, 6, 7] },
     ],
     dom: 'Bfrtip',
     // buttons: [
