@@ -1,4 +1,5 @@
 const url = "http://192.168.3.110:3000";
+// const url = "http://localhost:3000";
 
 
 var currentDate = new Date();
@@ -23,22 +24,15 @@ $(function () {
 // });
 
 $("#disabilitycard").on('change', function () {
-  if ($("#disabilitycard").val() == "total") {
+  if ($("#disabilitycard").val() == "CRD_NEW") {
     $("#disabilitycard").show();
     $("#reason").hide();
-  }
-  else if ($("#disabilitycard").val() == "firstcard") {
+  } else if ($("#disabilitycard").val() == "CRD_EXP") {
     $("#disabilitycard").show();
     $("#reason").hide();
-  }
-  else if ($("#disabilitycard").val() == "expirecard") {
-    $("#disabilitycard").show();
-    $("#reason").hide();
-  }
-  else if ($("#disabilitycard").val() == "newcard") {
+  } else if ($("#disabilitycard").val() == "CRD_RENEW") {
     $("#disabilitycard").show();
     $("#reason").show();
-  } else {
   }
 })
 
@@ -49,6 +43,7 @@ $("#reason").hide()
 let getData = () => {
   $("#datatable").dataTable().fnDestroy();
   let service_code = document.getElementById("disabilitycard").value
+  let service_code2 = document.getElementById("disabilitycard2").value
   let dtDat = document.getElementById("txtDate").value
   let dtArr = dtDat.split("/")
   // let dtTh = `${dtArr[0]}-${dtArr[1]}-${Number(dtArr[2]) + 543}`
@@ -58,7 +53,11 @@ let getData = () => {
   console.log(dtTh)
   console.log(dtArr)
 
-  loadTable(service_code, dtTh)
+  if (service_code == "CRD_RENEW") {
+    loadTable(service_code2, dtTh)
+  } else {
+    loadTable(service_code, dtTh)
+  }
 }
 
 let loadTable = (service_code, dtTh) => {
@@ -90,22 +89,37 @@ let loadTable = (service_code, dtTh) => {
       dataSrc: 'td'
     },
     columns: [
-      { td: 'REQUEST_DATE' },
-      { td: 'ISSUE_DATE' },
-      { td: 'REQUEST_FIRST_NAME' },
-      { td: 'REQUEST_LAST_NAME' },
-      { td: 'PROVINCE_NAME' },
-      { td: 'DISTRICT_NAME' },
-      { td: 'SUBDISTRICT_NAME' },
+      { data: 'REQUEST_SERVICE_CODE' },
+      { data: 'REQUEST_DATE' },
+      { data: 'CARD_ISSUE_DATE' },
+      { data: 'CARD_EXPIRE_DATE' },
+      { data: 'REQUEST_FIRST_NAME' },
+      { data: 'REQUEST_LAST_NAME' },
+      { data: 'PROVINCE_NAME' },
+      { data: 'DISTRICT_NAME' },
+      { data: 'SUBDISTRICT_NAME' },
     ]
   });
 }
 
-// loadTable("CRD_NEW", "20-09-2565")
-// const dataTableSearch = new simpleDatatables.DataTable("#datatable", {
-//   searchable: true,
-//   fixedHeight: true
-// });
+let addZoro = (d) => {
+  return d < 10 ? '0' + d : String(d)
+}
+
+const date = new Date();
+let yyyy = date.getFullYear();
+let mm = date.getMonth()
+let dd = date.getDate()
+
+yyyy = String(yyyy + 543)
+mm = addZoro(mm)
+dd = addZoro(dd)
+
+let ddmmyyyy = `${dd}-${mm}-${yyyy}`
+// console.log(ddmmyyyy);
+$("#txtDate").val(ddmmyyyy)
+loadTable("CRD_NEW", ddmmyyyy)
+
 
 
 

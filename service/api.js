@@ -2014,7 +2014,13 @@ app.post("/api/get_tam_tb", async (req, res) => {
 
 app.post('/api/card_info', async (req, res) => {
     const { service_code, dtTh } = req.body
-    console.log(service_code, dtTh);
+    let wh
+
+    if (service_code == "CRD_EXP") {
+        wh = `WHERE mcr.REQUEST_SERVICE_CODE = '${service_code}' AND mcr.CARD_EXPIRE_DATE = '${dtTh}'`
+    } else {
+        wh = `WHERE mcr.REQUEST_SERVICE_CODE = '${service_code}' AND mcr.REQUEST_DATE = '${dtTh}'`
+    }
 
     let connection = await oracledb.getConnection(dbConfig);
     let sql = `SELECT 
@@ -2024,6 +2030,8 @@ app.post('/api/card_info', async (req, res) => {
             mcr.REQUEST_LAST_NAME, 
             mcr.REQUEST_AGE,
             mcr.ISSUE_DATE,
+            mcr.CARD_ISSUE_DATE,
+            mcr.CARD_EXPIRE_DATE,
             bp.PROVINCE_NAME,
             bd2.DISTRICT_NAME,
             bs.SUBDISTRICT_NAME
@@ -2031,7 +2039,7 @@ app.post('/api/card_info', async (req, res) => {
             LEFT JOIN "OPP$_DBA".BS_PROVINCE bp ON mcr.REQUEST_PROVINCE_CODE = bp.PROVINCE_CODE 
             LEFT JOIN "OPP$_DBA".BS_DISTRICT bd2 ON CONCAT(mcr.REQUEST_PROVINCE_CODE,mcr.REQUEST_DISTRICT_CODE)  = CONCAT(bd2.PROVINCE_CODE,bd2.DISTRICT_CODE) 
             LEFT JOIN "OPP$_DBA".BS_SUBDISTRICT bs ON CONCAT(mcr.REQUEST_PROVINCE_CODE, CONCAT(mcr.REQUEST_DISTRICT_CODE, SUBSTR(mcr.REQUEST_SUBDISTRICT_CODE, 1,2))) = CONCAT(bs.PROVINCE_CODE, CONCAT(bs.DISTRICT_CODE, SUBSTR(bs.SUBDISTRICT_CODE, 1,2))) 
-            WHERE mcr.REQUEST_SERVICE_CODE = '${service_code}' AND mcr.REQUEST_DATE = '${dtTh}'`
+            ${wh}`
 
     try {
         const result = await connection.execute(sql, [], { maxRows: 2000 });

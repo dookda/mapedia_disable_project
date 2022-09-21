@@ -2898,105 +2898,17 @@ let showDataTable = async (json) => {
         }
       },
       { data: 'MAIMAD_ID' },
+      { data: 'CARD_ID' },
       { data: 'FIRST_NAME_THAI' },
       { data: 'LAST_NAME_THAI' },
-      {
-        data: 'SEX_CODE',
-        render: function (data) {
-          var a = data;
-          if (a == 'M') {
-            return '<p> ชาย </p>';
-          } else if (a == 'F') {
-            return '<p> หญิง </p>';
-          } else {
-            return '<p> </p>';
-          }
-        }
-      },
+      { data: 'SEX_CODE' },
       { data: 'BIRTH_DATE' },
-      { data: 'DEATH_DATE' },
-      {
-        data: 'OCC',
-        render: function (data) {
-          var a = data;
-          if (a == '001') {
-            return '<p> รับราชการ </p>';
-          } else if (a == '002') {
-            return '<p> รัฐวิสาหกิจ </p>';
-          } else if (a == '003') {
-            return '<p> รับจ้าง </p>';
-          } else if (a == '004') {
-            return '<p> กิจการส่วนตัว/อาชีพอิสระ/ค้าขาย </p>';
-          } else if (a == '005') {
-            return '<p> กำลังศึกษา </p>';
-          } else if (a == '006') {
-            return '<p> เกษตรกรรม </p>';
-          } else if (a == '007') {
-            return '<p> คอมพิวเตอร์ </p>';
-          } else if (a == '008') {
-            return '<p> นวดแผนโบราณ </p>';
-          } else if (a == '010') {
-            return '<p> ค้าขาย </p>';
-          } else if (a == '011') {
-            return '<p> ค้าสลาก </p>';
-          } else if (a == '012') {
-            return '<p> พนักงานบริษัท </p>';
-          } else if (a == '013') {
-            return '<p> ไม่ระบุอาชีพ </p>';
-          } else if (a == '014') {
-            return '<p> ลูกจ้าง </p>';
-          } else if (a == '015') {
-            return '<p> ไม่ได้ประกอบอาชีพ </p>';
-          } else if (a == '016') {
-            return '<p> ลูกจ้างเอกชน </p>';
-          } else if (a == '017') {
-            return '<p> ผู้ประกอบกิจการส่วนตัว/อาชีพอิสระ/ธุรกิจ </p>';
-          } else if (a == '019') {
-            return '<p>  รับราชการ/รัฐวิสาหกิจ </p>';
-          } else if (a == '020') {
-            return '<p> หัตถกรรม </p>';
-          } else if (a == '999') {
-            return '<p> อื่นๆ </p>';
-          } else {
-            return '<p> </p>';
-          }
-        }
-      },
-      {
-        data: 'ADDRESS_CODE',
-        render: function (data) {
-          var a = data;
-          if (a == '01') {
-            return '<p> ที่อยู่ปัจจุบัน </p>';
-          } else if (a == '02') {
-            return '<p> ที่อยู่ตามทะเบียนบ้าน </p>';
-          } else {
-            return '<p> </p>';
-          }
-        }
-      },
-      { data: 'REGION_NAME_THAI' },
-      { data: 'PROVINCE_NAME' },
-      { data: 'DISTRICT_NAME' },
-      { data: 'SUBDISTRICT_NAME' },
       { data: 'AGE_NOW' },
-      {
-        data: 'PRIVILEGE',
-        render: function (data) {
-          var a = data;
-          if (a == '01') {
-            return '<p> มี </p>';
-          } else if (a == '02') {
-            return '<p> ไม่มี </p>';
-          } else {
-            return '<p> </p>';
-          }
-        }
-      },
-
-    ],
-    columnDefs: [
-      { className: 'text-center', targets: [0, 1, 4, 5, 7, 8, 9, 10, 11, 12, 13, 14] },
+      { data: 'ISSUE_DATE' }
+      // {
+      //   data: null,
+      //   "render": function (data, type, row) { return Number(data.pm25).toFixed(1) }
+      // }
     ],
     dom: 'Bfrtip',
     // buttons: [
