@@ -80,11 +80,8 @@ dd = addZoro(dd)
 
 let ddmmyyyy = `${dd}-${mm}-${yyyy}`
 // console.log(ddmmyyyy);
+$("#txtDate").val(ddmmyyyy)
 loadTable("CRD_NEW", ddmmyyyy)
-// const dataTableSearch = new simpleDatatables.DataTable("#datatable", {
-//   searchable: true,
-//   fixedHeight: true
-// });
 
 
 
