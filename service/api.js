@@ -2021,7 +2021,7 @@ app.post('/api/card_info', async (req, res) => {
     } else {
         wh = `WHERE mcr.REQUEST_SERVICE_CODE = '${service_code}' AND mcr.REQUEST_DATE = '${dtTh}'`
     }
-
+    console.log(wh);
     let connection = await oracledb.getConnection(dbConfig);
     let sql = `SELECT 
             mcr.REQUEST_DATE, 
@@ -2046,6 +2046,41 @@ app.post('/api/card_info', async (req, res) => {
         res.status(200).json({
             data: result.rows
         })
+    } catch (err) {
+        console.error(err);
+    } finally {
+        if (connection) {
+            try {
+                await connection.close();
+            } catch (err) {
+                console.error(err);
+            }
+        }
+    }
+})
+
+// country
+app.post("/api/get_by_age", async (req, res) => {
+    let { address_code, privilege, year, age_start, age_end } = req.body
+    console.log(address_code, privilege, year, age_start, age_end);
+    let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
+
+    const sql = `SELECT a.SEX_CODE, SUM(CASE  WHEN a.SEX_CODE='M' OR a.SEX_CODE='F' OR a.SEX_CODE IS NULL  THEN 1 ELSE 0 END) AS cnt
+    FROM (SELECT  
+        mdp.BIRTH_DATE,
+        mdp.SEX_CODE,
+        SUBSTR(mdp.BIRTH_DATE,-4)-543,
+        (${year} - (SUBSTR(mdp.BIRTH_DATE,-4)-543)) AS AGE_NOW
+        FROM "DEPGIS".V_MN_DES_PERSON mdp  
+        WHERE mdp.ADDRESS_CODE ='${address_code}' ${pri}) a
+    WHERE a.AGE_NOW BETWEEN ${age_start} AND ${age_end}
+    GROUP BY a.SEX_CODE`
+    // console.log(sql);
+    try {
+        const result = await connection.execute(sql, [], { maxRows: 100 });
+        res.status(200).json(result.rows)
     } catch (err) {
         console.error(err);
     } finally {

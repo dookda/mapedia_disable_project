@@ -23,7 +23,7 @@
   <link href="../../assets/css/nucleo-icons.css" rel="stylesheet" />
   <link href="../../assets/css/nucleo-svg.css" rel="stylesheet" />
   <title>
-    ระบบข้อมูลคนพิการ
+    ค้นหาตามช่วงอายุ
   </title>
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -225,31 +225,24 @@
             <!-- <h5 class="mb-0">สิทธิสวัสดิการแห่งรัฐ</h5> -->
             <br>
             <div class="row">
-              <div class="col-sm-3 py-4">
-                <div class="form-group">
-                  <label for="group" class="text-sm">หมวดหมู่:</label>
-                  <select class="form-control" id="disabilitycard">
-                    <option value="CRD_NEW" selected>ขอทำบัตรประจำตัวคนพิการครั้งแรก</option>
-                    <option value="CRD_EXP">คนพิการที่บัตรประจำตัวหมดอายุ</option>
-                    <option value="CRD_RENEW">ขอทำบัตรประจำตัวคนพิการใหม่</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-sm-3 py-4" id="reason">
-                <div class="form-group">
-                  <label for="group" class="text-sm">เหตุผลขอทำบัตรใหม่:</label>
-                  <select class="form-control" id="disabilitycard2">
-                    <option value="CRD_RENEW">ต่ออายุ</option>
-                    <option value="CRD_LOS">สูญหาย</option>
-                    <option value="CRD_DEC">ชำรุด</option>
-                    <option value="CRD_EDT">แก้ไขข้อมูลสำคัญ</option>
-                  </select>
-                </div>
-              </div>
+
               <div class="col-sm-3 py-4">
                 <div class="form-group">
                   <label for="disdate" class="text-sm">ข้อมูลวันที่:</label>
                   <input id="txtDate" type="text" class="form-control" required>
+                </div>
+              </div>
+
+              <div class="col-sm-3 py-4">
+                <div class="form-group">
+                  <label for="group" class="text-sm">อายุเริ่มต้น:</label>
+                  <input class="form-control" type="number" id="age_start">
+                </div>
+              </div>
+              <div class="col-sm-3 py-4">
+                <div class="form-group">
+                  <label for="group" class="text-sm">ถึงอายุ:</label>
+                  <input class="form-control" type="number" id="age_end">
                 </div>
               </div>
               <div class="col-sm-3 py-4 mt-3 ">

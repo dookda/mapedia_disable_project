@@ -1,5 +1,5 @@
-const url = "http://192.168.3.110:3000";
-// const url = "http://localhost:3000";
+// const url = "http://192.168.3.110:3000";
+const url = "http://localhost:3000";
 
 $(function () {
   $('#txtDate').datepicker({
@@ -74,14 +74,13 @@ let yyyy = date.getFullYear();
 let mm = date.getMonth()
 let dd = date.getDate()
 
-yyyy = String(yyyy + 543)
+// yyyy2 = String(yyyy + 543)
 mm = addZoro(mm)
 dd = addZoro(dd)
 
-let ddmmyyyy = `${dd}-${mm}-${yyyy}`
-// console.log(ddmmyyyy);
-$("#txtDate").val(ddmmyyyy)
-loadTable("CRD_NEW", ddmmyyyy)
+
+$("#txtDate").val(`${dd}/${mm}/${yyyy}`)
+getData()
 
 
 
