@@ -23,9 +23,14 @@ let getData = () => {
 }
 
 let loadData = (year, age_start, age_end) => {
-  // console.log(yyyy, age_start, age_end);
+  document.getElementById("m").innerHTML = ''
+  document.getElementById("f").innerHTML = ''
   axios.post('/api/get_by_age', { address_code: '01', privilege: '00', year, age_start, age_end }).then(r => {
     console.log(r);
+
+    document.getElementById("m").innerHTML += r.data[0].CNT
+    document.getElementById("f").innerHTML += r.data[1].CNT
+
   })
 }
 
