@@ -812,10 +812,10 @@
           hiddenHeader: !1,
           footer: !1,
           labels: {
-            placeholder: "Search...",
-            perPage: "{select} entries per page",
-            noRows: "No entries found",
-            info: "Showing {start} to {end} of {rows} entries"
+            placeholder: "ค้นหา...",
+            perPage: "{select} รายการต่อหน้า",
+            noRows: "ไม่พบข้อมูล",
+            info: "แสดง {start} ถึง {end} จาก {rows} รายการ"
           },
           layout: {
             top: "{select}{search}",

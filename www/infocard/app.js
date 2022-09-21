@@ -62,41 +62,41 @@ let getData = () => {
 }
 
 let loadTable = (service_code, dtTh) => {
-  $.extend(true, $.fn.dataTable.defaults, {
-    "language": {
-      "sProcessing": "กำลังดำเนินการ...",
-      "sLengthMenu": "แสดง_MENU_ แถว",
-      "sZeroRecords": "ไม่พบข้อมูล",
-      "sInfo": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
-      "sInfoEmpty": "แสดง 0 ถึง 0 จาก 0 แถว",
-      "sInfoFiltered": "(กรองข้อมูล _MAX_ ทุกแถว)",
-      "sInfoPostFix": "",
-      "sSearch": "ค้นหา:",
-      "sUrl": "",
-      "oPaginate": {
-        "sFirst": "เริ่มต้น",
-        "sPrevious": "ก่อนหน้า",
-        "sNext": "ถัดไป",
-        "sLast": "สุดท้าย"
-      },
-      "emptyTable": "ไม่พบข้อมูล..."
-    }
-  });
+  // $.extend(true, $.fn.dataTable.defaults, {
+  //   "language": {
+  //     "sProcessing": "กำลังดำเนินการ...",
+  //     "sLengthMenu": "แสดง_MENU_ แถว",
+  //     "sZeroRecords": "ไม่พบข้อมูล",
+  //     "sInfo": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+  //     "sInfoEmpty": "แสดง 0 ถึง 0 จาก 0 แถว",
+  //     "sInfoFiltered": "(กรองข้อมูล _MAX_ ทุกแถว)",
+  //     "sInfoPostFix": "",
+  //     "sSearch": "ค้นหา:",
+  //     "sUrl": "",
+  //     "oPaginate": {
+  //       "sFirst": "เริ่มต้น",
+  //       "sPrevious": "ก่อนหน้า",
+  //       "sNext": "ถัดไป",
+  //       "sLast": "สุดท้าย"
+  //     },
+  //     "emptyTable": "ไม่พบข้อมูล..."
+  //   }
+  // });
   let table = $('#datatable').dataTable({
     ajax: {
       url: url + '/api/card_info',
       type: 'POST',
-      data: { service_code, dtTh },
-      dataSrc: 'data'
+      td: { service_code, dtTh },
+      dataSrc: 'td'
     },
     columns: [
-      { data: 'REQUEST_DATE' },
-      { data: 'ISSUE_DATE' },
-      { data: 'REQUEST_FIRST_NAME' },
-      { data: 'REQUEST_LAST_NAME' },
-      { data: 'PROVINCE_NAME' },
-      { data: 'DISTRICT_NAME' },
-      { data: 'SUBDISTRICT_NAME' },
+      { td: 'REQUEST_DATE' },
+      { td: 'ISSUE_DATE' },
+      { td: 'REQUEST_FIRST_NAME' },
+      { td: 'REQUEST_LAST_NAME' },
+      { td: 'PROVINCE_NAME' },
+      { td: 'DISTRICT_NAME' },
+      { td: 'SUBDISTRICT_NAME' },
     ]
   });
 }
