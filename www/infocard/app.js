@@ -61,35 +61,55 @@ let getData = () => {
 }
 
 let loadTable = (service_code, dtTh) => {
-  // $.extend(true, $.fn.dataTable.defaults, {
-  //   "language": {
-  //     "sProcessing": "กำลังดำเนินการ...",
-  //     "sLengthMenu": "แสดง_MENU_ แถว",
-  //     "sZeroRecords": "ไม่พบข้อมูล",
-  //     "sInfo": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
-  //     "sInfoEmpty": "แสดง 0 ถึง 0 จาก 0 แถว",
-  //     "sInfoFiltered": "(กรองข้อมูล _MAX_ ทุกแถว)",
-  //     "sInfoPostFix": "",
-  //     "sSearch": "ค้นหา:",
-  //     "sUrl": "",
-  //     "oPaginate": {
-  //       "sFirst": "เริ่มต้น",
-  //       "sPrevious": "ก่อนหน้า",
-  //       "sNext": "ถัดไป",
-  //       "sLast": "สุดท้าย"
-  //     },
-  //     "emptyTable": "ไม่พบข้อมูล..."
-  //   }
-  // });
+  $.extend(true, $.fn.dataTable.defaults, {
+    "language": {
+      "sProcessing": "กำลังดำเนินการ...",
+      "sLengthMenu": "แสดง_MENU_ แถว",
+      "sZeroRecords": "ไม่พบข้อมูล",
+      "sInfo": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+      "sInfoEmpty": "แสดง 0 ถึง 0 จาก 0 แถว",
+      "sInfoFiltered": "(กรองข้อมูล _MAX_ ทุกแถว)",
+      "sInfoPostFix": "",
+      "sSearch": "ค้นหา:",
+      "sUrl": "",
+      "oPaginate": {
+        "sFirst": "เริ่มต้น",
+        "sPrevious": "ก่อนหน้า",
+        "sNext": "ถัดไป",
+        "sLast": "สุดท้าย"
+      },
+      "emptyTable": "ไม่พบข้อมูล..."
+    }
+  });
   let table = $('#datatable').dataTable({
     ajax: {
       url: url + '/api/card_info',
       type: 'POST',
-      td: { service_code, dtTh },
-      dataSrc: 'td'
+      data: { service_code, dtTh },
+      dataSrc: 'data'
     },
     columns: [
-      { data: 'REQUEST_SERVICE_CODE' },
+      {
+        data: 'REQUEST_SERVICE_CODE',
+        render: function (data) {
+          var a = data;
+          if (a == 'CRD_NEW') {
+            return '<p> ทำบัตรประจำตัวครั้งแรก </p>';
+          } else if (a == 'CRD_EXP') {
+            return '<p> บัตรหมดอายุ </p>';
+          } else if (a == 'CRD_RENEW') {
+            return '<p> ต่ออายุบัตร</p>';
+          } else if (a == 'CRD_LOS') {
+            return '<p> บัตรสูญหาย </p>';
+          } else if (a == 'CRD_DEC') {
+            return '<p> บัตรชำรุด </p>';
+          } else if (a == 'CRD_EDT') {
+            return '<p> แก้ไขข้อมูลสำคัญ </p>';
+          } else {
+            return '<p> </p>';
+          }
+        }
+      },
       { data: 'REQUEST_DATE' },
       { data: 'CARD_ISSUE_DATE' },
       { data: 'CARD_EXPIRE_DATE' },

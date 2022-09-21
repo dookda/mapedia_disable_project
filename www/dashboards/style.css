@@ -3,8 +3,8 @@ body {
 }
 
 #map {
-  height: 50vh;
-  border-radius: 10px;
+  height: 56vh;
+  border-radius: 15px;
 }
 
 #chart-total {
