@@ -1,5 +1,5 @@
-const url = "http://192.168.3.110:3000";
-// const url = "http://localhost:3000";
+// const url = "http://192.168.3.110:3000";
+const url = "http://localhost:3000";
 
 $(function () {
   $('#txtDate').datepicker({
@@ -11,65 +11,44 @@ $(function () {
   });
 });
 
-$("#disabilitycard").on('change', function () {
-  if ($("#disabilitycard").val() == "CRD_NEW") {
-    $("#disabilitycard").show();
-    $("#reason").hide();
-  } else if ($("#disabilitycard").val() == "CRD_EXP") {
-    $("#disabilitycard").show();
-    $("#reason").hide();
-  } else if ($("#disabilitycard").val() == "CRD_RENEW") {
-    $("#disabilitycard").show();
-    $("#reason").show();
-  }
-})
-
-$("#disabilitycard").show()
-$("#reason").hide()
-
-
 let getData = () => {
   $("#datatable").dataTable().fnDestroy();
-  let service_code = document.getElementById("disabilitycard").value
-  let service_code2 = document.getElementById("disabilitycard2").value
+  let age_start = document.getElementById("age_start").value
+  let age_end = document.getElementById("age_end").value
   let dtDat = document.getElementById("txtDate").value
   let dtArr = dtDat.split("/")
-  let dtTh = `${dtArr[0]}-${dtArr[1]}-${Number(dtArr[2]) + 543}`
-
-  if (service_code == "CRD_RENEW") {
-    loadTable(service_code2, dtTh)
-  } else {
-    loadTable(service_code, dtTh)
-  }
+  let yyyy = `${Number(dtArr[2])}`
+  console.log(yyyy);
+  loadData(yyyy, age_start, age_end)
 }
 
-let loadTable = (service_code, dtTh) => {
-  let table = $('#datatable').dataTable({
-    ajax: {
-      url: url + '/api/card_info',
-      type: 'POST',
-      data: { service_code, dtTh },
-      dataSrc: 'data'
-    },
-    columns: [
-      { data: 'REQUEST_SERVICE_CODE' },
-      { data: 'REQUEST_DATE' },
-      { data: 'CARD_ISSUE_DATE' },
-      { data: 'CARD_EXPIRE_DATE' },
-      { data: 'REQUEST_FIRST_NAME' },
-      { data: 'REQUEST_LAST_NAME' },
-      { data: 'PROVINCE_NAME' },
-      { data: 'DISTRICT_NAME' },
-      { data: 'SUBDISTRICT_NAME' },
-    ]
-  });
+let loadData = (year, age_start, age_end) => {
+  document.getElementById("m").innerHTML = ''
+  document.getElementById("f").innerHTML = ''
+  axios.post('/api/get_by_age', { address_code: '01', privilege: '00', year, age_start, age_end }).then(r => {
+    console.log(r);
+
+    document.getElementById("m").innerHTML += r.data[0].CNT
+    document.getElementById("f").innerHTML += r.data[1].CNT
+
+  })
 }
 
-loadTable("CRD_NEW", "01-04-2553")
-// const dataTableSearch = new simpleDatatables.DataTable("#datatable", {
-//   searchable: true,
-//   fixedHeight: true
-// });
+let addZoro = (d) => {
+  return d < 10 ? '0' + d : String(d)
+}
+
+const date = new Date();
+let yyyy = date.getFullYear();
+let mm = date.getMonth()
+let dd = date.getDate()
+
+// yyyy2 = String(yyyy + 543)
+mm = addZoro(mm)
+dd = addZoro(dd)
+
+
+$("#txtDate").val(`${dd}/${mm}/${yyyy}`)
 
 
 
