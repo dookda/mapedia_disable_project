@@ -1,14 +1,24 @@
 // const url = "http://192.168.3.110:3000";
 const url = "http://localhost:3000";
 
+var currentDate = new Date();
+currentDate.setYear(currentDate.getFullYear() + 543);
 $(function () {
   $('#txtDate').datepicker({
     format: "dd/mm/yyyy",
-    todayBtn: "linked",
-    clearBtn: true,
+    // todayBtn: "linked",
+    // clearBtn: true,
+    changeMonth: true,
+    changeYear: true,
+    yearRange: '+443:+543',
     language: 'th-th',
-    autoclose: true
+    autoclose: true,
+    onSelect: function (date) {
+      $("#txtDate").addClass('filled');
+    }
   });
+  $('#txtDate').datepicker("setDate", currentDate);
+
 });
 
 let getData = () => {
