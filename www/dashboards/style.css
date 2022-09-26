@@ -97,6 +97,7 @@ body {
   text-align: center;
   font-family: 'Noto Sans Thai', sans-serif;
   cursor: pointer;
+  font-family: "Kanit";
 }
 
 .basemap-style:hover {
@@ -121,6 +122,8 @@ body {
   text-align: center;
   font-family: 'Noto Sans Thai', sans-serif;
   cursor: pointer;
+  font-family: "Kanit";
+
 }
 
 .basemap-style-active>span {

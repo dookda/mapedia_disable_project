@@ -26,8 +26,28 @@ const mapbox = L.tileLayer(
 );
 
 const ghyb = L.tileLayer("https://{s}.google.com/vt/lyrs=y,m&x={x}&y={y}&z={z}", {
+  name: "base",
   maxZoom: 20,
-  subdomains: ["mt0", "mt1", "mt2", "mt3"]
+  subdomains: ["mt0", "mt1", "mt2", "mt3"],
+  lyr: 'basemap',
+  zIndex: 0
+});
+
+const grod = L.tileLayer('https://{s}.google.com/vt/lyrs=r&x={x}&y={y}&z={z}', {
+  name: "base",
+  maxZoom: 20,
+  subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+  lyr: 'basemap',
+  zIndex: 0
+});
+
+const CartoDB_Positron = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+  name: "base",
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+  subdomains: 'abcd',
+  maxZoom: 20,
+  lyr: 'basemap',
+  zIndex: 0
 });
 
 const tam = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
@@ -198,74 +218,105 @@ const flood_2020 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/w
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
 
-const baseMaps = {
-  "Mapbox": mapbox,
-  "Google Hybrid": ghyb.addTo(map)
-};
+// const baseMaps = {
+//   "Mapbox": mapbox,
+//   "Google Hybrid": ghyb.addTo(map)
+// };
 
-const overlayMaps = {
-  "ขอบเขตจังหวัด": pro.addTo(map),
-  "ขอบเขตอำเภอ": amp.addTo(map),
-  "ขอบเขตตำบล": tam.addTo(map),
-  "พื้นที่น้ำท่วม 2548": flood_2005,
-  "พื้นที่น้ำท่วม 2549": flood_2006,
-  "พื้นที่น้ำท่วม 2550": flood_2007,
-  "พื้นที่น้ำท่วม 2551": flood_2008,
-  "พื้นที่น้ำท่วม 2552": flood_2009,
-  "พื้นที่น้ำท่วม 2553": flood_2010,
-  "พื้นที่น้ำท่วม 2554": flood_2011,
-  "พื้นที่น้ำท่วม 2555": flood_2012,
-  "พื้นที่น้ำท่วม 2556": flood_2013,
-  "พื้นที่น้ำท่วม 2557": flood_2014,
-  "พื้นที่น้ำท่วม 2558": flood_2015,
-  "พื้นที่น้ำท่วม 2559": flood_2016,
-  "พื้นที่น้ำท่วม 2560": flood_2017,
-  "พื้นที่น้ำท่วม 2561": flood_2018,
-  "พื้นที่น้ำท่วม 2562": flood_2019,
-  "พื้นที่น้ำท่วม 2563": flood_2020.addTo(map),
-};
+// const overlayMaps = {
+//   "ขอบเขตจังหวัด": pro.addTo(map),
+//   "ขอบเขตอำเภอ": amp.addTo(map),
+//   "ขอบเขตตำบล": tam.addTo(map),
+//   "พื้นที่น้ำท่วม 2548": flood_2005,
+//   "พื้นที่น้ำท่วม 2549": flood_2006,
+//   "พื้นที่น้ำท่วม 2550": flood_2007,
+//   "พื้นที่น้ำท่วม 2551": flood_2008,
+//   "พื้นที่น้ำท่วม 2552": flood_2009,
+//   "พื้นที่น้ำท่วม 2553": flood_2010,
+//   "พื้นที่น้ำท่วม 2554": flood_2011,
+//   "พื้นที่น้ำท่วม 2555": flood_2012,
+//   "พื้นที่น้ำท่วม 2556": flood_2013,
+//   "พื้นที่น้ำท่วม 2557": flood_2014,
+//   "พื้นที่น้ำท่วม 2558": flood_2015,
+//   "พื้นที่น้ำท่วม 2559": flood_2016,
+//   "พื้นที่น้ำท่วม 2560": flood_2017,
+//   "พื้นที่น้ำท่วม 2561": flood_2018,
+//   "พื้นที่น้ำท่วม 2562": flood_2019,
+//   "พื้นที่น้ำท่วม 2563": flood_2020.addTo(map),
+// };
 
-// let lyr = {
-//   flood_2005: flood_2005,
-//   // flood_2006: flood_2006,
-//   // flood_2007: flood_2007,
-//   // flood_2008: flood_2008,
-//   // flood_2009: flood_2009,
-//   // flood_2010: flood_2010,
-//   // flood_2011: flood_2011,
-//   // flood_2012: flood_2012,
-//   // flood_2013: flood_2013,
-//   // flood_2014: flood_2014,
-//   // flood_2015: flood_2015,
-//   // flood_2016: flood_2016,
-//   // flood_2017: flood_2017,
-//   // flood_2018: flood_2018,
-//   // flood_2019: flood_2019,
-//   // flood_2020: flood_2020,
-//   tamboun: tamboun,
-//   ampboun: ampboun,
-//   pro: pro.addTo(map),
-// }
+let lyr = {
+  flood_2005: flood_2005,
+  flood_2006: flood_2006,
+  flood_2007: flood_2007,
+  flood_2008: flood_2008,
+  flood_2009: flood_2009,
+  flood_2010: flood_2010,
+  flood_2011: flood_2011,
+  flood_2012: flood_2012,
+  flood_2013: flood_2013,
+  flood_2014: flood_2014,
+  flood_2015: flood_2015,
+  flood_2016: flood_2016,
+  flood_2017: flood_2017,
+  flood_2018: flood_2018,
+  flood_2019: flood_2019,
+  flood_2020: flood_2020,
+  tam: tam,
+  amp: amp,
+  pro: pro.addTo(map),
+}
 
-// let base = {
-//   Mapbox: mapbox.addTo(map),
-//   // ghyb: ghyb,
+let base = {
+  ghyb: ghyb.addTo(map),
+  CartoDB_Positron: CartoDB_Positron,
+  grod: grod,
 
-// }
+}
 
+// const lyrControl = L.control.layers(baseMaps, overlayMaps, {
+//   collapsed: true
+// }).addTo(map);
 
-const lyrControl = L.control.layers(baseMaps, overlayMaps, {
-  collapsed: true
-}).addTo(map);
+$("input[name='basemap']").change(async (r) => {
+  await map.eachLayer(i => {
+    // console.log(i);
+    if (i.options.name == "base") {
+      map.removeLayer(i)
+    }
+  })
+
+  let basemap = $("input[name='basemap']:checked").val();
+  base[`${basemap}`].addTo(map);
+})
+
+$(".basemap-style").on('click', async function () {
+  if ($('.basemap-style').hasClass('basemap-style-active')) {
+    $(".basemap-style").removeClass("basemap-style-active")
+    $(this).toggleClass('basemap-style-active');
+  }
+
+  await map.eachLayer(i => {
+    // console.log(i);
+    if (i.options.name == "base") {
+      map.removeLayer(i)
+    }
+  })
+  console.log($(this).attr('value'))
+  let basemap = $(this).attr('value')
+  base[`${basemap}`].addTo(map);
+
+  // $(this).removeClass("basemap-style").addClass("basemap-style-active");
+})
 
 var legend = L.control({ position: "bottomright" });
 function showLegend() {
   legend.onAdd = function (map) {
     var div = L.DomUtil.create("div", "legend");
-    div.innerHTML += `<div class="mt-2" onClick="hideLegend()">
-      <span class="kanit">ซ่อนสัญลักษณ์</span><i class="fa fa-angle-double-down" aria-hidden="true"></i>
-    </div>`;
-    div.innerHTML += ` <i style="background: #FFFFFF; border-style: solid; border-width: 3px;"></i><span>ขอบเขตจังหวัด</span></div>`;
+    // div.innerHTML += `<div class="mt-2" onClick="hideLegend()">
+    //   <span class="kanit">ซ่อนสัญลักษณ์</span><i class="fa fa-angle-double-down" aria-hidden="true"></i>
+    // </div>`;
+    div.innerHTML += ` <i style="background: #FFFFFF; border-style: solid; border-width: 3px;"></i><span>ขอบเขตจังหวัด</span></div><br>`;
     div.innerHTML += `<i style="background: #FFFFFF; border-style: solid; border-width: 1.5px;"></i><span>ขอบเขตอำเภอ</span><br>`;
     div.innerHTML += `<i style="background: #FFFFFF; border-style: dotted; border-width: 1.5px;"></i><span>ขอบเขตตำบล</span><br>`;
     div.innerHTML += `<i style="background: #1EB0E7; border-radius: 10%;"></i>พื้นที่น้ำท่วม</label></div>`;
@@ -273,19 +324,18 @@ function showLegend() {
   };
   legend.addTo(map);
 }
-
-function hideLegend() {
-  legend.onAdd = function (map) {
-    var div = L.DomUtil.create('div', 'info legend')
-    div.innerHTML += `<div class="mt-2" onClick="showLegend()">
-        <small class="prompt"><span class="kanit" style="font-size: 14px;" >แสดงสัญลักษณ์</span></small> 
-        <i class="fa fa-angle-double-up" aria-hidden="true"></i>
-    </div>`;
-    return div;
-  };
-  legend.addTo(map);
-}
-hideLegend()
+// function hideLegend() {
+//   legend.onAdd = function (map) {
+//     var div = L.DomUtil.create('div', 'info legend')
+//     div.innerHTML += `<div class="mt-2" onClick="showLegend()">
+//         <small class="prompt"><span class="kanit" style="font-size: 14px;" >แสดงสัญลักษณ์</span></small> 
+//         <i class="fa fa-angle-double-up" aria-hidden="true"></i>
+//     </div>`;
+//     return div;
+//   };
+//   legend.addTo(map);
+// }
+showLegend()
 
 let RemoveLayers = () => {
   map.eachLayer(i => {
