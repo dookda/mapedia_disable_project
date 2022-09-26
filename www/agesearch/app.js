@@ -1,14 +1,24 @@
 // const url = "http://192.168.3.110:3000";
 const url = "http://localhost:3000";
 
+var currentDate = new Date();
+currentDate.setYear(currentDate.getFullYear() + 543);
 $(function () {
   $('#txtDate').datepicker({
     format: "dd/mm/yyyy",
-    todayBtn: "linked",
-    clearBtn: true,
+    // todayBtn: "linked",
+    // clearBtn: true,
+    changeMonth: true,
+    changeYear: true,
+    yearRange: '+443:+543',
     language: 'th-th',
-    autoclose: true
+    autoclose: true,
+    onSelect: function (date) {
+      $("#txtDate").addClass('filled');
+    }
   });
+  $('#txtDate').datepicker("setDate", currentDate);
+
 });
 
 let getData = () => {
@@ -48,6 +58,94 @@ dd = addZoro(dd)
 
 
 $("#txtDate").val(`${dd}/${mm}/${yyyy}`)
+
+var chartDom = document.getElementById('chart-agesearch');
+var myChart = echarts.init(chartDom);
+var option;
+
+option = {
+  // title: {
+  //   text: 'จำนวนคนพิการจากการค้นหาตามช่วงอายุ'
+  // },
+  tooltip: {
+    textStyle: {
+      fontFamily: 'Prompt',
+    },
+    trigger: 'axis',
+    axisPointer: {
+      type: 'shadow'
+    }
+  },
+  legend: {
+    textStyle: {
+      fontFamily: 'Prompt',
+      fontSize: 16,
+      color: 'black',
+      fontWeight: 400
+    },
+  },
+  grid: {
+    left: '3%',
+    right: '4%',
+    bottom: '10%',
+    top: '15%',
+    containLabel: true
+  },
+  xAxis: {
+    type: 'value',
+    boundaryGap: [0, 0.01],
+    fontWeight: "normal",
+    fontFamily: "Prompt",
+    fontSize: 12
+  },
+  yAxis: {
+    type: 'category',
+    data: [''],
+    axisLabel: {
+      show: true,
+      interval: 0,
+      fontWeight: "normal",
+      fontFamily: "Prompt",
+      fontSize: 12
+    },
+  },
+  series: [
+    {
+      name: 'เพศหญิง',
+      type: 'bar',
+      color: [
+        '#FFC2C7',
+      ],
+      label: {
+        show: true,
+        position: 'inside',
+        fontWeight: "normal",
+        fontFamily: "Prompt",
+        fontSize: "16",
+        color: "#ffffff"
+      },
+      data: [18203]
+    },
+    {
+      name: 'เพศชาย',
+      type: 'bar',
+      color: [
+        '#7986cb',
+      ],
+      label: {
+        show: true,
+        position: 'inside',
+        fontWeight: "normal",
+        fontFamily: "Prompt",
+        fontSize: "16",
+        color: "#ffffff"
+      },
+      data: [19325]
+    }
+  ]
+};
+
+option && myChart.setOption(option);
 
 
 

@@ -611,8 +611,20 @@
   <!-- <script src="../../assets/js/plugins/chartjs.min.js"></script> -->
   <script src="../../assets/js/plugins/threejs.js"></script>
   <script src="../../assets/js/plugins/orbit-controls.js"></script>
-  <script>
 
+  <script>
+    const dataTableBasic = new simpleDatatables.DataTable("#datatable-basic", {
+      searchable: false,
+      fixedHeight: true
+    });
+    const dataTableBasic2 = new simpleDatatables.DataTable("#datatable-basic2", {
+      searchable: false,
+      fixedHeight: true
+    });
+    const dataTableBasic3 = new simpleDatatables.DataTable("#datatable-basic3", {
+      searchable: false,
+      fixedHeight: true
+    });
   </script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;

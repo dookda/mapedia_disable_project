@@ -138,14 +138,16 @@ app.post("/api/get_by_country_total", async (req, res) => {
 })
 
 app.post("/api/get_by_country_sex", async (req, res) => {
-    let { address_code } = req.body
+    let { address_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT mdp.REGION_NAME_THAI AS cat,
         SUM(CASE mdp.SEX_CODE WHEN 'M' THEN 1 ELSE 0 END) AS M,
         SUM(CASE mdp.SEX_CODE WHEN 'F' THEN 1 ELSE 0 END) AS F   
     FROM "DEPGIS".V_MN_DES_PERSON mdp  
-    WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.REGION_CODE IS NOT NULL
+    WHERE mdp.ADDRESS_CODE ='${address_code}' ${pri} AND mdp.REGION_CODE IS NOT NULL
     GROUP BY mdp.REGION_NAME_THAI, mdp.REGION_CODE 
     ORDER BY mdp.REGION_NAME_THAI`
     // console.log(sql);
@@ -166,9 +168,12 @@ app.post("/api/get_by_country_sex", async (req, res) => {
     }
 })
 
+
 app.post("/api/get_by_country_type", async (req, res) => {
-    let { address_code } = req.body
+    let { address_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT mdp.REGION_NAME_THAI AS cat,
         SUM(CASE mdd.DEFORM_ID WHEN '0' THEN 1 ELSE 0 END) AS type0, 
@@ -183,7 +188,7 @@ app.post("/api/get_by_country_type", async (req, res) => {
         
     FROM "DEPGIS".V_MN_DES_PERSON mdp  
     LEFT JOIN "OPP$_DBA".MN_DES_DEFORMED mdd ON mdp.MAIMAD_ID = mdd.MAIMAD_ID 
-    WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.REGION_CODE IS NOT NULL
+    WHERE mdp.ADDRESS_CODE ='${address_code}' ${pri} AND mdp.REGION_CODE IS NOT NULL
     GROUP BY mdp.REGION_NAME_THAI, mdp.REGION_CODE 
     ORDER BY mdp.REGION_NAME_THAI`
     // console.log(sql);
@@ -205,8 +210,10 @@ app.post("/api/get_by_country_type", async (req, res) => {
 })
 
 app.post("/api/get_by_country_age", async (req, res) => {
-    let { address_code } = req.body
+    let { address_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT mdp.REGION_NAME_THAI AS cat,
         SUM(CASE WHEN mdp.AGE_NOW  <= 5 THEN 1 ELSE 0 END) AS age5,
@@ -216,7 +223,7 @@ app.post("/api/get_by_country_age", async (req, res) => {
         SUM(CASE WHEN mdp.AGE_NOW  > 59   THEN 1 ELSE 0 END) AS age60
         
     FROM "DEPGIS".V_MN_DES_PERSON mdp  
-    WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.REGION_CODE IS NOT NULL
+    WHERE mdp.ADDRESS_CODE ='${address_code}' ${pri} AND mdp.REGION_CODE IS NOT NULL
     GROUP BY mdp.REGION_NAME_THAI, mdp.REGION_CODE 
     ORDER BY mdp.REGION_NAME_THAI`
     // console.log(sql);
@@ -237,8 +244,10 @@ app.post("/api/get_by_country_age", async (req, res) => {
     }
 })
 app.post("/api/get_by_country_edu", async (req, res) => {
-    let { address_code } = req.body
+    let { address_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT mdp.REGION_NAME_THAI AS cat,
         SUM(CASE WHEN bdt.DEGT_GROUP_CODE = '$Low$' OR bdt.DEGT_GROUP_CODE = '$Mid$' OR bdt.DEGT_GROUP_CODE = '$Hig$' OR bdt.DEGT_GROUP_CODE = '$Oth$' THEN 1 ELSE 0 END) AS cnt,
@@ -248,7 +257,7 @@ app.post("/api/get_by_country_edu", async (req, res) => {
         SUM(CASE bdt.DEGT_GROUP_CODE WHEN '$Oth$' THEN 1 ELSE 0 END) AS oth
         FROM "DEPGIS".V_MN_DES_PERSON mdp
         LEFT JOIN "OPP$_DBA".BS_DEGREE_TYPE bdt ON mdp.DEGREE_TYPE_CODE = bdt.DEGREE_TYPE_CODE
-        WHERE mdp.ADDRESS_CODE='${address_code}' AND mdp.REGION_CODE IS NOT NULL
+        WHERE mdp.ADDRESS_CODE='${address_code}' ${pri} AND mdp.REGION_CODE IS NOT NULL
     GROUP BY mdp.REGION_NAME_THAI
     ORDER BY mdp.REGION_NAME_THAI`
     // console.log(sql);
@@ -269,8 +278,10 @@ app.post("/api/get_by_country_edu", async (req, res) => {
 })
 
 app.post("/api/get_by_country_occ", async (req, res) => {
-    let { address_code } = req.body
+    let { address_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT mdp.REGION_NAME_THAI AS cat,
         SUM(CASE mdp.OCC WHEN '001' THEN 1 ELSE 0 END) AS occ_001,
@@ -295,7 +306,7 @@ app.post("/api/get_by_country_occ", async (req, res) => {
         SUM(CASE mdp.OCC WHEN '020' THEN 1 ELSE 0 END) AS occ_020,
         SUM(CASE mdp.OCC WHEN '999' THEN 1 ELSE 0 END) AS occ_999
     FROM "DEPGIS".V_MN_DES_PERSON mdp
-    WHERE mdp.ADDRESS_CODE='${address_code}' AND mdp.REGION_CODE IS NOT NULL
+    WHERE mdp.ADDRESS_CODE='${address_code}' ${pri} AND mdp.REGION_CODE IS NOT NULL
     GROUP BY mdp.REGION_NAME_THAI
     ORDER BY mdp.REGION_NAME_THAI`
     // console.log(sql);
@@ -316,8 +327,10 @@ app.post("/api/get_by_country_occ", async (req, res) => {
 })
 
 app.post("/api/get_by_country_agetype", async (req, res) => {
-    let { address_code } = req.body
+    let { address_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT ad.AGE AS CAT,
         SUM(CASE ad.DEFORM_ID WHEN '0' THEN 1 ELSE 0 END) AS type0, 
@@ -341,7 +354,7 @@ app.post("/api/get_by_country_agetype", async (req, res) => {
                 mdd.DEFORM_ID
             FROM "DEPGIS".V_MN_DES_PERSON mdp  
             LEFT JOIN "OPP$_DBA".MN_DES_DEFORMED mdd ON mdp.MAIMAD_ID = mdd.MAIMAD_ID 
-            WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.REGION_CODE IS NOT NULL) ad 
+            WHERE mdp.ADDRESS_CODE ='${address_code}' ${pri} AND mdp.REGION_CODE IS NOT NULL) ad 
     GROUP BY ad.AGE
     ORDER BY ad.AGE`
     // console.log(sql);
@@ -363,8 +376,10 @@ app.post("/api/get_by_country_agetype", async (req, res) => {
 })
 
 app.post("/api/get_by_country_ageedu", async (req, res) => {
-    let { address_code } = req.body
+    let { address_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT ad.AGE AS CAT,
         SUM(CASE ad.DEGT_GROUP_CODE WHEN '$Low$' THEN 1 ELSE 0 END) AS low, 
@@ -383,7 +398,7 @@ app.post("/api/get_by_country_ageedu", async (req, res) => {
             bdt.DEGT_GROUP_CODE
         FROM "DEPGIS".V_MN_DES_PERSON mdp 
         LEFT JOIN "OPP$_DBA".BS_DEGREE_TYPE bdt ON mdp.DEGREE_TYPE_CODE = bdt.DEGREE_TYPE_CODE
-        WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.REGION_CODE IS NOT NULL) ad 
+        WHERE mdp.ADDRESS_CODE ='${address_code}' ${pri} AND mdp.REGION_CODE IS NOT NULL) ad 
     GROUP BY ad.AGE
     ORDER BY ad.AGE`
     // console.log(sql);
@@ -405,8 +420,10 @@ app.post("/api/get_by_country_ageedu", async (req, res) => {
 })
 
 app.post("/api/get_by_country_ageocc", async (req, res) => {
-    let { address_code } = req.body
+    let { address_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT ad.AGE AS CAT,
         SUM(CASE ad.OCC WHEN '001' THEN 1 ELSE 0 END) AS occ_001,
@@ -441,7 +458,7 @@ app.post("/api/get_by_country_ageocc", async (req, res) => {
             END AS age,
             mdp.OCC
         FROM "DEPGIS".V_MN_DES_PERSON mdp 
-        WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.REGION_CODE IS NOT NULL) ad 
+        WHERE mdp.ADDRESS_CODE ='${address_code}' ${pri} AND mdp.REGION_CODE IS NOT NULL) ad 
     GROUP BY ad.AGE
     ORDER BY ad.AGE`
     // console.log(sql);
@@ -464,15 +481,17 @@ app.post("/api/get_by_country_ageocc", async (req, res) => {
 
 // region
 app.post("/api/get_by_region_total", async (req, res) => {
-    let { address_code, region_code } = req.body
+    let { address_code, region_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT mdp.PROVINCE_NAME  AS cat, 
         mdp.PROVINCE_NAME,
         mdp.PROVINCE_CODE,
         SUM(CASE  WHEN mdp.SEX_CODE='M' OR mdp.SEX_CODE='F' OR mdp.SEX_CODE IS NULL  THEN 1 ELSE 0 END) AS cnt
     FROM "DEPGIS".V_MN_DES_PERSON mdp  
-    WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.REGION_CODE='${region_code}'
+    WHERE mdp.ADDRESS_CODE ='${address_code}' ${pri} AND mdp.REGION_CODE='${region_code}'
     GROUP BY mdp.PROVINCE_NAME, mdp.PROVINCE_CODE 
     ORDER BY mdp.PROVINCE_NAME`
     // console.log(sql);
@@ -494,14 +513,16 @@ app.post("/api/get_by_region_total", async (req, res) => {
 })
 
 app.post("/api/get_by_region_sex", async (req, res) => {
-    let { address_code, region_code } = req.body
+    let { address_code, region_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT mdp.PROVINCE_NAME AS cat,
         SUM(CASE mdp.SEX_CODE WHEN 'M' THEN 1 ELSE 0 END) AS M,
         SUM(CASE mdp.SEX_CODE WHEN 'F' THEN 1 ELSE 0 END) AS F   
     FROM "DEPGIS".V_MN_DES_PERSON mdp  
-    WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.REGION_CODE='${region_code}'
+    WHERE mdp.ADDRESS_CODE ='${address_code}' ${pri} AND mdp.REGION_CODE='${region_code}'
     GROUP BY mdp.PROVINCE_NAME, mdp.PROVINCE_CODE 
     ORDER BY mdp.PROVINCE_NAME`
     // console.log(sql);
@@ -523,8 +544,10 @@ app.post("/api/get_by_region_sex", async (req, res) => {
 })
 
 app.post("/api/get_by_region_type", async (req, res) => {
-    let { address_code, region_code } = req.body
+    let { address_code, region_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT mdp.PROVINCE_NAME AS cat,
         SUM(CASE mdd.DEFORM_ID WHEN '0' THEN 1 ELSE 0 END) AS type0, 
@@ -539,7 +562,7 @@ app.post("/api/get_by_region_type", async (req, res) => {
         
     FROM "DEPGIS".V_MN_DES_PERSON mdp  
     LEFT JOIN "OPP$_DBA".MN_DES_DEFORMED mdd ON mdp.MAIMAD_ID = mdd.MAIMAD_ID 
-    WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.REGION_CODE='${region_code}'
+    WHERE mdp.ADDRESS_CODE ='${address_code}' ${pri} AND mdp.REGION_CODE='${region_code}'
     GROUP BY mdp.PROVINCE_NAME, mdp.PROVINCE_CODE 
     ORDER BY mdp.PROVINCE_NAME`
     // console.log(sql);
@@ -561,8 +584,10 @@ app.post("/api/get_by_region_type", async (req, res) => {
 })
 
 app.post("/api/get_by_region_age", async (req, res) => {
-    let { address_code, region_code } = req.body
+    let { address_code, region_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT mdp.PROVINCE_NAME AS cat,
         SUM(CASE WHEN mdp.AGE_NOW  <= 5 THEN 1 ELSE 0 END) AS age5,
@@ -572,7 +597,7 @@ app.post("/api/get_by_region_age", async (req, res) => {
         SUM(CASE WHEN mdp.AGE_NOW  > 59   THEN 1 ELSE 0 END) AS age60
         
     FROM "DEPGIS".V_MN_DES_PERSON mdp  
-    WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.REGION_CODE='${region_code}'
+    WHERE mdp.ADDRESS_CODE ='${address_code}' ${pri} AND mdp.REGION_CODE='${region_code}'
     GROUP BY mdp.PROVINCE_NAME, mdp.PROVINCE_CODE 
     ORDER BY mdp.PROVINCE_NAME`
     // console.log(sql);
@@ -593,8 +618,10 @@ app.post("/api/get_by_region_age", async (req, res) => {
     }
 })
 app.post("/api/get_by_region_edu", async (req, res) => {
-    let { address_code, region_code } = req.body
+    let { address_code, region_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT mdp.PROVINCE_NAME AS cat,
         SUM(CASE WHEN bdt.DEGT_GROUP_CODE = '$Low$' OR bdt.DEGT_GROUP_CODE = '$Mid$' OR bdt.DEGT_GROUP_CODE = '$Hig$' OR bdt.DEGT_GROUP_CODE = '$Oth$' THEN 1 ELSE 0 END) AS cnt,
@@ -604,7 +631,7 @@ app.post("/api/get_by_region_edu", async (req, res) => {
         SUM(CASE bdt.DEGT_GROUP_CODE WHEN '$Oth$' THEN 1 ELSE 0 END) AS oth
         FROM "DEPGIS".V_MN_DES_PERSON mdp
         LEFT JOIN "OPP$_DBA".BS_DEGREE_TYPE bdt ON mdp.DEGREE_TYPE_CODE = bdt.DEGREE_TYPE_CODE
-        WHERE mdp.ADDRESS_CODE='${address_code}' AND mdp.REGION_CODE='${region_code}'
+        WHERE mdp.ADDRESS_CODE='${address_code}' ${pri} AND mdp.REGION_CODE='${region_code}'
         GROUP BY mdp.PROVINCE_NAME, mdp.PROVINCE_CODE 
         ORDER BY mdp.PROVINCE_NAME`
     // console.log(sql);
@@ -625,8 +652,10 @@ app.post("/api/get_by_region_edu", async (req, res) => {
 })
 
 app.post("/api/get_by_region_occ", async (req, res) => {
-    let { address_code, region_code } = req.body
+    let { address_code, region_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT mdp.PROVINCE_NAME AS cat,
         SUM(CASE mdp.OCC WHEN '001' THEN 1 ELSE 0 END) AS occ_001,
@@ -651,7 +680,7 @@ app.post("/api/get_by_region_occ", async (req, res) => {
         SUM(CASE mdp.OCC WHEN '020' THEN 1 ELSE 0 END) AS occ_020,
         SUM(CASE mdp.OCC WHEN '999' THEN 1 ELSE 0 END) AS occ_999
     FROM "DEPGIS".V_MN_DES_PERSON mdp
-    WHERE mdp.ADDRESS_CODE='${address_code}' AND mdp.REGION_CODE='${region_code}'
+    WHERE mdp.ADDRESS_CODE='${address_code}' ${pri} AND mdp.REGION_CODE='${region_code}'
     GROUP BY mdp.PROVINCE_NAME, mdp.PROVINCE_CODE 
     ORDER BY mdp.PROVINCE_NAME`
     // console.log(sql);
@@ -672,8 +701,10 @@ app.post("/api/get_by_region_occ", async (req, res) => {
 })
 
 app.post("/api/get_by_region_agetype", async (req, res) => {
-    let { address_code, region_code } = req.body
+    let { address_code, region_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT ad.AGE AS CAT,
         SUM(CASE ad.DEFORM_ID WHEN '0' THEN 1 ELSE 0 END) AS type0, 
@@ -697,7 +728,7 @@ app.post("/api/get_by_region_agetype", async (req, res) => {
                 mdd.DEFORM_ID
             FROM "DEPGIS".V_MN_DES_PERSON mdp  
             LEFT JOIN "OPP$_DBA".MN_DES_DEFORMED mdd ON mdp.MAIMAD_ID = mdd.MAIMAD_ID 
-            WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.REGION_CODE='${region_code}') ad 
+            WHERE mdp.ADDRESS_CODE ='${address_code}' ${pri} AND mdp.REGION_CODE='${region_code}') ad 
     GROUP BY ad.AGE
     ORDER BY ad.AGE`
     // console.log(sql);
@@ -719,8 +750,10 @@ app.post("/api/get_by_region_agetype", async (req, res) => {
 })
 
 app.post("/api/get_by_region_ageedu", async (req, res) => {
-    let { address_code, region_code } = req.body
+    let { address_code, region_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT ad.AGE AS CAT,
         SUM(CASE ad.DEGT_GROUP_CODE WHEN '$Low$' THEN 1 ELSE 0 END) AS low, 
@@ -739,7 +772,7 @@ app.post("/api/get_by_region_ageedu", async (req, res) => {
             bdt.DEGT_GROUP_CODE
         FROM "DEPGIS".V_MN_DES_PERSON mdp 
         LEFT JOIN "OPP$_DBA".BS_DEGREE_TYPE bdt ON mdp.DEGREE_TYPE_CODE = bdt.DEGREE_TYPE_CODE
-        WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.REGION_CODE='${region_code}') ad 
+        WHERE mdp.ADDRESS_CODE ='${address_code}' ${pri} AND mdp.REGION_CODE='${region_code}') ad 
     GROUP BY ad.AGE
     ORDER BY ad.AGE`
     // console.log(sql);
@@ -761,8 +794,10 @@ app.post("/api/get_by_region_ageedu", async (req, res) => {
 })
 
 app.post("/api/get_by_region_ageocc", async (req, res) => {
-    let { address_code, region_code } = req.body
+    let { address_code, region_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT ad.AGE AS CAT,
         SUM(CASE ad.OCC WHEN '001' THEN 1 ELSE 0 END) AS occ_001,
@@ -797,7 +832,7 @@ app.post("/api/get_by_region_ageocc", async (req, res) => {
             END AS age,
             mdp.OCC
         FROM "DEPGIS".V_MN_DES_PERSON mdp 
-        WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.REGION_CODE='${region_code}') ad 
+        WHERE mdp.ADDRESS_CODE ='${address_code}' ${pri} AND mdp.REGION_CODE='${region_code}') ad 
     GROUP BY ad.AGE
     ORDER BY ad.AGE`
 
@@ -819,15 +854,17 @@ app.post("/api/get_by_region_ageocc", async (req, res) => {
 
 // province
 app.post("/api/get_by_province_total", async (req, res) => {
-    let { address_code, province_code } = req.body
+    let { address_code, province_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT mdp.DISTRICT_NAME  AS cat, 
         mdp.DISTRICT_NAME,
         mdp.AMPCODE,
         SUM(CASE  WHEN mdp.SEX_CODE='M' OR mdp.SEX_CODE='F' OR mdp.SEX_CODE IS NULL  THEN 1 ELSE 0 END) AS cnt
     FROM "DEPGIS".V_MN_DES_PERSON mdp  
-    WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.PROVINCE_CODE='${province_code}' AND mdp.DISTRICT_NAME IS NOT NULL
+    WHERE mdp.ADDRESS_CODE ='${address_code}' ${pri} AND mdp.PROVINCE_CODE='${province_code}' AND mdp.DISTRICT_NAME IS NOT NULL
     GROUP BY mdp.DISTRICT_NAME, mdp.AMPCODE 
     ORDER BY mdp.DISTRICT_NAME`
     // console.log(sql);
@@ -849,14 +886,16 @@ app.post("/api/get_by_province_total", async (req, res) => {
 })
 
 app.post("/api/get_by_province_sex", async (req, res) => {
-    let { address_code, province_code } = req.body
+    let { address_code, province_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT mdp.DISTRICT_NAME AS cat,
         SUM(CASE mdp.SEX_CODE WHEN 'M' THEN 1 ELSE 0 END) AS M,
         SUM(CASE mdp.SEX_CODE WHEN 'F' THEN 1 ELSE 0 END) AS F   
     FROM "DEPGIS".V_MN_DES_PERSON mdp  
-    WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.PROVINCE_CODE='${province_code}' AND mdp.DISTRICT_NAME IS NOT NULL
+    WHERE mdp.ADDRESS_CODE ='${address_code}' ${pri} AND mdp.PROVINCE_CODE='${province_code}' AND mdp.DISTRICT_NAME IS NOT NULL
     GROUP BY mdp.DISTRICT_NAME, mdp.AMPCODE 
     ORDER BY mdp.DISTRICT_NAME`
     // console.log(sql);
@@ -878,8 +917,10 @@ app.post("/api/get_by_province_sex", async (req, res) => {
 })
 
 app.post("/api/get_by_province_type", async (req, res) => {
-    let { address_code, province_code } = req.body
+    let { address_code, province_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT mdp.DISTRICT_NAME AS cat,
         SUM(CASE mdd.DEFORM_ID WHEN '0' THEN 1 ELSE 0 END) AS type0, 
@@ -894,7 +935,7 @@ app.post("/api/get_by_province_type", async (req, res) => {
         
     FROM "DEPGIS".V_MN_DES_PERSON mdp  
     LEFT JOIN "OPP$_DBA".MN_DES_DEFORMED mdd ON mdp.MAIMAD_ID = mdd.MAIMAD_ID 
-    WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.PROVINCE_CODE='${province_code}' AND mdp.DISTRICT_NAME IS NOT NULL
+    WHERE mdp.ADDRESS_CODE ='${address_code}' ${pri} AND mdp.PROVINCE_CODE='${province_code}' AND mdp.DISTRICT_NAME IS NOT NULL
     GROUP BY mdp.DISTRICT_NAME, mdp.AMPCODE 
     ORDER BY mdp.DISTRICT_NAME`
     // console.log(sql);
@@ -916,8 +957,10 @@ app.post("/api/get_by_province_type", async (req, res) => {
 })
 
 app.post("/api/get_by_province_age", async (req, res) => {
-    let { address_code, province_code } = req.body
+    let { address_code, province_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT mdp.DISTRICT_NAME AS cat,
         SUM(CASE WHEN mdp.AGE_NOW  <= 5 THEN 1 ELSE 0 END) AS age5,
@@ -927,7 +970,7 @@ app.post("/api/get_by_province_age", async (req, res) => {
         SUM(CASE WHEN mdp.AGE_NOW  > 59   THEN 1 ELSE 0 END) AS age60
         
     FROM "DEPGIS".V_MN_DES_PERSON mdp  
-    WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.PROVINCE_CODE='${province_code}' AND mdp.DISTRICT_NAME IS NOT NULL
+    WHERE mdp.ADDRESS_CODE ='${address_code}' ${pri} AND mdp.PROVINCE_CODE='${province_code}' AND mdp.DISTRICT_NAME IS NOT NULL
     GROUP BY mdp.DISTRICT_NAME, mdp.AMPCODE 
     ORDER BY mdp.DISTRICT_NAME`
     // console.log(sql);
@@ -948,8 +991,10 @@ app.post("/api/get_by_province_age", async (req, res) => {
     }
 })
 app.post("/api/get_by_province_edu", async (req, res) => {
-    let { address_code, province_code } = req.body
+    let { address_code, province_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT mdp.DISTRICT_NAME AS cat,
         SUM(CASE WHEN bdt.DEGT_GROUP_CODE = '$Low$' OR bdt.DEGT_GROUP_CODE = '$Mid$' OR bdt.DEGT_GROUP_CODE = '$Hig$' OR bdt.DEGT_GROUP_CODE = '$Oth$' THEN 1 ELSE 0 END) AS cnt,
@@ -959,7 +1004,7 @@ app.post("/api/get_by_province_edu", async (req, res) => {
         SUM(CASE bdt.DEGT_GROUP_CODE WHEN '$Oth$' THEN 1 ELSE 0 END) AS oth
         FROM "DEPGIS".V_MN_DES_PERSON mdp
         LEFT JOIN "OPP$_DBA".BS_DEGREE_TYPE bdt ON mdp.DEGREE_TYPE_CODE = bdt.DEGREE_TYPE_CODE
-    WHERE mdp.ADDRESS_CODE='${address_code}' AND mdp.PROVINCE_CODE='${province_code}' AND mdp.DISTRICT_NAME IS NOT NULL
+    WHERE mdp.ADDRESS_CODE='${address_code}' ${pri} AND mdp.PROVINCE_CODE='${province_code}' AND mdp.DISTRICT_NAME IS NOT NULL
     GROUP BY mdp.DISTRICT_NAME, mdp.AMPCODE 
     ORDER BY mdp.DISTRICT_NAME`
     // console.log(sql);
@@ -980,8 +1025,10 @@ app.post("/api/get_by_province_edu", async (req, res) => {
 })
 
 app.post("/api/get_by_province_occ", async (req, res) => {
-    let { address_code, province_code } = req.body
+    let { address_code, province_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT mdp.DISTRICT_NAME AS cat,
         SUM(CASE mdp.OCC WHEN '001' THEN 1 ELSE 0 END) AS occ_001,
@@ -1006,7 +1053,7 @@ app.post("/api/get_by_province_occ", async (req, res) => {
         SUM(CASE mdp.OCC WHEN '020' THEN 1 ELSE 0 END) AS occ_020,
         SUM(CASE mdp.OCC WHEN '999' THEN 1 ELSE 0 END) AS occ_999
     FROM "DEPGIS".V_MN_DES_PERSON mdp
-    WHERE mdp.ADDRESS_CODE='${address_code}' AND mdp.PROVINCE_CODE='${province_code}' AND mdp.DISTRICT_NAME IS NOT NULL
+    WHERE mdp.ADDRESS_CODE='${address_code}' ${pri} AND mdp.PROVINCE_CODE='${province_code}' AND mdp.DISTRICT_NAME IS NOT NULL
     GROUP BY mdp.DISTRICT_NAME, mdp.AMPCODE 
     ORDER BY mdp.DISTRICT_NAME`
     // console.log(sql);
@@ -1027,8 +1074,10 @@ app.post("/api/get_by_province_occ", async (req, res) => {
 })
 
 app.post("/api/get_by_province_agetype", async (req, res) => {
-    let { address_code, province_code } = req.body
+    let { address_code, province_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT ad.AGE AS CAT,
         SUM(CASE ad.DEFORM_ID WHEN '0' THEN 1 ELSE 0 END) AS type0, 
@@ -1052,7 +1101,7 @@ app.post("/api/get_by_province_agetype", async (req, res) => {
                 mdd.DEFORM_ID
             FROM "DEPGIS".V_MN_DES_PERSON mdp  
             LEFT JOIN "OPP$_DBA".MN_DES_DEFORMED mdd ON mdp.MAIMAD_ID = mdd.MAIMAD_ID 
-            WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.PROVINCE_CODE='${province_code}' AND mdp.DISTRICT_NAME IS NOT NULL) ad 
+            WHERE mdp.ADDRESS_CODE ='${address_code}'${pri} AND mdp.PROVINCE_CODE='${province_code}' AND mdp.DISTRICT_NAME IS NOT NULL) ad 
     GROUP BY ad.AGE
     ORDER BY ad.AGE`
     // console.log(sql);
@@ -1074,8 +1123,10 @@ app.post("/api/get_by_province_agetype", async (req, res) => {
 })
 
 app.post("/api/get_by_province_ageedu", async (req, res) => {
-    let { address_code, province_code } = req.body
+    let { address_code, province_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT ad.AGE AS CAT,
         SUM(CASE ad.DEGT_GROUP_CODE WHEN '$Low$' THEN 1 ELSE 0 END) AS low, 
@@ -1094,7 +1145,7 @@ app.post("/api/get_by_province_ageedu", async (req, res) => {
             bdt.DEGT_GROUP_CODE
         FROM "DEPGIS".V_MN_DES_PERSON mdp 
         LEFT JOIN "OPP$_DBA".BS_DEGREE_TYPE bdt ON mdp.DEGREE_TYPE_CODE = bdt.DEGREE_TYPE_CODE
-        WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.PROVINCE_CODE='${province_code}' AND mdp.DISTRICT_NAME IS NOT NULL) ad 
+        WHERE mdp.ADDRESS_CODE ='${address_code}'${pri} AND mdp.PROVINCE_CODE='${province_code}' AND mdp.DISTRICT_NAME IS NOT NULL) ad 
     GROUP BY ad.AGE
     ORDER BY ad.AGE`
     // console.log(sql);
@@ -1116,8 +1167,10 @@ app.post("/api/get_by_province_ageedu", async (req, res) => {
 })
 
 app.post("/api/get_by_province_ageocc", async (req, res) => {
-    let { address_code, province_code } = req.body
+    let { address_code, province_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT ad.AGE AS CAT,
         SUM(CASE ad.OCC WHEN '001' THEN 1 ELSE 0 END) AS occ_001,
@@ -1152,7 +1205,7 @@ app.post("/api/get_by_province_ageocc", async (req, res) => {
             END AS age,
             mdp.OCC
         FROM "DEPGIS".V_MN_DES_PERSON mdp 
-        WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.PROVINCE_CODE='${province_code}' AND mdp.DISTRICT_NAME IS NOT NULL) ad 
+        WHERE mdp.ADDRESS_CODE ='${address_code}'${pri} AND mdp.PROVINCE_CODE='${province_code}' AND mdp.DISTRICT_NAME IS NOT NULL) ad 
     GROUP BY ad.AGE
     ORDER BY ad.AGE`
 
@@ -1174,15 +1227,17 @@ app.post("/api/get_by_province_ageocc", async (req, res) => {
 
 // amphoe
 app.post("/api/get_by_amphoe_total", async (req, res) => {
-    let { address_code, amphoe_code } = req.body
+    let { address_code, amphoe_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT mdp.SUBDISTRICT_NAME  AS cat, 
         mdp.SUBDISTRICT_NAME,
         mdp.TAMCODE,
         SUM(CASE  WHEN mdp.SEX_CODE='M' OR mdp.SEX_CODE='F' OR mdp.SEX_CODE IS NULL  THEN 1 ELSE 0 END) AS cnt
     FROM "DEPGIS".V_MN_DES_PERSON mdp  
-    WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.AMPCODE='${amphoe_code}' AND mdp.SUBDISTRICT_NAME IS NOT NULL
+    WHERE mdp.ADDRESS_CODE ='${address_code}'${pri} AND mdp.AMPCODE='${amphoe_code}' AND mdp.SUBDISTRICT_NAME IS NOT NULL
     GROUP BY mdp.SUBDISTRICT_NAME, mdp.TAMCODE 
     ORDER BY mdp.SUBDISTRICT_NAME`
     // console.log(sql);
@@ -1204,14 +1259,16 @@ app.post("/api/get_by_amphoe_total", async (req, res) => {
 })
 
 app.post("/api/get_by_amphoe_sex", async (req, res) => {
-    let { address_code, amphoe_code } = req.body
+    let { address_code, amphoe_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT mdp.SUBDISTRICT_NAME  AS cat, 
         SUM(CASE mdp.SEX_CODE WHEN 'M' THEN 1 ELSE 0 END) AS M,
         SUM(CASE mdp.SEX_CODE WHEN 'F' THEN 1 ELSE 0 END) AS F   
     FROM "DEPGIS".V_MN_DES_PERSON mdp  
-    WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.AMPCODE='${amphoe_code}' AND mdp.SUBDISTRICT_NAME IS NOT NULL
+    WHERE mdp.ADDRESS_CODE ='${address_code}'${pri} AND mdp.AMPCODE='${amphoe_code}' AND mdp.SUBDISTRICT_NAME IS NOT NULL
     GROUP BY mdp.SUBDISTRICT_NAME, mdp.TAMCODE 
     ORDER BY mdp.SUBDISTRICT_NAME`
     // console.log(sql);
@@ -1233,8 +1290,10 @@ app.post("/api/get_by_amphoe_sex", async (req, res) => {
 })
 
 app.post("/api/get_by_amphoe_type", async (req, res) => {
-    let { address_code, amphoe_code } = req.body
+    let { address_code, amphoe_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT mdp.SUBDISTRICT_NAME AS cat, 
         SUM(CASE mdd.DEFORM_ID WHEN '0' THEN 1 ELSE 0 END) AS type0, 
@@ -1249,7 +1308,7 @@ app.post("/api/get_by_amphoe_type", async (req, res) => {
         
     FROM "DEPGIS".V_MN_DES_PERSON mdp  
     LEFT JOIN "OPP$_DBA".MN_DES_DEFORMED mdd ON mdp.MAIMAD_ID = mdd.MAIMAD_ID 
-    WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.AMPCODE='${amphoe_code}' AND mdp.SUBDISTRICT_NAME IS NOT NULL
+    WHERE mdp.ADDRESS_CODE ='${address_code}' ${pri} AND mdp.AMPCODE='${amphoe_code}' AND mdp.SUBDISTRICT_NAME IS NOT NULL
     GROUP BY mdp.SUBDISTRICT_NAME, mdp.TAMCODE 
     ORDER BY mdp.SUBDISTRICT_NAME`
     // console.log(sql);
@@ -1271,8 +1330,10 @@ app.post("/api/get_by_amphoe_type", async (req, res) => {
 })
 
 app.post("/api/get_by_amphoe_age", async (req, res) => {
-    let { address_code, amphoe_code } = req.body
+    let { address_code, amphoe_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT mdp.SUBDISTRICT_NAME AS cat,
         SUM(CASE WHEN mdp.AGE_NOW  <= 5 THEN 1 ELSE 0 END) AS age5,
@@ -1282,7 +1343,7 @@ app.post("/api/get_by_amphoe_age", async (req, res) => {
         SUM(CASE WHEN mdp.AGE_NOW  > 59   THEN 1 ELSE 0 END) AS age60
         
     FROM "DEPGIS".V_MN_DES_PERSON mdp  
-    WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.AMPCODE='${amphoe_code}' AND mdp.SUBDISTRICT_NAME IS NOT NULL
+    WHERE mdp.ADDRESS_CODE ='${address_code}' ${pri}  AND mdp.AMPCODE='${amphoe_code}' AND mdp.SUBDISTRICT_NAME IS NOT NULL
     GROUP BY mdp.SUBDISTRICT_NAME, mdp.TAMCODE 
     ORDER BY mdp.SUBDISTRICT_NAME`
     // console.log(sql);
@@ -1303,8 +1364,10 @@ app.post("/api/get_by_amphoe_age", async (req, res) => {
     }
 })
 app.post("/api/get_by_amphoe_edu", async (req, res) => {
-    let { address_code, amphoe_code } = req.body
+    let { address_code, amphoe_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT mdp.SUBDISTRICT_NAME AS cat,
         SUM(CASE WHEN bdt.DEGT_GROUP_CODE = '$Low$' OR bdt.DEGT_GROUP_CODE = '$Mid$' OR bdt.DEGT_GROUP_CODE = '$Hig$' OR bdt.DEGT_GROUP_CODE = '$Oth$' THEN 1 ELSE 0 END) AS cnt,
@@ -1314,7 +1377,7 @@ app.post("/api/get_by_amphoe_edu", async (req, res) => {
         SUM(CASE bdt.DEGT_GROUP_CODE WHEN '$Oth$' THEN 1 ELSE 0 END) AS oth
         FROM "DEPGIS".V_MN_DES_PERSON mdp
         LEFT JOIN "OPP$_DBA".BS_DEGREE_TYPE bdt ON mdp.DEGREE_TYPE_CODE = bdt.DEGREE_TYPE_CODE
-        WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.AMPCODE='${amphoe_code}' AND mdp.SUBDISTRICT_NAME IS NOT NULL
+        WHERE mdp.ADDRESS_CODE ='${address_code}' ${pri} AND mdp.AMPCODE='${amphoe_code}' AND mdp.SUBDISTRICT_NAME IS NOT NULL
         GROUP BY mdp.SUBDISTRICT_NAME, mdp.TAMCODE 
         ORDER BY mdp.SUBDISTRICT_NAME`
     // console.log(sql);
@@ -1335,8 +1398,10 @@ app.post("/api/get_by_amphoe_edu", async (req, res) => {
 })
 
 app.post("/api/get_by_amphoe_occ", async (req, res) => {
-    let { address_code, amphoe_code } = req.body
+    let { address_code, amphoe_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT mdp.SUBDISTRICT_NAME AS cat,
         SUM(CASE mdp.OCC WHEN '001' THEN 1 ELSE 0 END) AS occ_001,
@@ -1361,7 +1426,7 @@ app.post("/api/get_by_amphoe_occ", async (req, res) => {
         SUM(CASE mdp.OCC WHEN '020' THEN 1 ELSE 0 END) AS occ_020,
         SUM(CASE mdp.OCC WHEN '999' THEN 1 ELSE 0 END) AS occ_999
     FROM "DEPGIS".V_MN_DES_PERSON mdp
-    WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.AMPCODE='${amphoe_code}' AND mdp.SUBDISTRICT_NAME IS NOT NULL
+    WHERE mdp.ADDRESS_CODE ='${address_code}' ${pri} AND mdp.AMPCODE='${amphoe_code}' AND mdp.SUBDISTRICT_NAME IS NOT NULL
     GROUP BY mdp.SUBDISTRICT_NAME, mdp.TAMCODE 
     ORDER BY mdp.SUBDISTRICT_NAME`
     // console.log(sql);
@@ -1382,8 +1447,10 @@ app.post("/api/get_by_amphoe_occ", async (req, res) => {
 })
 
 app.post("/api/get_by_amphoe_agetype", async (req, res) => {
-    let { address_code, amphoe_code } = req.body
+    let { address_code, amphoe_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT ad.AGE AS CAT,
         SUM(CASE ad.DEFORM_ID WHEN '0' THEN 1 ELSE 0 END) AS type0, 
@@ -1407,7 +1474,7 @@ app.post("/api/get_by_amphoe_agetype", async (req, res) => {
                 mdd.DEFORM_ID
             FROM "DEPGIS".V_MN_DES_PERSON mdp  
             LEFT JOIN "OPP$_DBA".MN_DES_DEFORMED mdd ON mdp.MAIMAD_ID = mdd.MAIMAD_ID 
-            WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.AMPCODE='${amphoe_code}' AND mdp.SUBDISTRICT_NAME IS NOT NULL) ad 
+            WHERE mdp.ADDRESS_CODE ='${address_code}' ${pri} AND mdp.AMPCODE='${amphoe_code}' AND mdp.SUBDISTRICT_NAME IS NOT NULL) ad 
     GROUP BY ad.AGE
     ORDER BY ad.AGE`
     // console.log(sql);
@@ -1429,8 +1496,10 @@ app.post("/api/get_by_amphoe_agetype", async (req, res) => {
 })
 
 app.post("/api/get_by_amphoe_ageedu", async (req, res) => {
-    let { address_code, amphoe_code } = req.body
+    let { address_code, amphoe_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT ad.AGE AS CAT,
         SUM(CASE ad.DEGT_GROUP_CODE WHEN '$Low$' THEN 1 ELSE 0 END) AS low, 
@@ -1449,7 +1518,7 @@ app.post("/api/get_by_amphoe_ageedu", async (req, res) => {
             bdt.DEGT_GROUP_CODE
         FROM "DEPGIS".V_MN_DES_PERSON mdp 
         LEFT JOIN "OPP$_DBA".BS_DEGREE_TYPE bdt ON mdp.DEGREE_TYPE_CODE = bdt.DEGREE_TYPE_CODE
-        WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.AMPCODE='${amphoe_code}' AND mdp.SUBDISTRICT_NAME IS NOT NULL) ad 
+        WHERE mdp.ADDRESS_CODE ='${address_code}' ${pri} AND mdp.AMPCODE='${amphoe_code}' AND mdp.SUBDISTRICT_NAME IS NOT NULL) ad 
     GROUP BY ad.AGE
     ORDER BY ad.AGE`
     // console.log(sql);
@@ -1471,8 +1540,10 @@ app.post("/api/get_by_amphoe_ageedu", async (req, res) => {
 })
 
 app.post("/api/get_by_amphoe_ageocc", async (req, res) => {
-    let { address_code, amphoe_code } = req.body
+    let { address_code, amphoe_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT ad.AGE AS CAT,
         SUM(CASE ad.OCC WHEN '001' THEN 1 ELSE 0 END) AS occ_001,
@@ -1507,7 +1578,7 @@ app.post("/api/get_by_amphoe_ageocc", async (req, res) => {
             END AS age,
             mdp.OCC
         FROM "DEPGIS".V_MN_DES_PERSON mdp 
-        WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.AMPCODE='${amphoe_code}' AND mdp.SUBDISTRICT_NAME IS NOT NULL) ad 
+        WHERE mdp.ADDRESS_CODE ='${address_code}'${pri} AND mdp.AMPCODE='${amphoe_code}' AND mdp.SUBDISTRICT_NAME IS NOT NULL) ad 
     GROUP BY ad.AGE
     ORDER BY ad.AGE`
 
@@ -1530,15 +1601,17 @@ app.post("/api/get_by_amphoe_ageocc", async (req, res) => {
 
 // tambon non edit
 app.post("/api/get_by_tambon_total", async (req, res) => {
-    let { address_code, tambon_code } = req.body
+    let { address_code, tambon_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT mdp.SUBDISTRICT_NAME AS cat, 
         mdp.SUBDISTRICT_NAME,
         mdp.TAMCODE,
         SUM(CASE  WHEN mdp.SEX_CODE='M' OR mdp.SEX_CODE='F' OR mdp.SEX_CODE IS NULL  THEN 1 ELSE 0 END) AS cnt
     FROM "DEPGIS".V_MN_DES_PERSON mdp  
-    WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.TAMCODE='${tambon_code}'
+    WHERE mdp.ADDRESS_CODE ='${address_code}'${pri} AND mdp.TAMCODE='${tambon_code}'
     GROUP BY mdp.SUBDISTRICT_NAME, mdp.TAMCODE 
     ORDER BY mdp.SUBDISTRICT_NAME`
     // console.log(sql);
@@ -1560,14 +1633,16 @@ app.post("/api/get_by_tambon_total", async (req, res) => {
 })
 
 app.post("/api/get_by_tambon_sex", async (req, res) => {
-    let { address_code, tambon_code } = req.body
+    let { address_code, tambon_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT mdp.SUBDISTRICT_NAME  AS cat, 
         SUM(CASE mdp.SEX_CODE WHEN 'M' THEN 1 ELSE 0 END) AS M,
         SUM(CASE mdp.SEX_CODE WHEN 'F' THEN 1 ELSE 0 END) AS F   
     FROM "DEPGIS".V_MN_DES_PERSON mdp  
-    WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.TAMCODE='${tambon_code}'
+    WHERE mdp.ADDRESS_CODE ='${address_code}' ${pri} AND mdp.TAMCODE='${tambon_code}'
     GROUP BY mdp.SUBDISTRICT_NAME, mdp.TAMCODE 
     ORDER BY mdp.SUBDISTRICT_NAME`
     // console.log(sql);
@@ -1589,8 +1664,10 @@ app.post("/api/get_by_tambon_sex", async (req, res) => {
 })
 
 app.post("/api/get_by_tambon_type", async (req, res) => {
-    let { address_code, tambon_code } = req.body
+    let { address_code, tambon_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT mdp.SUBDISTRICT_NAME AS cat, 
         SUM(CASE mdd.DEFORM_ID WHEN '0' THEN 1 ELSE 0 END) AS type0, 
@@ -1605,7 +1682,7 @@ app.post("/api/get_by_tambon_type", async (req, res) => {
         
     FROM "DEPGIS".V_MN_DES_PERSON mdp  
     LEFT JOIN "OPP$_DBA".MN_DES_DEFORMED mdd ON mdp.MAIMAD_ID = mdd.MAIMAD_ID 
-    WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.TAMCODE='${tambon_code}'
+    WHERE mdp.ADDRESS_CODE ='${address_code}' ${pri} AND mdp.TAMCODE='${tambon_code}'
     GROUP BY mdp.SUBDISTRICT_NAME, mdp.TAMCODE 
     ORDER BY mdp.SUBDISTRICT_NAME`
     // console.log(sql);
@@ -1627,8 +1704,10 @@ app.post("/api/get_by_tambon_type", async (req, res) => {
 })
 
 app.post("/api/get_by_tambon_age", async (req, res) => {
-    let { address_code, tambon_code } = req.body
+    let { address_code, tambon_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT mdp.SUBDISTRICT_NAME AS cat,
         SUM(CASE WHEN mdp.AGE_NOW  <= 5 THEN 1 ELSE 0 END) AS age5,
@@ -1638,7 +1717,7 @@ app.post("/api/get_by_tambon_age", async (req, res) => {
         SUM(CASE WHEN mdp.AGE_NOW  > 59   THEN 1 ELSE 0 END) AS age60
         
     FROM "DEPGIS".V_MN_DES_PERSON mdp  
-    WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.TAMCODE='${tambon_code}'
+    WHERE mdp.ADDRESS_CODE ='${address_code}' ${pri} AND mdp.TAMCODE='${tambon_code}'
     GROUP BY mdp.SUBDISTRICT_NAME, mdp.TAMCODE 
     ORDER BY mdp.SUBDISTRICT_NAME`
     // console.log(sql);
@@ -1659,8 +1738,10 @@ app.post("/api/get_by_tambon_age", async (req, res) => {
     }
 })
 app.post("/api/get_by_tambon_edu", async (req, res) => {
-    let { address_code, tambon_code } = req.body
+    let { address_code, tambon_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT mdp.SUBDISTRICT_NAME AS cat,
         SUM(CASE WHEN bdt.DEGT_GROUP_CODE = '$Low$' OR bdt.DEGT_GROUP_CODE = '$Mid$' OR bdt.DEGT_GROUP_CODE = '$Hig$' OR bdt.DEGT_GROUP_CODE = '$Oth$' THEN 1 ELSE 0 END) AS cnt,
@@ -1670,7 +1751,7 @@ app.post("/api/get_by_tambon_edu", async (req, res) => {
         SUM(CASE bdt.DEGT_GROUP_CODE WHEN '$Oth$' THEN 1 ELSE 0 END) AS oth
         FROM "DEPGIS".V_MN_DES_PERSON mdp
         LEFT JOIN "OPP$_DBA".BS_DEGREE_TYPE bdt ON mdp.DEGREE_TYPE_CODE = bdt.DEGREE_TYPE_CODE
-        WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.TAMCODE='${tambon_code}'
+        WHERE mdp.ADDRESS_CODE ='${address_code}' ${pri} AND mdp.TAMCODE='${tambon_code}'
         GROUP BY mdp.SUBDISTRICT_NAME, mdp.TAMCODE 
         ORDER BY mdp.SUBDISTRICT_NAME`
     // console.log(sql);
@@ -1691,8 +1772,10 @@ app.post("/api/get_by_tambon_edu", async (req, res) => {
 })
 
 app.post("/api/get_by_tambon_occ", async (req, res) => {
-    let { address_code, tambon_code } = req.body
+    let { address_code, tambon_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT mdp.SUBDISTRICT_NAME AS cat,
         SUM(CASE mdp.OCC WHEN '001' THEN 1 ELSE 0 END) AS occ_001,
@@ -1717,7 +1800,7 @@ app.post("/api/get_by_tambon_occ", async (req, res) => {
         SUM(CASE mdp.OCC WHEN '020' THEN 1 ELSE 0 END) AS occ_020,
         SUM(CASE mdp.OCC WHEN '999' THEN 1 ELSE 0 END) AS occ_999
     FROM "DEPGIS".V_MN_DES_PERSON mdp
-    WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.TAMCODE='${tambon_code}'
+    WHERE mdp.ADDRESS_CODE ='${address_code}'${pri} AND mdp.TAMCODE='${tambon_code}'
     GROUP BY mdp.SUBDISTRICT_NAME, mdp.TAMCODE 
     ORDER BY mdp.SUBDISTRICT_NAME`
     // console.log(sql);
@@ -1738,8 +1821,10 @@ app.post("/api/get_by_tambon_occ", async (req, res) => {
 })
 
 app.post("/api/get_by_tambon_agetype", async (req, res) => {
-    let { address_code, tambon_code } = req.body
+    let { address_code, tambon_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT ad.AGE AS CAT,
         SUM(CASE ad.DEFORM_ID WHEN '0' THEN 1 ELSE 0 END) AS type0, 
@@ -1755,7 +1840,7 @@ app.post("/api/get_by_tambon_agetype", async (req, res) => {
                 CASE WHEN mdp.AGE_NOW  <= 5 THEN '1) 0-5 ปี' ELSE 
                     CASE WHEN mdp.AGE_NOW  > 5 AND mdp.AGE_NOW  <= 14 THEN '2) 6-14 ปี' ELSE 
                         CASE WHEN mdp.AGE_NOW  > 14 AND mdp.AGE_NOW  <= 21 THEN '3) 15-21 ปี' ELSE 
-                            CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59 ปี' ELSE '5) >60' 
+                            CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59 ปี' ELSE '5) 60 ปีขึ้นไป' 
                             END 
                         END  
                     END 
@@ -1763,7 +1848,7 @@ app.post("/api/get_by_tambon_agetype", async (req, res) => {
                 mdd.DEFORM_ID
             FROM "DEPGIS".V_MN_DES_PERSON mdp  
             LEFT JOIN "OPP$_DBA".MN_DES_DEFORMED mdd ON mdp.MAIMAD_ID = mdd.MAIMAD_ID 
-            WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.TAMCODE='${tambon_code}') ad 
+            WHERE mdp.ADDRESS_CODE ='${address_code}'${pri} AND mdp.TAMCODE='${tambon_code}') ad 
     GROUP BY ad.AGE
     ORDER BY ad.AGE`
     // console.log(sql);
@@ -1785,8 +1870,10 @@ app.post("/api/get_by_tambon_agetype", async (req, res) => {
 })
 
 app.post("/api/get_by_tambon_ageedu", async (req, res) => {
-    let { address_code, tambon_code } = req.body
+    let { address_code, tambon_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT ad.AGE AS CAT,
         SUM(CASE ad.DEGT_GROUP_CODE WHEN '$Low$' THEN 1 ELSE 0 END) AS low, 
@@ -1797,7 +1884,7 @@ app.post("/api/get_by_tambon_ageedu", async (req, res) => {
             CASE WHEN mdp.AGE_NOW  <= 5 THEN '1) 0-5 ปี' ELSE 
                 CASE WHEN mdp.AGE_NOW  > 5 AND mdp.AGE_NOW  <= 14 THEN '2) 6-14 ปี' ELSE 
                     CASE WHEN mdp.AGE_NOW  > 14 AND mdp.AGE_NOW  <= 21 THEN '3) 15-21 ปี' ELSE 
-                        CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59 ปี' ELSE '5) >60' 
+                        CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59 ปี' ELSE '5) 60 ปีขึ้นไป' 
                         END 
                     END  
                 END 
@@ -1805,7 +1892,7 @@ app.post("/api/get_by_tambon_ageedu", async (req, res) => {
             bdt.DEGT_GROUP_CODE
         FROM "DEPGIS".V_MN_DES_PERSON mdp 
         LEFT JOIN "OPP$_DBA".BS_DEGREE_TYPE bdt ON mdp.DEGREE_TYPE_CODE = bdt.DEGREE_TYPE_CODE
-        WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.TAMCODE='${tambon_code}') ad 
+        WHERE mdp.ADDRESS_CODE ='${address_code}'${pri} AND mdp.TAMCODE='${tambon_code}') ad 
     GROUP BY ad.AGE
     ORDER BY ad.AGE`
     // console.log(sql);
@@ -1827,8 +1914,10 @@ app.post("/api/get_by_tambon_ageedu", async (req, res) => {
 })
 
 app.post("/api/get_by_tambon_ageocc", async (req, res) => {
-    let { address_code, tambon_code } = req.body
+    let { address_code, tambon_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
     const sql = `SELECT ad.AGE AS CAT,
         SUM(CASE ad.OCC WHEN '001' THEN 1 ELSE 0 END) AS occ_001,
@@ -1856,14 +1945,14 @@ app.post("/api/get_by_tambon_ageocc", async (req, res) => {
             CASE WHEN mdp.AGE_NOW  <= 5 THEN '1) 0-5 ปี' ELSE 
                 CASE WHEN mdp.AGE_NOW  > 5 AND mdp.AGE_NOW  <= 14 THEN '2) 6-14 ปี' ELSE 
                     CASE WHEN mdp.AGE_NOW  > 14 AND mdp.AGE_NOW  <= 21 THEN '3) 15-21 ปี' ELSE 
-                        CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59 ปี' ELSE '5) >60' 
+                        CASE WHEN mdp.AGE_NOW  > 21 AND mdp.AGE_NOW  <= 59 THEN '4) 22-59 ปี' ELSE '5) 60 ปีขึ้นไป' 
                         END 
                     END  
                 END 
             END AS age,
             mdp.OCC
         FROM "DEPGIS".V_MN_DES_PERSON mdp 
-        WHERE mdp.ADDRESS_CODE ='${address_code}' AND mdp.TAMCODE='${tambon_code}') ad 
+        WHERE mdp.ADDRESS_CODE ='${address_code}'${pri} AND mdp.TAMCODE='${tambon_code}') ad 
     GROUP BY ad.AGE
     ORDER BY ad.AGE`
 
@@ -1884,14 +1973,18 @@ app.post("/api/get_by_tambon_ageocc", async (req, res) => {
 })
 
 //// 
+
 app.post("/api/get_by_province", async (req, res) => {
-    let { region_code, province_code, address_code } = req.body
+    let { region_code, province_code, address_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mda.privilege ='01' OR mda.privilege ='02')` : pri = `AND mda.privilege ='${privilege}'`
+
     let where;
     if (!province_code) {
-        where = `WHERE mda.ADDRESS_CODE = '${address_code}' AND mda.REGION_CODE='${region_code}'`;
+        where = `WHERE mda.ADDRESS_CODE = '${address_code}'${pri} AND mda.REGION_CODE='${region_code}'`;
     } else {
-        where = `WHERE mda.ADDRESS_CODE = '${address_code}' AND mda.PROVINCE_CODE ='${province_code}'`;
+        where = `WHERE mda.ADDRESS_CODE = '${address_code}'${pri} AND mda.PROVINCE_CODE ='${province_code}'`;
     }
 
     const sql = `SELECT mda.PROVINCE_CODE, mda.PROVINCE_NAME, 
@@ -1921,11 +2014,14 @@ app.post("/api/get_by_province", async (req, res) => {
 app.post("/api/get_by_amp", async (req, res) => {
     let { province_code, amphoe_code, address_code } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mda.privilege ='01' OR mda.privilege ='02')` : pri = `AND mda.privilege ='${privilege}'`
+
     let where;
     if (!amphoe_code) {
-        where = `WHERE mda.ADDRESS_CODE = '${address_code}' AND mda.PROVINCE_CODE = '${province_code}'`;
+        where = `WHERE mda.ADDRESS_CODE = '${address_code}'${pri} AND mda.PROVINCE_CODE = '${province_code}'`;
     } else {
-        where = `WHERE mda.ADDRESS_CODE = '${address_code}' AND mda.AMPCODE='${amphoe_code}'`;
+        where = `WHERE mda.ADDRESS_CODE = '${address_code}'${pri} AND mda.AMPCODE='${amphoe_code}'`;
     }
 
     let sql = `SELECT mda.PROVINCE_CODE, mda.PROVINCE_NAME, mda.AMPCODE, mda.DISTRICT_NAME,
@@ -1955,11 +2051,14 @@ app.post("/api/get_by_amp", async (req, res) => {
 app.post("/api/get_by_tam", async (req, res) => {
     let { amphoe_code, tambon_code, address_code } = req.body
     let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mda.privilege ='01' OR mda.privilege ='02')` : pri = `AND mda.privilege ='${privilege}'`
+
     let where;
     if (!tambon_code) {
-        where = `WHERE mda.ADDRESS_CODE = '${address_code}' AND mda.AMPCODE = '${amphoe_code}'`;
+        where = `WHERE mda.ADDRESS_CODE = '${address_code}'${pri} AND mda.AMPCODE = '${amphoe_code}'`;
     } else {
-        where = `WHERE mda.ADDRESS_CODE = '${address_code}' AND mda.TAMCODE ='${tambon_code}'`;
+        where = `WHERE mda.ADDRESS_CODE = '${address_code}'${pri} AND mda.TAMCODE ='${tambon_code}'`;
     }
 
     let sql = `SELECT mda.PROVINCE_CODE, mda.PROVINCE_NAME, mda.AMPCODE, mda.DISTRICT_NAME, mda.TAMCODE, mda.SUBDISTRICT_NAME, 
@@ -2060,6 +2159,7 @@ app.post('/api/card_info', async (req, res) => {
 })
 
 // country
+
 app.post("/api/get_by_age", async (req, res) => {
     let { address_code, privilege, year, age_start, age_end } = req.body
     console.log(address_code, privilege, year, age_start, age_end);
@@ -2071,8 +2171,8 @@ app.post("/api/get_by_age", async (req, res) => {
     FROM (SELECT  
         mdp.BIRTH_DATE,
         mdp.SEX_CODE,
-        SUBSTR(mdp.BIRTH_DATE,-4)-543,
-        (${year} - (SUBSTR(mdp.BIRTH_DATE,-4)-543)) AS AGE_NOW
+        SUBSTR(mdp.BIRTH_DATE,-4),
+        (${year} - (SUBSTR(mdp.BIRTH_DATE,-4))) AS AGE_NOW
         FROM "DEPGIS".V_MN_DES_PERSON mdp  
         WHERE mdp.ADDRESS_CODE ='${address_code}' ${pri}) a
     WHERE a.AGE_NOW BETWEEN ${age_start} AND ${age_end}
