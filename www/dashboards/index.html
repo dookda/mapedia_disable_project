@@ -42,7 +42,6 @@
   <link href="../../assets/css/nucleo-svg.css" rel="stylesheet" />
 
   <!-- CSS Files -->
-  <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link id="pagestyle" href="../../assets/css/soft-ui-dashboard.css?v=1.0.9" rel="stylesheet" />
   <!-- <link rel="stylesheet" type="text/css" href="loading.css" /> -->
@@ -51,13 +50,6 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
     integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
     crossorigin="" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
-  <link rel="stylesheet" href="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.css" />
-
-  <!-- datatables -->
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.7.0/css/buttons.dataTables.min.css">
 
   <link href="./style.css" rel="stylesheet">
 
@@ -351,10 +343,200 @@
           </div>
         </div>
       </div>
+      <div class="col-lg-12 mb-lg-0 mb-4 mt-4">
+        <div class="row ">
+          <div class="col-lg-4">
+            <div class="card z-index-2">
+              <div class="card-body p-3">
+                <h6><b>แผนที่ฐาน</b></h6>
+                <div class="row pt-2">
+                  <div class="col">
+                    <div class="basemap-style basemap-style-active" value="ghyb">
+                      <div class="gR3rXe m-auto"
+                        style="background-image: url(https://maps.gstatic.com/tactile/layerswitcher/ic_satellite-1x.png);">
+                      </div>
+                      <span>ดาวเทียม</span>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="basemap-style" value="CartoDB_Positron">
+                      <div class="gR3rXe m-auto"
+                        style="background-image: url(https://maps.gstatic.com/tactile/layerswitcher/ic_default-1x.png);">
+                      </div>
+                      <span>ค่าเริ่มต้น</span>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="basemap-style " value="grod">
+                      <div class="gR3rXe  m-auto"
+                        style="background-image: url(https://maps.gstatic.com/tactile/layerswitcher/ic_traffic-1x.png);">
+                      </div>
+                      <span>เส้นถนน</span>
+                    </div>
+                  </div>
+                </div>
+
+                <h6 class="font-weight-bold mt-2" style="color:black;">ชั้นข้อมูล
+                </h6>
+                <div class="row">
+                  <div class="col">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="pro" id="pro" checked>
+                      <label class="form-check-label">
+                        ขอบเขตจังหวัด
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="amp" id="amp">
+                      <label class="form-check-label">
+                        ขอบเขตอำเภอ
+                      </label>
+
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="tam" id="tam">
+                      <label class="form-check-label">
+                        ขอบเขตตำบล
+                      </label>
+
+                    </div>
+
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="flood_2005" id="flood_2005">
+                      <label class="form-check-label">
+                        พื้นที่น้ำท่วม 2548
+                      </label>
+
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="flood_2006" id="flood_2006">
+                      <label class="form-check-label">
+                        พื้นที่น้ำท่วม 2549
+                      </label>
+
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="flood_2007" id="flood_2007">
+                      <label class="form-check-label">
+                        พื้นที่น้ำท่วม 2550
+                      </label>
+
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="flood_2008" id="flood_2008">
+                      <label class="form-check-label">
+                        พื้นที่น้ำท่วม 2551
+                      </label>
+
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="flood_2009" id="flood_2009">
+                      <label class="form-check-label">
+                        พื้นที่น้ำท่วม 2552
+                      </label>
+
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="flood_2010" id="flood_2010">
+                      <label class="form-check-label">
+                        พื้นที่น้ำท่วม 2553
+                      </label>
+
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="flood_2011" id="flood_2011">
+                      <label class="form-check-label">
+                        พื้นที่น้ำท่วม 2554
+                      </label>
+
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="flood_2012" id="flood_2012">
+                      <label class="form-check-label">
+                        พื้นที่น้ำท่วม 2555
+                      </label>
+
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="flood_2013" id="flood_2013">
+                      <label class="form-check-label">
+                        พื้นที่น้ำท่วม 2556
+                      </label>
+
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="flood_2014" id="flood_2014">
+                      <label class="form-check-label">
+                        พื้นที่น้ำท่วม 2557
+                      </label>
+
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="flood_2015" id="flood_2015">
+                      <label class="form-check-label">
+                        พื้นที่น้ำท่วม 2558
+                      </label>
+
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="flood_2016" id="flood_2016">
+                      <label class="form-check-label">
+                        พื้นที่น้ำท่วม 2559
+                      </label>
+
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="flood_2017" id="flood_2017">
+                      <label class="form-check-label">
+                        พื้นที่น้ำท่วม 2560
+                      </label>
+
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="flood_2018" id="flood_2018">
+                      <label class="form-check-label">
+                        พื้นที่น้ำท่วม 2561
+                      </label>
+
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="flood_2019" id="flood_2019">
+                      <label class="form-check-label">
+                        พื้นที่น้ำท่วม 2562
+                      </label>
+
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="flood_2020" id="flood_2020">
+                      <label class="form-check-label">
+                        พื้นที่น้ำท่วม 2563
+                      </label>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-8">
+            <div class="card z-index-2">
+              <div class="card-body p-3">
+                <!-- <h5 class="font-weight-bold mb-2" style="color:black; font-size: 22px;">แผนที่ขอบเขต
+                </h5> -->
+                <div id="map"> </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="row">
         <div class="col-lg-12 mb-lg-0 mb-4 mt-4">
           <div class="row ">
-            <div class="col-lg-5">
+            <div class="col-sm-12">
               <div class="card z-index-2">
                 <div class="card-body p-3">
                   <label class="font-weight-bold mb-2 "
@@ -370,193 +552,10 @@
                 </div>
               </div>
             </div>
-            <div class="col-lg-4">
-              <div class="card z-index-2">
-                <div class="card-body p-3">
-                  <h5 class="font-weight-bold mb-2" style="color:black; font-size: 22px;">แผนที่ขอบเขต
-                  </h5>
-                  <div id="map"> </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-3">
-              <div class="card z-index-2">
-                <div class="card-body p-3">
-                  <h6><b>แผนที่ฐาน</b></h6>
-                  <div class="row pt-2">
-                    <div class="col">
-                      <div class="basemap-style basemap-style-active" value="ghyb">
-                        <div class="gR3rXe m-auto"
-                          style="background-image: url(https://maps.gstatic.com/tactile/layerswitcher/ic_satellite-1x.png);">
-                        </div>
-                        <span>ดาวเทียม</span>
-                      </div>
-                    </div>
-                    <div class="col">
-                      <div class="basemap-style" value="CartoDB_Positron">
-                        <div class="gR3rXe m-auto"
-                          style="background-image: url(https://maps.gstatic.com/tactile/layerswitcher/ic_default-1x.png);">
-                        </div>
-                        <span>ค่าเริ่มต้น</span>
-                      </div>
-                    </div>
-                    <div class="col">
-                      <div class="basemap-style " value="grod">
-                        <div class="gR3rXe  m-auto"
-                          style="background-image: url(https://maps.gstatic.com/tactile/layerswitcher/ic_traffic-1x.png);">
-                        </div>
-                        <span>เส้นถนน</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <h6 class="font-weight-bold mt-2" style="color:black;">ชั้นข้อมูล
-                  </h6>
-                  <div class="row">
-                    <div class="col">
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="pro" id="pro" checked>
-                        <label class="form-check-label">
-                          ขอบเขตจังหวัด
-                        </label>
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="amp" id="amp">
-                        <label class="form-check-label">
-                          ขอบเขตอำเภอ
-                        </label>
-
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="tam" id="tam">
-                        <label class="form-check-label">
-                          ขอบเขตตำบล
-                        </label>
-
-                      </div>
-
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="flood_2005" id="flood_2005">
-                        <label class="form-check-label">
-                          พื้นที่น้ำท่วม 2548
-                        </label>
-
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="flood_2006" id="flood_2006">
-                        <label class="form-check-label">
-                          พื้นที่น้ำท่วม 2549
-                        </label>
-
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="flood_2007" id="flood_2007">
-                        <label class="form-check-label">
-                          พื้นที่น้ำท่วม 2550
-                        </label>
-
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="flood_2008" id="flood_2008">
-                        <label class="form-check-label">
-                          พื้นที่น้ำท่วม 2551
-                        </label>
-
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="flood_2009" id="flood_2009">
-                        <label class="form-check-label">
-                          พื้นที่น้ำท่วม 2552
-                        </label>
-
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="flood_2010" id="flood_2010">
-                        <label class="form-check-label">
-                          พื้นที่น้ำท่วม 2553
-                        </label>
-
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="flood_2011" id="flood_2011">
-                        <label class="form-check-label">
-                          พื้นที่น้ำท่วม 2554
-                        </label>
-
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="flood_2012" id="flood_2012">
-                        <label class="form-check-label">
-                          พื้นที่น้ำท่วม 2555
-                        </label>
-
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="flood_2013" id="flood_2013">
-                        <label class="form-check-label">
-                          พื้นที่น้ำท่วม 2556
-                        </label>
-
-                      </div>
-                    </div>
-                    <div class="col">
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="flood_2014" id="flood_2014">
-                        <label class="form-check-label">
-                          พื้นที่น้ำท่วม 2557
-                        </label>
-
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="flood_2015" id="flood_2015">
-                        <label class="form-check-label">
-                          พื้นที่น้ำท่วม 2558
-                        </label>
-
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="flood_2016" id="flood_2016">
-                        <label class="form-check-label">
-                          พื้นที่น้ำท่วม 2559
-                        </label>
-
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="flood_2017" id="flood_2017">
-                        <label class="form-check-label">
-                          พื้นที่น้ำท่วม 2560
-                        </label>
-
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="flood_2018" id="flood_2018">
-                        <label class="form-check-label">
-                          พื้นที่น้ำท่วม 2561
-                        </label>
-
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="flood_2019" id="flood_2019">
-                        <label class="form-check-label">
-                          พื้นที่น้ำท่วม 2562
-                        </label>
-
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="flood_2020" id="flood_2020">
-                        <label class="form-check-label">
-                          พื้นที่น้ำท่วม 2563
-                        </label>
-
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
+
       <div class="row mt-4">
         <div class="col-lg-6 mb-lg-0 mb-4">
           <div class="card z-index-2">
@@ -814,10 +813,6 @@
   <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
     integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
     crossorigin=""></script>
-  <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js"
-    charset="utf-8"></script>
-  <script src="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.min.js"></script>
-
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
   <script src="../../assets/js/soft-ui-dashboard.min.js?v=1.0.9"></script>
