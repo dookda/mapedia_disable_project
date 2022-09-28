@@ -346,3 +346,13 @@ Content-Type: application/json
     "connection": "01" 
 }    
      
+
+### report page
+POST http://localhost:3000/api_report/get_by_region
+Content-Type: application/json
+
+{
+    "address_code": "02" ,
+    "privilege": "00"
+}    
+   

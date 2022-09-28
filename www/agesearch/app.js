@@ -54,7 +54,6 @@ let yyyy = date.getFullYear();
 let mm = date.getMonth()
 let dd = date.getDate()
 
-// yyyy2 = String(yyyy + 543)
 mm = addZoro(mm)
 dd = addZoro(dd)
 
