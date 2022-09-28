@@ -7,7 +7,7 @@ body {
   border-radius: 10px;
 }
 
-#chart-total {
+#chart-region {
   position: relative;
   height: 54vh;
   overflow: hidden;
@@ -19,9 +19,17 @@ body {
   overflow: hidden;
 }
 
-#chart-type {
+#chart-total {
   position: relative;
   height: 54vh;
+  overflow: hidden;
+}
+
+
+
+#chart-type {
+  position: relative;
+  height: 50vh;
   overflow: hidden;
 }
 

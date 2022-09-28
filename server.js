@@ -21,6 +21,9 @@ app.use(bodyParser.urlencoded({
 const api = require('./service/api');
 app.use(api);
 
+const apireport = require('./service/apireport');
+app.use(apireport);
+
 const geoapi = require('./service/geoapi');
 app.use(geoapi);
 
