@@ -54,7 +54,9 @@ const tam = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
   layers: "depgis:th_tambon",
   name: "lyr",
   format: "image/png",
+  iswms: "wms",
   transparent: true,
+  zIndex: 2,
   maxZoom: 18,
   // minZoom: 14,
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
@@ -64,7 +66,9 @@ const amp = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
   layers: "depgis:th_amphoe",
   name: "lyr",
   format: "image/png",
+  iswms: "wms",
   transparent: true,
+  zIndex: 2,
   maxZoom: 14,
   // minZoom: 10,
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
@@ -74,7 +78,9 @@ const pro = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
   layers: "depgis:th_province",
   name: "lyr",
   format: "image/png",
+  iswms: "wms",
   transparent: true,
+  zIndex: 2,
   maxZoom: 10,
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
@@ -83,7 +89,9 @@ const flood_2005 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/w
   layers: "depgis:flood_2005",
   name: "lyr",
   format: "image/png",
+  iswms: "wms",
   transparent: true,
+  zIndex: 2,
   maxZoom: 10,
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
@@ -92,7 +100,9 @@ const flood_2006 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/w
   layers: "depgis:flood_2006",
   name: "lyr",
   format: "image/png",
+  iswms: "wms",
   transparent: true,
+  zIndex: 2,
   maxZoom: 10,
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
@@ -101,7 +111,9 @@ const flood_2007 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/w
   layers: "depgis:flood_2007",
   name: "lyr",
   format: "image/png",
+  iswms: "wms",
   transparent: true,
+  zIndex: 2,
   maxZoom: 10,
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
@@ -110,7 +122,9 @@ const flood_2008 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/w
   layers: "depgis:flood_2008",
   name: "lyr",
   format: "image/png",
+  iswms: "wms",
   transparent: true,
+  zIndex: 2,
   maxZoom: 10,
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
@@ -119,7 +133,9 @@ const flood_2009 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/w
   layers: "depgis:flood_2009",
   name: "lyr",
   format: "image/png",
+  iswms: "wms",
   transparent: true,
+  zIndex: 2,
   maxZoom: 10,
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
@@ -128,7 +144,9 @@ const flood_2010 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/w
   layers: "depgis:flood_2010",
   name: "lyr",
   format: "image/png",
+  iswms: "wms",
   transparent: true,
+  zIndex: 2,
   maxZoom: 10,
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
@@ -137,7 +155,9 @@ const flood_2011 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/w
   layers: "depgis:flood_2011",
   name: "lyr",
   format: "image/png",
+  iswms: "wms",
   transparent: true,
+  zIndex: 2,
   maxZoom: 10,
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
@@ -146,7 +166,9 @@ const flood_2012 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/w
   layers: "depgis:flood_2012",
   name: "lyr",
   format: "image/png",
+  iswms: "wms",
   transparent: true,
+  zIndex: 2,
   maxZoom: 10,
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
@@ -155,7 +177,9 @@ const flood_2013 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/w
   layers: "depgis:flood_2013",
   name: "lyr",
   format: "image/png",
+  iswms: "wms",
   transparent: true,
+  zIndex: 2,
   maxZoom: 10,
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
@@ -164,7 +188,9 @@ const flood_2014 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/w
   layers: "depgis:flood_2014",
   name: "lyr",
   format: "image/png",
+  iswms: "wms",
   transparent: true,
+  zIndex: 2,
   maxZoom: 10,
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
@@ -173,7 +199,9 @@ const flood_2015 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/w
   layers: "depgis:flood_2015",
   name: "lyr",
   format: "image/png",
+  iswms: "wms",
   transparent: true,
+  zIndex: 2,
   maxZoom: 10,
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
@@ -181,7 +209,9 @@ const flood_2016 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/w
   layers: "depgis:flood_2016",
   name: "lyr",
   format: "image/png",
+  iswms: "wms",
   transparent: true,
+  zIndex: 2,
   maxZoom: 10,
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
@@ -189,7 +219,9 @@ const flood_2017 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/w
   layers: "depgis:flood_2017",
   name: "lyr",
   format: "image/png",
+  iswms: "wms",
   transparent: true,
+  zIndex: 2,
   maxZoom: 10,
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
@@ -197,7 +229,9 @@ const flood_2018 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/w
   layers: "depgis:flood_2018",
   name: "lyr",
   format: "image/png",
+  iswms: "wms",
   transparent: true,
+  zIndex: 2,
   maxZoom: 10,
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
@@ -205,7 +239,9 @@ const flood_2019 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/w
   layers: "depgis:flood_2019",
   name: "lyr",
   format: "image/png",
+  iswms: "wms",
   transparent: true,
+  zIndex: 2,
   maxZoom: 10,
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
@@ -213,7 +249,9 @@ const flood_2020 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/w
   layers: "depgis:flood_2020",
   name: "lyr",
   format: "image/png",
+  iswms: "wms",
   transparent: true,
+  zIndex: 2,
   maxZoom: 10,
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
@@ -302,12 +340,35 @@ $(".basemap-style").on('click', async function () {
       map.removeLayer(i)
     }
   })
-  console.log($(this).attr('value'))
+  // console.log($(this).attr('value'))
   let basemap = $(this).attr('value')
   base[`${basemap}`].addTo(map);
 
   // $(this).removeClass("basemap-style").addClass("basemap-style-active");
 })
+
+$("input[type=checkbox]").change(async () => {
+  await map.eachLayer(i => {
+    // console.log(i);
+    if (i.options.name == "lyr") {
+      map.removeLayer(i)
+    }
+  })
+
+  let chk = [];
+  await $('input[type=checkbox]:checked').each(function () {
+    chk.push($(this).val());
+  });
+
+  chk.map(i => {
+    // console.log(i);
+    if (lyr[`${i}`]) {
+      lyr[`${i}`].addTo(map);
+    }
+  })
+
+})
+
 
 var legend = L.control({ position: "bottomright" });
 function showLegend() {
@@ -351,16 +412,19 @@ var boundStyle = {
   "fillOpacity": 0.25
 };
 
-// let getdata = () => {
-//   axios.post(`${url}/api/get_distotal`).then(async (r) => {
-//     d = r.data;
-//     // console.log(d)
-//     $("#distotal").text(Number(r.data[0].TOTAL))
-//     $("#f_total").text(Number(r.data[0].F))
-//     $("#m_total").text(Number(r.data[0].M))
-//   })
-// }
-// getdata()
+$("#mapview").click(function () {
+  $("#showmap").show();
+  $("#showdataview").hide();
+})
+$("#dataview").click(function () {
+  $("#showmap").hide();
+  $("#showdataview").show();
+})
+
+
+$("#showmap").show()
+$("#showdataview").hide()
+
 
 /// chart total
 var domPie = document.getElementById('chart-total');
@@ -1904,6 +1968,7 @@ function showAgeOcc(arr) {
   }
 }
 
+
 function selectAddress(address_code, privilege) {
   axios.post(`${url}/api/get_by_privilege`, { address_code, privilege }).then(async (r) => {
     $('#getdata').text(`ทั้งหมด`);
@@ -2228,10 +2293,10 @@ function selectinfo(Category) {
   }
   else if (Category == "sex") {
     if (privilege && address_code && region_code == "all") {
-      console.log(privilege)
-      console.log(address_code)
+      // console.log(privilege)
+      // console.log(address_code)
       axios.post(`${url}/api/get_by_country_sex`, { privilege, address_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b>${i.CAT}:</b> <br> เพศชาย ${i.M} คน  เพศหญิง ${i.F} คน  <br>`)
         })
@@ -2240,7 +2305,7 @@ function selectinfo(Category) {
     if (privilege && address_code && region_code !== "all" && province_code == "all") {
       console.log(region_code)
       axios.post(`${url}/api/get_by_region_sex`, { privilege, address_code, region_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b>${i.CAT}:</b> <br> เพศชาย ${i.M} คน  เพศหญิง ${i.F} คน  <br>`)
         })
@@ -2249,7 +2314,7 @@ function selectinfo(Category) {
     if (privilege && address_code && region_code !== "all" && province_code !== "all" && amphoe_code == "all") {
       console.log(province_code)
       axios.post(`${url}/api/get_by_province_sex`, { privilege, address_code, province_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b>${i.CAT}:</b> <br> เพศชาย ${i.M} คน  เพศหญิง ${i.F} คน  <br>`)
         })
@@ -2258,7 +2323,7 @@ function selectinfo(Category) {
     if (privilege && address_code && region_code !== "all" && province_code !== "all" && amphoe_code !== "all" && tambon_code == "all") {
       console.log(amphoe_code)
       axios.post(`${url}/api/get_by_amphoe_sex`, { privilege, address_code, amphoe_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b>${i.CAT}:</b> <br> เพศชาย ${i.M} คน  เพศหญิง ${i.F} คน  <br>`)
         })
@@ -2267,7 +2332,7 @@ function selectinfo(Category) {
     if (privilege && address_code && region_code !== "all" && province_code !== "all" && amphoe_code !== "all" && tambon_code !== "all") {
       console.log(tambon_code)
       axios.post(`${url}/api/get_by_tambon_sex`, { privilege, address_code, tambon_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b>${i.CAT}:</b> <br> เพศชาย ${i.M} คน  เพศหญิง ${i.F} คน  <br>`)
         })
@@ -2276,7 +2341,7 @@ function selectinfo(Category) {
   }
   else if (Category == "type") {
     if (privilege && address_code && region_code == "all") {
-      console.log(address_code)
+      // console.log(address_code)
       axios.post(`${url}/api/get_by_country_type`, { privilege, address_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
@@ -2286,7 +2351,7 @@ function selectinfo(Category) {
       })
     }
     if (privilege && address_code && region_code !== "all" && province_code == "all") {
-      console.log(region_code)
+      // console.log(region_code)
       axios.post(`${url}/api/get_by_region_type`, { privilege, address_code, region_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
@@ -2296,7 +2361,7 @@ function selectinfo(Category) {
       })
     }
     if (privilege && address_code && region_code !== "all" && province_code !== "all" && amphoe_code == "all") {
-      console.log(province_code)
+      // console.log(province_code)
       axios.post(`${url}/api/get_by_province_type`, { privilege, address_code, province_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
@@ -2306,7 +2371,7 @@ function selectinfo(Category) {
       })
     }
     if (privilege && address_code && region_code !== "all" && province_code !== "all" && amphoe_code !== "all" && tambon_code == "all") {
-      console.log(amphoe_code)
+      // console.log(amphoe_code)
       axios.post(`${url}/api/get_by_amphoe_type`, { privilege, address_code, amphoe_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
@@ -2316,7 +2381,7 @@ function selectinfo(Category) {
       })
     }
     if (privilege && address_code && region_code !== "all" && province_code !== "all" && amphoe_code !== "all" && tambon_code !== "all") {
-      console.log(tambon_code)
+      // console.log(tambon_code)
       axios.post(`${url}/api/get_by_tambon_type`, { privilege, address_code, tambon_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
@@ -2328,7 +2393,7 @@ function selectinfo(Category) {
   }
   else if (Category == "age") {
     if (privilege && address_code && region_code == "all") {
-      console.log(address_code)
+      // console.log(address_code)
       axios.post(`${url}/api/get_by_country_age`, { privilege, address_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
@@ -2338,7 +2403,7 @@ function selectinfo(Category) {
       })
     }
     if (privilege && address_code && region_code !== "all" && province_code == "all") {
-      console.log(region_code)
+      // console.log(region_code)
       axios.post(`${url}/api/get_by_region_age`, { privilege, address_code, region_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
@@ -2348,7 +2413,7 @@ function selectinfo(Category) {
       })
     }
     if (privilege && address_code && region_code !== "all" && province_code !== "all" && amphoe_code == "all") {
-      console.log(province_code)
+      // console.log(province_code)
       axios.post(`${url}/api/get_by_province_age`, { privilege, address_code, province_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
@@ -2358,7 +2423,7 @@ function selectinfo(Category) {
       })
     }
     if (privilege && address_code && region_code !== "all" && province_code !== "all" && amphoe_code !== "all" && tambon_code == "all") {
-      console.log(amphoe_code)
+      // console.log(amphoe_code)
       axios.post(`${url}/api/get_by_amphoe_age`, { privilege, address_code, amphoe_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
@@ -2368,7 +2433,7 @@ function selectinfo(Category) {
       })
     }
     if (privilege && address_code && region_code !== "all" && province_code !== "all" && amphoe_code !== "all" && tambon_code !== "all") {
-      console.log(tambon_code)
+      // console.log(tambon_code)
       axios.post(`${url}/api/get_by_tambon_age`, { privilege, address_code, tambon_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {
@@ -2381,7 +2446,7 @@ function selectinfo(Category) {
   }
   else if (Category == "edu") {
     if (privilege && address_code && region_code == "all") {
-      console.log(address_code)
+      // console.log(address_code)
       axios.post(`${url}/api/get_by_country_edu`, { privilege, address_code }).then(async (r) => {
         console.log(r.data)
         r.data.map(i => {

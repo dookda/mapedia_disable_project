@@ -3,13 +3,14 @@ body {
 }
 
 #map {
-  height: 70vh;
+  height: 80vh;
   border-radius: 15px;
 }
 
 #chart-total {
   position: relative;
   height: 50vh;
+  width: 80vh;
   overflow: hidden;
 }
 

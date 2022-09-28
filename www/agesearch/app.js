@@ -28,7 +28,7 @@ let getData = () => {
   let dtDat = document.getElementById("txtDate").value
   let dtArr = dtDat.split("/")
   let yyyy = `${Number(dtArr[2])}`
-  console.log(yyyy);
+  // console.log(yyyy);
   loadData(yyyy, age_start, age_end)
 }
 
@@ -36,13 +36,14 @@ let loadData = (year, age_start, age_end) => {
   document.getElementById("m").innerHTML = ''
   document.getElementById("f").innerHTML = ''
   axios.post('/api/get_by_age', { address_code: '01', privilege: '00', year, age_start, age_end }).then(r => {
-    console.log(r);
-
+    // console.log(r);
+    // console.log(r.data)
     document.getElementById("m").innerHTML += r.data[0].CNT
     document.getElementById("f").innerHTML += r.data[1].CNT
-
+    showSex(r.data)
   })
 }
+
 
 let addZoro = (d) => {
   return d < 10 ? '0' + d : String(d)
@@ -60,10 +61,11 @@ dd = addZoro(dd)
 $("#txtDate").val(`${dd}/${mm}/${yyyy}`)
 
 var chartDom = document.getElementById('chart-agesearch');
-var myChart = echarts.init(chartDom);
-var option;
-
-option = {
+var Chartsex = echarts.init(chartDom, null, {
+  renderer: 'canvas',
+  useDirtyRect: false
+});
+var optionSex = {
   // title: {
   //   text: 'จำนวนคนพิการจากการค้นหาตามช่วงอายุ'
   // },
@@ -108,24 +110,40 @@ option = {
       fontFamily: "Prompt",
       fontSize: 12
     },
-  },
-  series: [
+  }
+};
+window.addEventListener('resize', Chartsex.resize);
+
+async function showSex(arr) {
+  // console.log(arr)
+  var M, F;
+  arr.map((x) => {
+    if (x.SEX_CODE == 'M') {
+      M = x.CNT
+    } else {
+      F = x.CNT
+    }
+  })
+  var countsex = M + F;
+  $("#countsex").text(countsex)
+  // console.log(countsex)
+  optionSex.yAxis = [
     {
-      name: 'เพศหญิง',
-      type: 'bar',
-      color: [
-        '#FFC2C7',
-      ],
-      label: {
-        show: true,
-        position: 'inside',
-        fontWeight: "normal",
-        fontFamily: "Prompt",
-        fontSize: "16",
-        color: "#ffffff"
+      type: 'category',
+      axisTick: {
+        alignWithLabel: false,
+        length: 5,
+        inside: false
       },
-      data: [18203]
-    },
+      axisLabel: {
+        show: true,
+        fontFamily: "Prompt",
+        fontSize: 12
+      },
+      data: ['']
+    }
+  ]
+  optionSex.series = [
     {
       name: 'เพศชาย',
       type: 'bar',
@@ -140,12 +158,31 @@ option = {
         fontSize: "16",
         color: "#ffffff"
       },
-      data: [19325]
+      data: [M]
+
+    },
+    {
+      name: 'เพศหญิง',
+      type: 'bar',
+      color: [
+        '#FFC2C7',
+      ],
+      label: {
+        show: true,
+        position: 'inside',
+        fontWeight: "normal",
+        fontFamily: "Prompt",
+        fontSize: "16",
+        color: "#ffffff"
+      },
+      data: [F]
     }
   ]
-};
 
-option && myChart.setOption(option);
 
+  if (optionSex && typeof optionSex === 'object') {
+    Chartsex.setOption(optionSex);
+  }
+}
 
 
