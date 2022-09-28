@@ -256,6 +256,16 @@ const flood_2020 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/w
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
 
+// Instantiate KMZ layer (async)
+const kmz = L.kmzLayer().addTo(map);
+
+kmz.on('load', function(e) {
+		control.addOverlay(e.layer, e.name);
+		// e.layer.addTo(map);
+});
+
+kmz.load('./wp1822.kmz');
+
 // const baseMaps = {
 //   "Mapbox": mapbox,
 //   "Google Hybrid": ghyb.addTo(map)
