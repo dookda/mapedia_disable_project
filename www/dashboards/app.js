@@ -411,7 +411,7 @@ $(".basemap-style").on('click', async function () {
 
 $("input[type=checkbox]").change(async () => {
   await map.eachLayer(i => {
-    // console.log(i);
+    console.log(i);
     if (i.options.name == "lyr") {
       map.removeLayer(i)
     }
@@ -423,9 +423,12 @@ $("input[type=checkbox]").change(async () => {
   });
 
   chk.map(i => {
-    // console.log(i);
+    console.log(i);
     if (lyr[`${i}`]) {
       lyr[`${i}`].addTo(map);
+    }
+    if (i == "kmz") {
+      kmz.load('./wp1822.kmz');
     }
   })
 
