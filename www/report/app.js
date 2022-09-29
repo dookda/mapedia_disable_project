@@ -17,7 +17,7 @@ var optionSex = {
             color: 'black',
             fontWeight: 600
         },
-        text: 'ข้อมูลคนพิการตามเพศ',
+        text: '',
         left: 'left'
     },
     tooltip: {
@@ -125,7 +125,7 @@ var optionAgeType = {
             color: 'black',
             fontWeight: 600
         },
-        text: 'ข้อมูลคนพิการตามช่วงอายุและประเภทความพิการ',
+        text: '',
         left: 'left'
     },
     tooltip: {
