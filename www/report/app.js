@@ -180,10 +180,58 @@ var optionAgeType = {
 };
 window.addEventListener('resize', chartAgeType.resize);
 
+// chart Edu
+var domEdu = document.getElementById('chart-edu');
+var chartEdu = echarts.init(domEdu, null, {
+    renderer: 'canvas',
+    useDirtyRect: false
+});
+var optionEdu = {
+    title: {
+        textStyle: {
+            fontFamily: 'Prompt',
+            fontSize: 24,
+            color: 'black',
+            fontWeight: 600
+        },
+        // text: 'ข้อมูลคนพิการXX',
+        left: 'center'
+    },
+    tooltip: {
+        textStyle: {
+            fontFamily: 'Prompt',
+        },
+        trigger: 'item',
+        formatter: '{b}: {c} คน ({d}%)',
+    },
+    toolbox: {
+        show: true,
+        //orient: 'vertical',
+        left: 'left',
+        bottom: 'bottom',
+        feature: {
+            restore: {},
+            saveAsImage: {}
+        }
+    },
+    legend: {
+        textStyle: {
+            fontFamily: 'Prompt',
+            fontSize: 14,
+            color: 'black',
+            fontWeight: 400
+        },
+        type: 'scroll',
+        orient: 'vertical',
+        right: 10,
+        top: 40,
+        // bottom: 20,
+        bottom: 'bottom'
+    }
+};
+window.addEventListener('resize', chartEdu.resize);
 
 // chart Occ
-
-// chart region
 var domOcc = document.getElementById('chart-occ');
 var chartOcc = echarts.init(domOcc, null, {
     renderer: 'canvas',
@@ -441,6 +489,42 @@ function showAgeType(arr) {
     }
 }
 
+function showEdu(arr) {
+    optionEdu.series = [
+        {
+            name: 'รายละเอียด',
+            type: 'pie',
+
+            center: ['50%', '50%'],
+            selectedMode: 'single',
+            // radius: '50%',
+            label: {
+                show: false,
+                position: 'center'
+            },
+            emphasis: {
+                label: {
+                    show: true,
+                    fontSize: '20',
+                    fontFamily: "Prompt",
+                    fontWeight: 'bold'
+                },
+                itemStyle: {
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            },
+            labelLine: {
+                show: false
+            },
+            data: arr.map(x => ({ value: x.value, name: x.name }))
+        }
+    ]
+    if (optionEdu && typeof optionEdu === 'object') {
+        chartEdu.setOption(optionEdu);
+    }
+}
 
 function showOcc(arr) {
     optionOcc.series = [
@@ -496,6 +580,17 @@ axios.post(`${url}/api_report/get_by_type`, { address_code: "02", privilege: "00
 axios.post(`${url}/api_report/get_by_agetype`, { address_code: "02", privilege: "00" }).then(async (r) => {
     showAgeType(r.data)
     // console.log(r.data);
+})
+
+axios.post(`${url}/api_report/get_by_edu`, { address_code: "02", privilege: "00" }).then(async (r) => {
+    let a = [];
+    for (const [key, value] of Object.entries(r.data[0])) {
+        key == "HIG" ? a.push({ value: value, name: 'สูงกว่าปริญญาตรี' }) : null
+        key == "MID" ? a.push({ value: value, name: 'ปริญญาตรีหรือเทียบเท่า' }) : null
+        key == "LOW" ? a.push({ value: value, name: 'ต่ำกว่าปริญญาตรี' }) : null
+        key == "OTH" ? a.push({ value: value, name: 'อื่นๆ' }) : null
+    }
+    showEdu(a)
 })
 
 axios.post(`${url}/api_report/get_by_occ`, { address_code: "02", privilege: "00" }).then(async (r) => {

@@ -171,7 +171,36 @@ app.post("/api_report/get_by_agetype", async (req, res) => {
     }
 })
 
+app.post("/api_report/get_by_edu", async (req, res) => {
+    let { address_code, privilege } = req.body
+    let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (mdp.privilege ='01' OR mdp.privilege ='02')` : pri = `AND mdp.privilege ='${privilege}'`
 
+    const sql = `SELECT SUM(CASE WHEN bdt.DEGT_GROUP_CODE = '$Low$' OR bdt.DEGT_GROUP_CODE = '$Mid$' OR bdt.DEGT_GROUP_CODE = '$Hig$' OR bdt.DEGT_GROUP_CODE = '$Oth$' THEN 1 ELSE 0 END) AS cnt,
+        SUM(CASE bdt.DEGT_GROUP_CODE WHEN '$Low$' THEN 1 ELSE 0 END) AS low, 
+        SUM(CASE bdt.DEGT_GROUP_CODE WHEN '$Mid$' THEN 1 ELSE 0 END) AS mid,
+        SUM(CASE bdt.DEGT_GROUP_CODE WHEN '$Hig$' THEN 1 ELSE 0 END) AS hig,
+        SUM(CASE bdt.DEGT_GROUP_CODE WHEN '$Oth$' THEN 1 ELSE 0 END) AS oth
+        FROM "DEPGIS".V_MN_DES_PERSON mdp
+        LEFT JOIN "OPP$_DBA".BS_DEGREE_TYPE bdt ON mdp.DEGREE_TYPE_CODE = bdt.DEGREE_TYPE_CODE
+        WHERE mdp.ADDRESS_CODE='${address_code}' ${pri} AND mdp.REGION_CODE IS NOT NULL`
+    // console.log(sql);
+    try {
+        const result = await connection.execute(sql, [], { maxRows: 100 });
+        res.status(200).json(result.rows)
+    } catch (err) {
+        console.error(err);
+    } finally {
+        if (connection) {
+            try {
+                await connection.close();
+            } catch (err) {
+                console.error(err);
+            }
+        }
+    }
+})
 
 app.post("/api_report/get_by_occ", async (req, res) => {
     let { address_code, privilege } = req.body
