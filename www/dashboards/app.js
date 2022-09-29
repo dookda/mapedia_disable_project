@@ -255,6 +255,29 @@ const flood_2020 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/w
   maxZoom: 22,
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
+
+const floodarea_tambon = L.tileLayer.wms("http://tile.gistda.or.th/geoserver/flood/wms?", {
+  layers: "flood:floodarea_tambon",
+  name: "lyr",
+  format: "image/png",
+  iswms: "wms",
+  transparent: true,
+  zIndex: 2,
+  maxZoom: 22,
+  // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
+});
+
+const flood_freq_2005_2015_box = L.tileLayer.wms("http://tile.gistda.or.th/geoserver/flood/wms?", {
+  layers: "flood:flood_freq_2005_2015_box",
+  name: "lyr",
+  format: "image/png",
+  iswms: "wms",
+  transparent: true,
+  zIndex: 0,
+  maxZoom: 22,
+  // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
+});
+
 const th_drought = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
   layers: "depgis:th_drought",
   name: "lyr",
@@ -354,6 +377,8 @@ let lyr = {
   flood_2018: flood_2018,
   flood_2019: flood_2019,
   flood_2020: flood_2020,
+  floodarea_tambon: floodarea_tambon,
+  flood_freq_2005_2015_box: flood_freq_2005_2015_box,
   th_drought: th_drought,
   th_cultural: th_cultural,
   th_village: th_village,
@@ -440,7 +465,9 @@ function showLegend() {
     div.innerHTML += ` <i style="background: #FFFFFF; border-style: solid; border-width: 3px;"></i><span>ขอบเขตจังหวัด</span></div><br>`;
     div.innerHTML += `<i style="background: #FFFFFF; border-style: solid; border-width: 1.5px;"></i><span>ขอบเขตอำเภอ</span><br>`;
     div.innerHTML += `<i style="background: #FFFFFF; border-style: dotted; border-width: 1.5px;"></i><span>ขอบเขตตำบล</span><br>`;
-    div.innerHTML += `<i style="background: #1EB0E7; border-radius: 10%;"></i>พื้นที่น้ำท่วม</label></div>`;
+    div.innerHTML += `<i style="background: #1EB0E7; border-radius: 10%; border-width: 1.5px;"></i><span>พื้นที่น้ำท่วม</span><br>`;
+    // div.innerHTML += `<i style="background: #1EB0E7; border-radius: 10%;"></i>พื้นที่น้ำท่วม</label></div>`;
+    div.innerHTML += `<img src=\"https://flood.gistda.or.th/iconFile/flood-multi-legend2.png\" width=\"400px\" height=\"150px\"></i>น้ำท่วมซ้ำซาก</label></div>`;
     return div;
   };
   legend.addTo(map);
