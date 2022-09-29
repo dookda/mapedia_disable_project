@@ -333,61 +333,6 @@ const th_road = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?
 const kmz = L.kmzLayer().addTo(map);
 kmz.load('./wp1822.kmz');
 
-const th_drought = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
-  layers: "depgis:th_drought",
-  name: "lyr",
-  format: "image/png",
-  iswms: "wms",
-  transparent: true,
-  zIndex: 0,
-  maxZoom: 22,
-  // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
-});
-const th_cultural = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
-  layers: "depgis:th_cultural",
-  name: "lyr",
-  format: "image/png",
-  iswms: "wms",
-  transparent: true,
-  zIndex: 0,
-  maxZoom: 22,
-  // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
-});
-const th_msdhslocal = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
-  layers: "depgis:th_msdhslocal",
-  name: "lyr",
-  format: "image/png",
-  iswms: "wms",
-  transparent: true,
-  zIndex: 0,
-  maxZoom: 22,
-  // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
-});
-const th_village = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
-  layers: "depgis:th_village",
-  name: "lyr",
-  format: "image/png",
-  iswms: "wms",
-  transparent: true,
-  zIndex: 0,
-  maxZoom: 22,
-  // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
-});
-const th_road = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
-  layers: "depgis:th_road",
-  name: "lyr",
-  format: "image/png",
-  iswms: "wms",
-  transparent: true,
-  zIndex: 0,
-  maxZoom: 22,
-  // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
-});
-
-// Instantiate KMZ layer (async)
-const kmz = L.kmzLayer().addTo(map);
-kmz.load('./wp1822.kmz');
-
 
 // const baseMaps = {
 //   "Mapbox": mapbox,
