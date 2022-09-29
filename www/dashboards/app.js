@@ -256,6 +256,62 @@ const flood_2020 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/w
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
 
+const th_drought = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
+  layers: "depgis:th_drought",
+  name: "lyr",
+  format: "image/png",
+  iswms: "wms",
+  transparent: true,
+  zIndex: 0,
+  maxZoom: 22,
+  // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
+});
+const th_cultural = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
+  layers: "depgis:th_cultural",
+  name: "lyr",
+  format: "image/png",
+  iswms: "wms",
+  transparent: true,
+  zIndex: 0,
+  maxZoom: 22,
+  // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
+});
+const th_msdhslocal = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
+  layers: "depgis:th_msdhslocal",
+  name: "lyr",
+  format: "image/png",
+  iswms: "wms",
+  transparent: true,
+  zIndex: 0,
+  maxZoom: 22,
+  // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
+});
+const th_village = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
+  layers: "depgis:th_village",
+  name: "lyr",
+  format: "image/png",
+  iswms: "wms",
+  transparent: true,
+  zIndex: 0,
+  maxZoom: 22,
+  // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
+});
+const th_road = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
+  layers: "depgis:th_road",
+  name: "lyr",
+  format: "image/png",
+  iswms: "wms",
+  transparent: true,
+  zIndex: 0,
+  maxZoom: 22,
+  // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
+});
+
+// Instantiate KMZ layer (async)
+const kmz = L.kmzLayer().addTo(map);
+kmz.load('./wp1822.kmz');
+
+
 // const baseMaps = {
 //   "Mapbox": mapbox,
 //   "Google Hybrid": ghyb.addTo(map)
@@ -412,18 +468,18 @@ var boundStyle = {
   "fillOpacity": 0.25
 };
 
-$("#mapview").click(function () {
-  $("#showmap").show();
-  $("#showdataview").hide();
-})
-$("#dataview").click(function () {
-  $("#showmap").hide();
-  $("#showdataview").show();
-})
+// $("#mapview").click(function () {
+//   $("#showmap").show();
+//   $("#showdataview").hide();
+// })
+// $("#dataview").click(function () {
+//   $("#showmap").hide();
+//   $("#showdataview").show();
+// })
 
 
-$("#showmap").show()
-$("#showdataview").hide()
+// $("#showmap").show()
+// $("#showdataview").hide()
 
 
 /// chart total
