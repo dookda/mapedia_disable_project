@@ -438,7 +438,7 @@ $("input[type=checkbox]").change(async () => {
     if (i.options.name == "lyr") {
       map.removeLayer(i)
     }
-    console.log(i);
+    // console.log(i);
     if (this.value == 'kmz') {
       // map.removeLayer(kmz)
     }
