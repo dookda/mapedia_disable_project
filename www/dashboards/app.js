@@ -14,7 +14,7 @@ let map = L.map("map", {
 const mapbox = L.tileLayer(
   "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw",
   {
-    maxZoom: 18,
+    maxZoom: 22,
     attribution:
       'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
       '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
@@ -27,7 +27,7 @@ const mapbox = L.tileLayer(
 
 const ghyb = L.tileLayer("https://{s}.google.com/vt/lyrs=y,m&x={x}&y={y}&z={z}", {
   name: "base",
-  maxZoom: 20,
+  maxZoom: 22,
   subdomains: ["mt0", "mt1", "mt2", "mt3"],
   lyr: 'basemap',
   zIndex: 0
@@ -35,7 +35,7 @@ const ghyb = L.tileLayer("https://{s}.google.com/vt/lyrs=y,m&x={x}&y={y}&z={z}",
 
 const grod = L.tileLayer('https://{s}.google.com/vt/lyrs=r&x={x}&y={y}&z={z}', {
   name: "base",
-  maxZoom: 20,
+  maxZoom: 22,
   subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
   lyr: 'basemap',
   zIndex: 0
@@ -45,7 +45,7 @@ const CartoDB_Positron = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_al
   name: "base",
   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
   subdomains: 'abcd',
-  maxZoom: 20,
+  maxZoom: 22,
   lyr: 'basemap',
   zIndex: 0
 });
@@ -57,7 +57,7 @@ const tam = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
   iswms: "wms",
   transparent: true,
   zIndex: 2,
-  maxZoom: 18,
+  maxZoom: 20,
   // minZoom: 14,
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
@@ -69,7 +69,7 @@ const amp = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
   iswms: "wms",
   transparent: true,
   zIndex: 2,
-  maxZoom: 14,
+  maxZoom: 18,
   // minZoom: 10,
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
@@ -81,7 +81,7 @@ const pro = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
   iswms: "wms",
   transparent: true,
   zIndex: 2,
-  maxZoom: 10,
+  maxZoom: 16,
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
 
@@ -92,7 +92,7 @@ const flood_2005 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/w
   iswms: "wms",
   transparent: true,
   zIndex: 2,
-  maxZoom: 10,
+  maxZoom: 22,
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
 
@@ -103,7 +103,7 @@ const flood_2006 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/w
   iswms: "wms",
   transparent: true,
   zIndex: 2,
-  maxZoom: 10,
+  maxZoom: 22,
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
 
@@ -114,7 +114,7 @@ const flood_2007 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/w
   iswms: "wms",
   transparent: true,
   zIndex: 2,
-  maxZoom: 10,
+  maxZoom: 22,
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
 
@@ -125,7 +125,7 @@ const flood_2008 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/w
   iswms: "wms",
   transparent: true,
   zIndex: 2,
-  maxZoom: 10,
+  maxZoom: 22,
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
 
@@ -136,7 +136,7 @@ const flood_2009 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/w
   iswms: "wms",
   transparent: true,
   zIndex: 2,
-  maxZoom: 10,
+  maxZoom: 22,
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
 
@@ -147,7 +147,7 @@ const flood_2010 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/w
   iswms: "wms",
   transparent: true,
   zIndex: 2,
-  maxZoom: 10,
+  maxZoom: 22,
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
 
@@ -158,7 +158,7 @@ const flood_2011 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/w
   iswms: "wms",
   transparent: true,
   zIndex: 2,
-  maxZoom: 10,
+  maxZoom: 22,
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
 
@@ -169,7 +169,7 @@ const flood_2012 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/w
   iswms: "wms",
   transparent: true,
   zIndex: 2,
-  maxZoom: 10,
+  maxZoom: 22,
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
 
@@ -180,7 +180,7 @@ const flood_2013 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/w
   iswms: "wms",
   transparent: true,
   zIndex: 2,
-  maxZoom: 10,
+  maxZoom: 22,
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
 
@@ -191,7 +191,7 @@ const flood_2014 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/w
   iswms: "wms",
   transparent: true,
   zIndex: 2,
-  maxZoom: 10,
+  maxZoom: 22,
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
 
@@ -202,7 +202,7 @@ const flood_2015 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/w
   iswms: "wms",
   transparent: true,
   zIndex: 2,
-  maxZoom: 10,
+  maxZoom: 22,
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
 const flood_2016 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
@@ -212,7 +212,7 @@ const flood_2016 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/w
   iswms: "wms",
   transparent: true,
   zIndex: 2,
-  maxZoom: 10,
+  maxZoom: 22,
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
 const flood_2017 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
@@ -222,7 +222,7 @@ const flood_2017 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/w
   iswms: "wms",
   transparent: true,
   zIndex: 2,
-  maxZoom: 10,
+  maxZoom: 22,
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
 const flood_2018 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
@@ -232,7 +232,7 @@ const flood_2018 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/w
   iswms: "wms",
   transparent: true,
   zIndex: 2,
-  maxZoom: 10,
+  maxZoom: 22,
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
 const flood_2019 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
@@ -242,7 +242,7 @@ const flood_2019 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/w
   iswms: "wms",
   transparent: true,
   zIndex: 2,
-  maxZoom: 10,
+  maxZoom: 22,
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
 const flood_2020 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
@@ -252,9 +252,86 @@ const flood_2020 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/w
   iswms: "wms",
   transparent: true,
   zIndex: 2,
-  maxZoom: 10,
+  maxZoom: 22,
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
+
+const floodarea_tambon = L.tileLayer.wms("http://tile.gistda.or.th/geoserver/flood/wms?", {
+  layers: "flood:floodarea_tambon",
+  name: "lyr",
+  format: "image/png",
+  iswms: "wms",
+  transparent: true,
+  zIndex: 2,
+  maxZoom: 22,
+  // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
+});
+
+const flood_freq_2005_2015_box = L.tileLayer.wms("http://tile.gistda.or.th/geoserver/flood/wms?", {
+  layers: "flood:flood_freq_2005_2015_box",
+  name: "lyr",
+  format: "image/png",
+  iswms: "wms",
+  transparent: true,
+  zIndex: 0,
+  maxZoom: 22,
+  // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
+});
+
+const th_drought = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
+  layers: "depgis:th_drought",
+  name: "lyr",
+  format: "image/png",
+  iswms: "wms",
+  transparent: true,
+  zIndex: 0,
+  maxZoom: 22,
+  // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
+});
+const th_cultural = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
+  layers: "depgis:th_cultural",
+  name: "lyr",
+  format: "image/png",
+  iswms: "wms",
+  transparent: true,
+  zIndex: 0,
+  maxZoom: 22,
+  // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
+});
+const th_msdhslocal = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
+  layers: "depgis:th_msdhslocal",
+  name: "lyr",
+  format: "image/png",
+  iswms: "wms",
+  transparent: true,
+  zIndex: 0,
+  maxZoom: 22,
+  // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
+});
+const th_village = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
+  layers: "depgis:th_village",
+  name: "lyr",
+  format: "image/png",
+  iswms: "wms",
+  transparent: true,
+  zIndex: 0,
+  maxZoom: 22,
+  // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
+});
+const th_road = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
+  layers: "depgis:th_road",
+  name: "lyr",
+  format: "image/png",
+  iswms: "wms",
+  transparent: true,
+  zIndex: 0,
+  maxZoom: 22,
+  // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
+});
+
+// Instantiate KMZ layer (async)
+const kmz = L.kmzLayer().addTo(map);
+kmz.load('./wp1822.kmz');
 
 const th_drought = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
   layers: "depgis:th_drought",
@@ -356,6 +433,8 @@ let lyr = {
   flood_2018: flood_2018,
   flood_2019: flood_2019,
   flood_2020: flood_2020,
+  floodarea_tambon: floodarea_tambon,
+  flood_freq_2005_2015_box: flood_freq_2005_2015_box,
   th_drought: th_drought,
   th_cultural: th_cultural,
   th_village: th_village,
@@ -442,7 +521,13 @@ function showLegend() {
     div.innerHTML += ` <i style="background: #FFFFFF; border-style: solid; border-width: 3px;"></i><span>ขอบเขตจังหวัด</span></div><br>`;
     div.innerHTML += `<i style="background: #FFFFFF; border-style: solid; border-width: 1.5px;"></i><span>ขอบเขตอำเภอ</span><br>`;
     div.innerHTML += `<i style="background: #FFFFFF; border-style: dotted; border-width: 1.5px;"></i><span>ขอบเขตตำบล</span><br>`;
-    div.innerHTML += `<i style="background: #1EB0E7; border-radius: 10%;"></i>พื้นที่น้ำท่วม</label></div>`;
+    div.innerHTML += `<i style="background: #1EB0E7; border-radius: 10%; border-width: 1.5px;"></i><span>พื้นที่น้ำท่วม</span><br>`;
+    // div.innerHTML += `<i style="background: #1EB0E7; border-radius: 10%;"></i>พื้นที่น้ำท่วม</label></div>`;
+    div.innerHTML += `<img src=\"https://flood.gistda.or.th/iconFile/flood-multi-legend2.png\" width=\"400px\" height=\"150px\"></i>น้ำท่วมซ้ำซาก</label></div><br>`;
+
+    div.innerHTML += `<i style="background: #ffffb2; border-radius: 10%; border-width: 1.5px;"></i><span>แล้ง 1 ครั้ง ในรอบ 6 ปี</span><br>`;
+    div.innerHTML += `<i style="background: #fd8d3c; border-radius: 10%; border-width: 1.5px;"></i><span>แล้ง 2-3 ครั้ง ในรอบ 6 ปี</span><br>`;
+    div.innerHTML += `<i style="background: #bd0026; border-radius: 10%; border-width: 1.5px;"></i><span>แล้งมากกว่า 4 ครั้ง ในรอบ 6 ปี</span><br>`;
     return div;
   };
   legend.addTo(map);

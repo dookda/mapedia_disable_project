@@ -190,7 +190,7 @@
 
                 <div class="col-sm-12">
                   <div class="form-group">
-                    <label for="sel1">ที่อยู่ผู้พิการ:</label>
+                    <label for="sel1">ที่อยู่คนพิการ:</label>
                     <select class="form-control" id="address">
                       <option value="01">ที่อยู่ปัจจุบัน</option>
                       <option value="02">ที่อยู่ตามทะเบียนบ้าน</option>
@@ -366,6 +366,49 @@
                           โรงพยาบาล วัด โรงเรียน
                         </label>
                       </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="th_village" id="th_village">
+                        <label class="form-check-label">
+                          หมู่บ้าน
+                        </label>
+                      </div>
+
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="th_msdhslocal" id="th_msdhslocal">
+                        <label class="form-check-label">
+                          สนง.พมจ.
+                        </label>
+                      </div>
+
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="th_road" id="th_road">
+                        <label class="form-check-label">
+                          ถนน
+                        </label>
+                      </div>
+
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="floodarea_tambon" id="floodarea_tambon">
+                        <label class="form-check-label">
+                          พื้นที่น้ำท่วมรอบ 7 วัน
+                        </label>
+  
+                      </div>
+
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="flood_freq_2005_2015_box" id="flood_freq_2005_2015_box">
+                        <label class="form-check-label">
+                          พื้นที่น้ำท่วมซ้ำซาก
+                        </label>
+  
+                      </div>
+
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="flood_2005" id="flood_2005">
+                      <label class="form-check-label">
+                        พื้นที่น้ำท่วม 2548
+                      </label>
+
 
                       <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="th_village" id="th_village">
@@ -472,14 +515,13 @@
                         <label class="form-check-label">
                           พื้นที่น้ำท่วม 2559
                         </label>
-
                       </div>
                       <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="flood_2017" id="flood_2017">
                         <label class="form-check-label">
                           พื้นที่น้ำท่วม 2560
                         </label>
-
+                    </div>
                       </div>
                       <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="flood_2018" id="flood_2018">
@@ -878,6 +920,9 @@
   <script src="../../assets/js/soft-ui-dashboard.min.js?v=1.0.9"></script>
   <!-- Leaflet-KMZ -->
   <script src="https://unpkg.com/leaflet-kmz@1.0.8/dist/leaflet-kmz-src.js"></script>
+
+  <!-- Leaflet-KMZ -->
+	<script src="https://unpkg.com/leaflet-kmz@1.0.8/dist/leaflet-kmz-src.js"></script>
 
   <script src="./app.js"></script>
 </body>
