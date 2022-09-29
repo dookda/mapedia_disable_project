@@ -467,7 +467,11 @@ function showLegend() {
     div.innerHTML += `<i style="background: #FFFFFF; border-style: dotted; border-width: 1.5px;"></i><span>ขอบเขตตำบล</span><br>`;
     div.innerHTML += `<i style="background: #1EB0E7; border-radius: 10%; border-width: 1.5px;"></i><span>พื้นที่น้ำท่วม</span><br>`;
     // div.innerHTML += `<i style="background: #1EB0E7; border-radius: 10%;"></i>พื้นที่น้ำท่วม</label></div>`;
-    div.innerHTML += `<img src=\"https://flood.gistda.or.th/iconFile/flood-multi-legend2.png\" width=\"400px\" height=\"150px\"></i>น้ำท่วมซ้ำซาก</label></div>`;
+    div.innerHTML += `<img src=\"https://flood.gistda.or.th/iconFile/flood-multi-legend2.png\" width=\"400px\" height=\"150px\"></i>น้ำท่วมซ้ำซาก</label></div><br>`;
+
+    div.innerHTML += `<i style="background: #ffffb2; border-radius: 10%; border-width: 1.5px;"></i><span>แล้ง 1 ครั้ง ในรอบ 6 ปี</span><br>`;
+    div.innerHTML += `<i style="background: #fd8d3c; border-radius: 10%; border-width: 1.5px;"></i><span>แล้ง 2-3 ครั้ง ในรอบ 6 ปี</span><br>`;
+    div.innerHTML += `<i style="background: #bd0026; border-radius: 10%; border-width: 1.5px;"></i><span>แล้งมากกว่า 4 ครั้ง ในรอบ 6 ปี</span><br>`;
     return div;
   };
   legend.addTo(map);
