@@ -31,15 +31,20 @@ let getData = () => {
   // console.log(yyyy);
   loadData(yyyy, age_start, age_end)
 }
+let numberWithCommas = (x) => {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 
 let loadData = (year, age_start, age_end) => {
   document.getElementById("m").innerHTML = ''
   document.getElementById("f").innerHTML = ''
+  document.getElementById("countsex").innerHTML = ''
   axios.post('/api/get_by_age', { address_code: '01', privilege: '00', year, age_start, age_end }).then(r => {
     // console.log(r);
     // console.log(r.data)
-    document.getElementById("m").innerHTML += r.data[0].CNT
-    document.getElementById("f").innerHTML += r.data[1].CNT
+    document.getElementById("m").innerHTML = numberWithCommas(r.data[0].CNT)
+    document.getElementById("f").innerHTML = numberWithCommas(r.data[1].CNT)
+    document.getElementById("countsex").innerHTML = numberWithCommas(r.data[0].CNT + r.data[1].CNT)
     showSex(r.data)
   })
 }
@@ -124,8 +129,6 @@ async function showSex(arr) {
       F = x.CNT
     }
   })
-  var countsex = M + F;
-  $("#countsex").text(countsex)
   // console.log(countsex)
   optionSex.yAxis = [
     {
@@ -159,7 +162,6 @@ async function showSex(arr) {
         color: "#ffffff"
       },
       data: [M]
-
     },
     {
       name: 'เพศหญิง',

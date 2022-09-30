@@ -118,7 +118,17 @@ let loadTable = (service_code, dtTh) => {
       { data: 'PROVINCE_NAME' },
       { data: 'DISTRICT_NAME' },
       { data: 'SUBDISTRICT_NAME' },
-    ]
+    ],
+    dom: 'Bfrtip',
+    buttons: [
+      'excel', 'print'
+    ],
+    scrollX: true,
+    select: true,
+    pageLength: 7,
+    responsive: {
+      details: true
+    }
   });
 }
 

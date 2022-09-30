@@ -2069,12 +2069,16 @@ function showAgeOcc(arr) {
 }
 
 
+let numberWithCommas = (x) => {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 function selectAddress(address_code, privilege) {
   axios.post(`${url}/api/get_by_privilege`, { address_code, privilege }).then(async (r) => {
     $('#getdata').text(`ทั้งหมด`);
-    $("#distotal").text(Number(r.data[0].TOTAL))
-    $("#f_total").text(Number(r.data[0].F))
-    $("#m_total").text(Number(r.data[0].M))
+    $("#distotal").text(numberWithCommas(Number(r.data[0].TOTAL)))
+    $("#f_total").text(numberWithCommas(Number(r.data[0].F)))
+    $("#m_total").text(numberWithCommas(Number(r.data[0].M)))
   })
 
   axios.post(`${url}/api/get_by_country_total`, { address_code, privilege }).then(async (r) => {
@@ -2133,16 +2137,16 @@ function selectAddress(address_code, privilege) {
 function selectRegion(address_code, privilege, region_code) {
   axios.post(`${url}/api/get_by_region`, { address_code, privilege, region_code }).then(async (r) => {
     $('#getdata').text(r.data[0].REGION_NAME_THAI);
-    $("#distotal").text(Number(r.data[0].TOTAL))
-    $("#f_total").text(Number(r.data[0].F))
-    $("#m_total").text(Number(r.data[0].M))
+    $("#distotal").text(numberWithCommas(Number(r.data[0].TOTAL)))
+    $("#f_total").text(numberWithCommas(Number(r.data[0].F)))
+    $("#m_total").text(numberWithCommas(Number(r.data[0].M)))
   })
 
   axios.post(`${url}/api/get_by_region_total`, { address_code, privilege, region_code }).then(async (r) => {
     $('#pro').empty().append(`<option value="all">เลือกจังหวัด</option>`);
     r.data.map(i => $('#pro').append(`<option value="${i.PROVINCE_CODE}">${i.PROVINCE_NAME}</option>`))
     showTotal(r.data)
-    console.log(r.data)
+    // console.log(r.data)
   })
 
   axios.post(`${url}/api/get_by_region_sex`, { address_code, privilege, region_code }).then(async (r) => {
@@ -2190,9 +2194,9 @@ function selectRegion(address_code, privilege, region_code) {
 function selectProvince(address_code, privilege, province_code) {
   axios.post(`${url}/api/get_by_prov`, { address_code, privilege, province_code }).then(async (r) => {
     $('#getdata').html(`ของ จ. ${r.data[0].PROVINCE_NAME}`);
-    $("#distotal").text(Number(r.data[0].TOTAL))
-    $("#f_total").text(Number(r.data[0].F))
-    $("#m_total").text(Number(r.data[0].M))
+    $("#distotal").text(numberWithCommas(Number(r.data[0].TOTAL)))
+    $("#f_total").text(numberWithCommas(Number(r.data[0].F)))
+    $("#m_total").text(numberWithCommas(Number(r.data[0].M)))
   })
 
   axios.post(`${url}/api/get_by_province_total`, { address_code, privilege, province_code }).then(async (r) => {
@@ -2238,9 +2242,9 @@ function selectProvince(address_code, privilege, province_code) {
 function selectAmphoe(address_code, privilege, amphoe_code) {
   axios.post(`${url}/api/get_by_amphoe`, { address_code, privilege, amphoe_code }).then(async (r) => {
     $('#getdata').html(`ของ อ. ${r.data[0].DISTRICT_NAME}`);
-    $("#distotal").text(Number(r.data[0].TOTAL))
-    $("#f_total").text(Number(r.data[0].F))
-    $("#m_total").text(Number(r.data[0].M))
+    $("#distotal").text(numberWithCommas(Number(r.data[0].TOTAL)))
+    $("#f_total").text(numberWithCommas(Number(r.data[0].F)))
+    $("#m_total").text(numberWithCommas(Number(r.data[0].M)))
   })
 
   axios.post(`${url}/api/get_by_amphoe_total`, { address_code, privilege, amphoe_code }).then(async (r) => {
@@ -2286,9 +2290,9 @@ function selectAmphoe(address_code, privilege, amphoe_code) {
 function selectTambon(address_code, privilege, tambon_code) {
   axios.post(`${url}/api/get_by_tambon`, { address_code, privilege, tambon_code }).then(async (r) => {
     $('#getdata').html(`ของ ต. ${r.data[0].SUBDISTRICT_NAME}`);
-    $("#distotal").text(Number(r.data[0].TOTAL))
-    $("#f_total").text(Number(r.data[0].F))
-    $("#m_total").text(Number(r.data[0].M))
+    $("#distotal").text(numberWithCommas(Number(r.data[0].TOTAL)))
+    $("#f_total").text(numberWithCommas(Number(r.data[0].F)))
+    $("#m_total").text(numberWithCommas(Number(r.data[0].M)))
   })
 
   axios.post(`${url}/api/get_by_tambon_total`, { address_code, privilege, tambon_code }).then(async (r) => {
@@ -3063,9 +3067,9 @@ let showDataTable = async (json) => {
       { data: 'ISSUE_DATE' }
     ],
     dom: 'Bfrtip',
-    // buttons: [
-    //   'excel', 'print'
-    // ],
+    buttons: [
+      'excel', 'print'
+    ],
     scrollX: true,
     select: true,
     pageLength: 7,

@@ -192,3 +192,14 @@ i .arrow-up {
   border-bottom: 5px solid black;
   background-color: blue;
 }
+
+.dataTables_filter {
+  width: 50%;
+  float: right;
+  text-align: right;
+}
+
+/* .dt-buttons {
+  float: right !important;
+  text-align: right !important;
+} */
