@@ -1,6 +1,6 @@
 const urleg = "https://engrids.soc.cmu.ac.th/api";
-const url = "http://192.168.3.110:3000";
-// const url = "http://localhost:3000";
+// const url = "http://192.168.3.110:3000";
+const url = "http://localhost:3000";
 
 
 let latlng = {
@@ -476,7 +476,7 @@ function showLegend() {
     div.innerHTML += `<i style="background: #FFFFFF; border-style: dotted; border-width: 1.5px;"></i><span>ขอบเขตตำบล</span><br>`;
     div.innerHTML += `<i style="background: #1EB0E7; border-radius: 10%; border-width: 1.5px;"></i><span>พื้นที่น้ำท่วม</span><br>`;
     // div.innerHTML += `<i style="background: #1EB0E7; border-radius: 10%;"></i>พื้นที่น้ำท่วม</label></div>`;
-    div.innerHTML += `<img src=\"https://flood.gistda.or.th/iconFile/flood-multi-legend2.png\" width=\"400px\" height=\"150px\"></i>น้ำท่วมซ้ำซาก</label></div><br>`;
+    div.innerHTML += `<img src=\"https://flood.gistda.or.th/iconFile/flood-multi-legend2.png\" width=\"400px\" height=\"150px\"></i>น้ำท่วมซ้ำซาก</label><br>`;
 
     div.innerHTML += `<i style="background: #ffffb2; border-radius: 10%; border-width: 1.5px;"></i><span>แล้ง 1 ครั้ง ในรอบ 6 ปี</span><br>`;
     div.innerHTML += `<i style="background: #fd8d3c; border-radius: 10%; border-width: 1.5px;"></i><span>แล้ง 2-3 ครั้ง ในรอบ 6 ปี</span><br>`;
@@ -2069,11 +2069,126 @@ function showAgeOcc(arr) {
 }
 
 
-let numberWithCommas = (x) => {
+function numberWithCommas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-function selectAddress(address_code, privilege) {
+// leaflet legend
+var info = L.control();
+let aGeoJSON
+var grades
+var legend = L.control({ position: 'topright' });
+
+info.onAdd = function (map) {
+  this._div = L.DomUtil.create('div', 'info');
+  this.update();
+  return this._div;
+};
+
+info.update = function (props) {
+  this._div.innerHTML = '<h4>จำนวนผู้พิการ</h4>' + (props ?
+    '<b>' + props.name + '</b><br />' + numberWithCommas(props.val) + ' ราย'
+    : '');
+};
+
+info.addTo(map);
+
+function setLegend() {
+  legend.remove()
+  legend.onAdd = function (map) {
+    var div = L.DomUtil.create('div', 'info legend')
+    var labels = [];
+    var from, to;
+
+    for (var i = 0; i < grades.length; i++) {
+      from = grades[i];
+      to = grades[i + 1];
+      // console.log(from, to);
+      labels.push(
+        '<i style="background:' + getColor(from + 1) + '"></i> ' +
+        numberWithCommas((from).toFixed(0)) + (to ? '&ndash;' + numberWithCommas((to).toFixed(0)) : '+'));
+    }
+
+    div.innerHTML = labels.join('<br>');
+    return div;
+  };
+
+  legend.addTo(map)
+}
+
+function zoomToFeature(e) {
+  map.fitBounds(e.target.getBounds());
+}
+
+function resetHighlight(e) {
+  aGeoJSON.resetStyle(e.target);
+  info.update();
+}
+
+function highlightFeature(e) {
+  var layer = e.target;
+
+  layer.setStyle({
+    weight: 5,
+    color: '#666',
+    dashArray: '',
+    fillOpacity: 0.7
+  });
+
+  if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+    layer.bringToFront();
+  }
+
+  info.update(layer.feature.properties);
+}
+
+function onEachFeature(feature, layer) {
+  layer.on({
+    mouseover: highlightFeature,
+    mouseout: resetHighlight,
+    click: zoomToFeature
+  });
+}
+
+function getColor(d) {
+  // console.log(d, grades);
+  return d > grades[5] ? '#800026' :
+    d > grades[4] ? '#BD0026' :
+      d > grades[3] ? '#E31A1C' :
+        d > grades[2] ? '#FC4E2A' :
+          d > grades[1] ? '#FD8D3C' :
+            '#FFEDA0';
+}
+
+function showMap(geojson, min, max) {
+  let intv = (max - min) / 5
+  grades = [0];
+  let i = 1
+  while (i <= 5) {
+    grades.push(min + (intv * i))
+    i++;
+  }
+
+  // grads = [0, (min + (intv * 1)).toFixed(0), (min + (intv * 2)).toFixed(0), (min + (intv * 3)).toFixed(0), (min + (intv * 4)).toFixed(0), (min + (intv * 5)).toFixed(0)]
+  aGeoJSON = L.geoJSON(geojson, {
+    style: function (feature) {
+      return {
+        fillColor: getColor(feature.properties.val),
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.7
+      };
+    },
+    onEachFeature: onEachFeature,
+    name: "bnd"
+  }).addTo(map);
+  map.fitBounds(aGeoJSON.getBounds());
+  setLegend()
+}
+
+function selectAddress(address_code, privilege, geoarr) {
   axios.post(`${url}/api/get_by_privilege`, { address_code, privilege }).then(async (r) => {
     $('#getdata').text(`ทั้งหมด`);
     $("#distotal").text(numberWithCommas(Number(r.data[0].TOTAL)))
@@ -2083,15 +2198,20 @@ function selectAddress(address_code, privilege) {
 
   axios.post(`${url}/api/get_by_country_total`, { address_code, privilege }).then(async (r) => {
     $('#reg').empty().append(`<option value="all">เลือกภาค</option>`);
+    let valArr = []
     r.data.map(i => {
+      valArr.push(i.CNT)
       $('#reg').append(`<option value="${i.REGION_CODE}">${i.REGION_NAME_THAI}</option>`)
-      showTotal(r.data)
+      geoarr.map(a => a.properties.code == i.REGION_CODE ? a.properties.val = i.CNT : null)
     })
+    showTotal(r.data)
+    let geojson = { type: "FeatureCollection", features: geoarr }
+    let min = Math.min(...valArr)
+    let max = Math.max(...valArr)
+    showMap(geojson, min, max)
   })
 
   axios.post(`${url}/api/get_by_country_sex`, { address_code, privilege }).then(async (r) => {
-    r.data.map(i => {
-    })
     showSex(r.data)
     // console.log(r.data)
   })
@@ -2130,11 +2250,9 @@ function selectAddress(address_code, privilege) {
     showAgeOcc(r.data)
     // console.log(r.data)
   })
-
 }
 
-
-function selectRegion(address_code, privilege, region_code) {
+function selectRegion(address_code, privilege, region_code, geoarr) {
   axios.post(`${url}/api/get_by_region`, { address_code, privilege, region_code }).then(async (r) => {
     $('#getdata').text(r.data[0].REGION_NAME_THAI);
     $("#distotal").text(numberWithCommas(Number(r.data[0].TOTAL)))
@@ -2144,9 +2262,17 @@ function selectRegion(address_code, privilege, region_code) {
 
   axios.post(`${url}/api/get_by_region_total`, { address_code, privilege, region_code }).then(async (r) => {
     $('#pro').empty().append(`<option value="all">เลือกจังหวัด</option>`);
-    r.data.map(i => $('#pro').append(`<option value="${i.PROVINCE_CODE}">${i.PROVINCE_NAME}</option>`))
+    let valArr = []
+    r.data.map(i => {
+      valArr.push(i.CNT)
+      $('#pro').append(`<option value="${i.PROVINCE_CODE}">${i.PROVINCE_NAME}</option>`)
+      geoarr.map(a => a.properties.code == i.PROVINCE_CODE ? a.properties.val = i.CNT : null)
+    })
     showTotal(r.data)
-    // console.log(r.data)
+    let geojson = { type: "FeatureCollection", features: geoarr }
+    let min = Math.min(...valArr)
+    let max = Math.max(...valArr)
+    showMap(geojson, min, max)
   })
 
   axios.post(`${url}/api/get_by_region_sex`, { address_code, privilege, region_code }).then(async (r) => {
@@ -2191,7 +2317,7 @@ function selectRegion(address_code, privilege, region_code) {
 
 }
 
-function selectProvince(address_code, privilege, province_code) {
+function selectProvince(address_code, privilege, province_code, geoarr) {
   axios.post(`${url}/api/get_by_prov`, { address_code, privilege, province_code }).then(async (r) => {
     $('#getdata').html(`ของ จ. ${r.data[0].PROVINCE_NAME}`);
     $("#distotal").text(numberWithCommas(Number(r.data[0].TOTAL)))
@@ -2201,8 +2327,17 @@ function selectProvince(address_code, privilege, province_code) {
 
   axios.post(`${url}/api/get_by_province_total`, { address_code, privilege, province_code }).then(async (r) => {
     $('#amp').empty().append(`<option value="all">เลือกอำเภอ</option>`);
-    r.data.map(i => $('#amp').append(`<option value="${i.AMPCODE}">${i.DISTRICT_NAME}</option>`))
+    let valArr = []
+    r.data.map(i => {
+      valArr.push(i.CNT)
+      $('#amp').append(`<option value="${i.AMPCODE}">${i.DISTRICT_NAME}</option>`)
+      geoarr.map(a => a.properties.code == i.AMPCODE ? a.properties.val = i.CNT : null)
+    })
     showTotal(r.data)
+    let geojson = { type: "FeatureCollection", features: geoarr }
+    let min = Math.min(...valArr)
+    let max = Math.max(...valArr)
+    showMap(geojson, min, max)
   })
 
   axios.post(`${url}/api/get_by_province_sex`, { address_code, privilege, province_code }).then(async (r) => {
@@ -2239,7 +2374,7 @@ function selectProvince(address_code, privilege, province_code) {
 }
 
 
-function selectAmphoe(address_code, privilege, amphoe_code) {
+function selectAmphoe(address_code, privilege, amphoe_code, geoarr) {
   axios.post(`${url}/api/get_by_amphoe`, { address_code, privilege, amphoe_code }).then(async (r) => {
     $('#getdata').html(`ของ อ. ${r.data[0].DISTRICT_NAME}`);
     $("#distotal").text(numberWithCommas(Number(r.data[0].TOTAL)))
@@ -2249,8 +2384,17 @@ function selectAmphoe(address_code, privilege, amphoe_code) {
 
   axios.post(`${url}/api/get_by_amphoe_total`, { address_code, privilege, amphoe_code }).then(async (r) => {
     $('#tam').empty().append(`<option value="all">เลือกตำบล</option>`);
-    r.data.map(i => $('#tam').append(`<option value="${i.TAMCODE}">${i.SUBDISTRICT_NAME}</option>`))
+    let valArr = []
+    r.data.map(i => {
+      valArr.push(i.CNT)
+      $('#tam').append(`<option value="${i.TAMCODE}">${i.SUBDISTRICT_NAME}</option>`)
+      geoarr.map(a => a.properties.code == i.TAMCODE ? a.properties.val = i.CNT : null)
+    })
     showTotal(r.data)
+    let geojson = { type: "FeatureCollection", features: geoarr }
+    let min = Math.min(...valArr)
+    let max = Math.max(...valArr)
+    showMap(geojson, min, max)
   })
 
   axios.post(`${url}/api/get_by_amphoe_sex`, { address_code, privilege, amphoe_code }).then(async (r) => {
@@ -2287,7 +2431,7 @@ function selectAmphoe(address_code, privilege, amphoe_code) {
 
 }
 
-function selectTambon(address_code, privilege, tambon_code) {
+function selectTambon(address_code, privilege, tambon_code, geoarr) {
   axios.post(`${url}/api/get_by_tambon`, { address_code, privilege, tambon_code }).then(async (r) => {
     $('#getdata').html(`ของ ต. ${r.data[0].SUBDISTRICT_NAME}`);
     $("#distotal").text(numberWithCommas(Number(r.data[0].TOTAL)))
@@ -2296,7 +2440,16 @@ function selectTambon(address_code, privilege, tambon_code) {
   })
 
   axios.post(`${url}/api/get_by_tambon_total`, { address_code, privilege, tambon_code }).then(async (r) => {
+    let valArr = []
+    r.data.map(i => {
+      valArr.push(i.CNT)
+      geoarr.map(a => a.properties.code == i.TAMCODE ? a.properties.val = i.CNT : null)
+    })
     showTotal(r.data)
+    let geojson = { type: "FeatureCollection", features: geoarr }
+    let min = Math.min(...valArr)
+    let max = Math.max(...valArr)
+    showMap(geojson, min, max)
   })
 
   axios.post(`${url}/api/get_by_tambon_sex`, { address_code, privilege, tambon_code }).then(async (r) => {
@@ -2845,7 +2998,16 @@ function selectinfo(Category) {
   }
 }
 
-selectAddress("01", "00")
+// selectAddress("01", "00")
+
+var address_code = $('#address').val()
+var privilege = $('#privilege').val()
+
+RemoveLayers();
+axios.get(`${url}/geoapi/get-bound2/th/${address_code}`).then(async (r) => {
+  let geoarr = r.data.data
+  selectAddress(address_code, privilege, geoarr)
+})
 
 $("#privilege").on('change', function () {
   $('#infoview').empty()
@@ -2856,20 +3018,12 @@ $("#privilege").on('change', function () {
   document.getElementById("tb").style.visibility = "hidden";
   var address_code = $('#address').val()
   var privilege = $('#privilege').val()
-  selectAddress(address_code, privilege)
-  console.log(address_code, privilege)
 
   RemoveLayers();
-  axios.get(`${url}/geoapi/get-bound/th/${address_code}`).then(async (r) => {
-    let geojson = await JSON.parse(r.data.data[0].geom);
-    // console.log(geojson);
-    let a = L.geoJSON(geojson, {
-      style: boundStyle,
-      name: "bnd"
-    }).addTo(map);
-    map.fitBounds(a.getBounds());
+  axios.get(`${url}/geoapi/get-bound2/th/${address_code}`).then(async (r) => {
+    let geoarr = r.data.data
+    selectAddress(address_code, privilege, geoarr)
   })
-
 })
 
 $("#address").on('change', function () {
@@ -2884,14 +3038,9 @@ $("#address").on('change', function () {
   selectAddress(address_code, privilege)
 
   RemoveLayers();
-  axios.get(`${url}/geoapi/get-bound/th/${address_code}`).then(async (r) => {
-    let geojson = await JSON.parse(r.data.data[0].geom);
-    console.log(geojson);
-    let a = L.geoJSON(geojson, {
-      style: boundStyle,
-      name: "bnd"
-    }).addTo(map);
-    map.fitBounds(a.getBounds());
+  axios.get(`${url}/geoapi/get-bound2/th/${address_code}`).then(async (r) => {
+    let geoarr = r.data.data
+    selectAddress(address_code, privilege, geoarr)
   })
 
 })
@@ -2904,22 +3053,12 @@ $("#reg").on('change', function () {
   var address_code = $('#address').val()
   var region_code = $('#reg').val()
   var privilege = $('#privilege').val()
-  selectRegion(address_code, privilege, region_code)
 
-  if (region_code == "all") {
-    map.setView([13.305567, 101.383101], 6);
+  if (region_code !== "all") {
     RemoveLayers();
-
-  } else {
-    RemoveLayers();
-    axios.get(`${url}/geoapi/get-bound/reg/${region_code}`).then(async (r) => {
-      let geojson = await JSON.parse(r.data.data[0].geom);
-      // console.log(geojson);
-      let a = L.geoJSON(geojson, {
-        style: boundStyle,
-        name: "bnd"
-      }).addTo(map);
-      map.fitBounds(a.getBounds());
+    axios.get(`${url}/geoapi/get-bound2/reg/${region_code}`).then(async (r) => {
+      let geoarr = r.data.data
+      selectRegion(address_code, privilege, region_code, geoarr)
     })
   }
 })
@@ -2931,21 +3070,12 @@ $("#pro").on('change', function () {
   var address_code = $('#address').val()
   var province_code = $('#pro').val()
   var privilege = $('#privilege').val()
-  selectProvince(address_code, privilege, province_code)
 
-  if (province_code == "all") {
-    map.setView([13.305567, 101.383101], 6);
+  if (province_code !== "all") {
     RemoveLayers();
-  } else {
-    RemoveLayers();
-    axios.get(`${url}/geoapi/get-bound/pro/${province_code}`).then(async (r) => {
-      let geojson = await JSON.parse(r.data.data[0].geom);
-      // console.log(geojson);
-      let a = L.geoJSON(geojson, {
-        style: boundStyle,
-        name: "bnd"
-      }).addTo(map);
-      map.fitBounds(a.getBounds());
+    axios.get(`${url}/geoapi/get-bound2/pro/${province_code}`).then(async (r) => {
+      let geoarr = r.data.data
+      selectProvince(address_code, privilege, province_code, geoarr)
     })
   }
 })
@@ -2956,22 +3086,12 @@ $("#amp").on('change', function () {
   var address_code = $('#address').val()
   var amphoe_code = $('#amp').val()
   var privilege = $('#privilege').val()
-  console.log(amphoe_code)
-  selectAmphoe(address_code, privilege, amphoe_code)
 
-  if (amphoe_code == "all") {
-    map.setView([13.305567, 101.383101], 6);
+  if (amphoe_code !== "all") {
     RemoveLayers();
-  } else {
-    RemoveLayers();
-    axios.get(`${url}/geoapi/get-bound/amp/${amphoe_code}`).then(async (r) => {
-      let geojson = await JSON.parse(r.data.data[0].geom);
-      // console.log(geojson);
-      let a = L.geoJSON(geojson, {
-        style: boundStyle,
-        name: "bnd"
-      }).addTo(map);
-      map.fitBounds(a.getBounds());
+    axios.get(`${url}/geoapi/get-bound2/amp/${amphoe_code}`).then(async (r) => {
+      let geoarr = r.data.data
+      selectAmphoe(address_code, privilege, amphoe_code, geoarr)
     })
   }
 })
@@ -2980,22 +3100,12 @@ $("#tam").on('change', function () {
   var address_code = $('#address').val()
   var tambon_code = $('#tam').val()
   var privilege = $('#privilege').val()
-  console.log(address_code, privilege, tambon_code);
-  selectTambon(address_code, privilege, tambon_code)
 
-  if (tambon_code == "all") {
-    map.setView([13.305567, 101.383101], 6);
+  if (tambon_code !== "all") {
     RemoveLayers();
-  } else {
-    RemoveLayers();
-    axios.get(`${url}/geoapi/get-bound/tam/${tambon_code}`).then(async (r) => {
-      let geojson = await JSON.parse(r.data.data[0].geom);
-      // console.log(geojson);
-      let a = L.geoJSON(geojson, {
-        style: boundStyle,
-        name: "bnd"
-      }).addTo(map);
-      map.fitBounds(a.getBounds());
+    axios.get(`${url}/geoapi/get-bound2/tam/${tambon_code}`).then(async (r) => {
+      let geoarr = r.data.data
+      selectTambon(address_code, privilege, tambon_code, geoarr)
     })
     loadTable()
   }

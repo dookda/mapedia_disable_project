@@ -356,3 +356,5 @@ Content-Type: application/json
     "privilege": "00"
 }    
    
+###
+GET http://localhost:3000/geoapi/get-bound2/th/val

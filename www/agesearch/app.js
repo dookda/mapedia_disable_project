@@ -141,7 +141,7 @@ async function showSex(arr) {
       axisLabel: {
         show: true,
         fontFamily: "Prompt",
-        fontSize: 12
+        fontSize: 12,
       },
       data: ['']
     }
@@ -159,7 +159,8 @@ async function showSex(arr) {
         fontWeight: "normal",
         fontFamily: "Prompt",
         fontSize: "16",
-        color: "#ffffff"
+        color: "#ffffff",
+        formatter: '{c0}'
       },
       data: [M]
     },
@@ -175,7 +176,8 @@ async function showSex(arr) {
         fontWeight: "normal",
         fontFamily: "Prompt",
         fontSize: "16",
-        color: "#ffffff"
+        color: "#ffffff",
+        formatter: '{c0}'
       },
       data: [F]
     }

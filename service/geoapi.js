@@ -1,3 +1,4 @@
+const e = require('express');
 const express = require('express');
 const app = express.Router();
 const con = require("./db");
@@ -29,6 +30,7 @@ app.get("/geoapi/get-extent/:lyr/:val", (req, res) => {
     });
 })
 
+
 app.get("/geoapi/get-bound/:lyr/:val", (req, res) => {
     const lyr = req.params.lyr;
     const val = req.params.val;
@@ -58,6 +60,47 @@ app.get("/geoapi/get-bound/:lyr/:val", (req, res) => {
     th.query(sql).then((r) => {
         res.status(200).json({
             data: r.rows
+        });
+    });
+})
+
+app.get("/geoapi/get-bound2/:lyr/:val", (req, res) => {
+    const lyr = req.params.lyr;
+    const val = req.params.val;
+    let sql;
+
+    if (lyr == "th") {
+        sql = `SELECT rg_code as code, rg_th as name, ST_AsGeoJSON(geom) as geom FROM th_region_sim`;
+    } else if (lyr == "reg") {
+        sql = `SELECT pv_code as code, pv_th as name, ST_AsGeoJSON(geom) as geom FROM th_province
+            WHERE rg_code = '${val}'`;
+    } else if (lyr == "pro") {
+        sql = `SELECT ap_code as code, ap_th as name, ST_AsGeoJSON(geom) as geom FROM th_amphoe
+            WHERE pv_code = '${val}'`;
+    } else if (lyr == "amp") {
+        sql = `SELECT tb_code as code, tb_th as name, ST_AsGeoJSON(geom) as geom FROM th_tambon
+            WHERE ap_code = '${val}'`;
+    } else if (lyr == "tam") {
+        sql = `SELECT tb_code as code, tb_th as name, ST_AsGeoJSON(geom) as geom FROM th_tambon
+            WHERE tb_code = '${val}'`;
+    }
+    console.log(sql);
+    th.query(sql).then((r) => {
+        let arr = []
+        r.rows.forEach(e => {
+            let json = {
+                type: "Feature",
+                properties: {
+                    code: e.code,
+                    name: e.name
+                },
+                geometry: JSON.parse(e.geom)
+            }
+            arr.push(json)
+        });
+
+        res.status(200).json({
+            data: arr
         });
     });
 })
