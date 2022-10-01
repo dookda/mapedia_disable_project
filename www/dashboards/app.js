@@ -2086,7 +2086,7 @@ info.onAdd = function (map) {
 };
 
 info.update = function (props) {
-  this._div.innerHTML = '<h4>จำนวนผู้พิการ</h4>' + (props ?
+  this._div.innerHTML = '<h4>จำนวนคนพิการ</h4>' + (props ?
     '<b>' + props.name + '</b><br />' + numberWithCommas(props.val) + ' ราย'
     : '');
 };
