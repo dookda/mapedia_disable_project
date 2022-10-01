@@ -7,6 +7,10 @@ body {
   border-radius: 15px;
 }
 
+#layer {
+  height: 80vh;
+}
+
 #chart-total {
   position: relative;
   height: 50vh;

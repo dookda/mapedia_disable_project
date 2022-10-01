@@ -301,7 +301,7 @@
             </ul>
           </div>
         </div> -->
-        <div class="row mt-4 py-1" id="showmap">
+        <div class="row mt-4 py-1">
           <div class="card z-index-2">
             <div class="card-body p-3">
               <div class="row mt-4">
@@ -309,8 +309,9 @@
                   <h5 class="font-weight-bold mb-2" style="color:black; font-size: 22px;">แผนที่ขอบเขต
                   </h5>
                   <div id="map"> </div>
+
                 </div>
-                <div class="col-lg-3">
+                <div class="col-lg-3 overflow-scroll" id="layer">
                   <h6><b>แผนที่ฐาน</b></h6>
                   <div class="row pt-2">
                     <div class="col">
@@ -342,7 +343,7 @@
                   <h6 class="font-weight-bold mt-2" style="color:black;">ชั้นข้อมูล
                   </h6>
                   <div class="row">
-                    <div class="col">
+                    <div class="col ">
                       <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="pro" id="pro" checked>
                         <label class="form-check-label">
@@ -455,8 +456,7 @@
                           พื้นที่น้ำท่วม 2556
                         </label>
                       </div>
-                    </div>
-                    <div class="col">
+
                       <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="flood_2014" id="flood_2014">
                         <label class="form-check-label">
@@ -819,6 +819,8 @@
       </div>
     </div>
   </div>
+
+
   <!--   Core JS Files   -->
   <script src="../../assets/js/core/popper.min.js"></script>
   <script src="../../assets/js/core/bootstrap.min.js"></script>
