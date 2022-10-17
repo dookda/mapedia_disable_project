@@ -2228,7 +2228,7 @@ function selectAddress(address_code, privilege, geoarr) {
 
 async function selectProvince(address_code, privilege, province_code, geoarr) {
   axios.post(`${url}/api/get_by_multiprov`, { address_code, privilege, province_code }).then(async (r) => {
-    console.log(r);
+    // console.log(r);
     let distotal = 0;
     let f_total = 0;
     let m_total = 0;
@@ -2852,7 +2852,7 @@ function searchByPro() {
   RemoveLayers();
   axios.post(`${url}/geoapi/get-multiprov`, { province_code }).then(async (r) => {
     let geoarr = r.data.data
-    console.log(geoarr);
+    // console.log(geoarr);
     await selectProvince(address_code, privilege, province_code, geoarr)
   })
 }
