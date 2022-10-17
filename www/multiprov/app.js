@@ -1,6 +1,6 @@
 // const urleg = "https://engrids.soc.cmu.ac.th/api";
-// const url = "http://192.168.3.110:3000";
-const url = "http://localhost:3000";
+const url = "http://192.168.3.110:3000";
+// const url = "http://localhost:3000";
 
 
 let latlng = {
@@ -2246,7 +2246,7 @@ async function selectProvince(address_code, privilege, province_code, geoarr) {
     let valArr = []
     r.data.map(i => {
       valArr.push(i.CNT)
-      geoarr.map(a => a.properties.code == i.AMPCODE ? a.properties.val = i.CNT : null)
+      geoarr.map(a => a.properties.code == i.PROVINCE_CODE ? a.properties.val = i.CNT : null)
     })
     showTotal(r.data)
     let geojson = { type: "FeatureCollection", features: geoarr }
