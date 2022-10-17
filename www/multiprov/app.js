@@ -2809,13 +2809,17 @@ axios.get(`${url}/geoapi/get-bound2/th/${address_code}`).then(async (r) => {
   selectAddress(address_code, privilege, geoarr)
 })
 
+axios.post(`${url}/api/getallprov`).then(async (r) => {
+  $('#pro').empty()
+  r.data.map(i => {
+    $('#pro').append(`<option value="${i.PROVINCE_CODE}">${i.PROVINCE_NAME}</option>`)
+  })
+})
+
 $("#privilege").on('change', function () {
   $('#infoview').empty()
-  $('#tam').empty()
-  $('#amp').empty()
   $('#pro').empty()
   $('#reg').empty()
-  document.getElementById("tb").style.visibility = "hidden";
   var address_code = $('#address').val()
   var privilege = $('#privilege').val()
 
@@ -2824,15 +2828,19 @@ $("#privilege").on('change', function () {
     let geoarr = r.data.data
     selectAddress(address_code, privilege, geoarr)
   })
+
+  axios.post(`${url}/api/getallprov`).then(async (r) => {
+    $('#pro').empty()
+    r.data.map(i => {
+      $('#pro').append(`<option value="${i.PROVINCE_CODE}">${i.PROVINCE_NAME}</option>`)
+    })
+  })
 })
 
 $("#address").on('change', function () {
   $('#infoview').empty()
-  $('#tam').empty()
-  $('#amp').empty()
   $('#pro').empty()
   $('#reg').empty()
-  document.getElementById("tb").style.visibility = "hidden";
   var address_code = $('#address').val()
   var privilege = $('#privilege').val()
   selectAddress(address_code, privilege)
@@ -2841,6 +2849,13 @@ $("#address").on('change', function () {
   axios.get(`${url}/geoapi/get-bound2/th/${address_code}`).then(async (r) => {
     let geoarr = r.data.data
     selectAddress(address_code, privilege, geoarr)
+  })
+
+  axios.post(`${url}/api/getallprov`).then(async (r) => {
+    $('#pro').empty()
+    r.data.map(i => {
+      $('#pro').append(`<option value="${i.PROVINCE_CODE}">${i.PROVINCE_NAME}</option>`)
+    })
   })
 
 })
@@ -2857,11 +2872,7 @@ function searchByPro() {
   })
 }
 
-axios.post(`${url}/api/getallprov`).then(async (r) => {
-  r.data.map(i => {
-    $('#pro').append(`<option value="${i.PROVINCE_CODE}">${i.PROVINCE_NAME}</option>`)
-  })
-})
+
 
 // Preloader
 $(window).on('load', function () {
