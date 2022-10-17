@@ -102,6 +102,42 @@ app.post("/api/get_by_privilege", async (req, res) => {
     }
 })
 
+
+app.post("/api/get_by_multiprov", async (req, res) => {
+    let { province_code, address_code, privilege } = req.body
+    let connection = await oracledb.getConnection(dbConfig);
+    let pri
+    privilege == "00" ? pri = `AND (privilege ='01' OR privilege ='02')` : pri = `AND privilege ='${privilege}'`
+
+    let wh = ""
+    province_code.forEach((e, i) => {
+        i < province_code.length - 1 ? wh += `province_code='${e}' OR ` : wh += `province_code='${e}'`
+    })
+
+    const sql = `SELECT  PROVINCE_CODE, PROVINCE_NAME,
+	        count(SEX_CODE) AS total, 
+	        sum(CASE SEX_CODE WHEN 'F' THEN 1 ELSE 0 END) AS f,
+	        sum(CASE SEX_CODE WHEN 'M' THEN 1 ELSE 0 END) AS m
+            FROM V_MN_DES_PERSON 
+            WHERE ADDRESS_CODE ='${address_code}'${pri} AND ${wh}
+            GROUP BY PROVINCE_CODE, PROVINCE_NAME`
+    // console.log(sql);
+    try {
+        const result = await connection.execute(sql, [], { maxRows: 100 });
+        res.status(200).json(result.rows)
+    } catch (err) {
+        console.error(err);
+    } finally {
+        if (connection) {
+            try {
+                await connection.close();
+            } catch (err) {
+                console.error(err);
+            }
+        }
+    }
+})
+
 app.post("/api/get_by_prov", async (req, res) => {
     let { province_code, address_code, privilege } = req.body
     let connection = await oracledb.getConnection(dbConfig);

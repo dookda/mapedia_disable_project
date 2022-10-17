@@ -84,7 +84,7 @@ app.get("/geoapi/get-bound2/:lyr/:val", (req, res) => {
         sql = `SELECT tb_code as code, tb_th as name, ST_AsGeoJSON(geom) as geom FROM th_tambon
             WHERE tb_code = '${val}'`;
     }
-    console.log(sql);
+    // console.log(sql);
     th.query(sql).then((r) => {
         let arr = []
         r.rows.forEach(e => {
@@ -104,5 +104,44 @@ app.get("/geoapi/get-bound2/:lyr/:val", (req, res) => {
         });
     });
 })
+
+
+
+app.post("/geoapi/get-multiprov", (req, res) => {
+    const { province_code } = req.body;
+
+    var wh = ""
+    province_code.forEach((e, i) => {
+        i < province_code.length - 1 ? wh += `pv_code='${e}' OR ` : wh += `pv_code='${e}'`
+    })
+
+    // console.log(wh);
+
+    let sql = `SELECT pv_code as code, pv_th as name, ST_AsGeoJSON(geom) as geom FROM th_province
+            WHERE ${wh}`;
+
+    console.log(sql);
+    th.query(sql).then((r) => {
+        let arr = []
+        r.rows.forEach(e => {
+            let json = {
+                type: "Feature",
+                properties: {
+                    code: e.code,
+                    name: e.name
+                },
+                geometry: JSON.parse(e.geom)
+            }
+            arr.push(json)
+        });
+
+        console.log(arr);
+
+        res.status(200).json({
+            data: arr
+        });
+    });
+})
+
 
 module.exports = app;
