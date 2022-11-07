@@ -85,6 +85,17 @@ const pro = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
   // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
 });
 
+const region = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
+  layers: "depgis:th_region",
+  name: "lyr",
+  format: "image/png",
+  iswms: "wms",
+  transparent: true,
+  zIndex: 2,
+  maxZoom: 16,
+  // CQL_FILTER: 'pro_code=20 OR pro_code=21 OR pro_code=24'
+});
+
 const flood_2005 = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?", {
   layers: "depgis:flood_2005",
   name: "lyr",
@@ -330,9 +341,8 @@ const th_road = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?
 });
 
 // Instantiate KMZ layer (async)
-const kmz = L.kmzLayer().addTo(map);
-kmz.load('./wp1822.kmz');
-
+// const kmz = L.kmzLayer().addTo(map);
+// kmz.load('./wp1822.kmz');
 
 // const baseMaps = {
 //   "Mapbox": mapbox,
@@ -385,20 +395,20 @@ let lyr = {
   th_village: th_village,
   th_msdhslocal: th_msdhslocal,
   th_road: th_road,
-  kmz: kmz,
+  // kmz: kmz,
   tam: tam,
   amp: amp,
   pro: pro.addTo(map),
+  region: region
 }
 
 let base = {
   ghyb: ghyb.addTo(map),
   CartoDB_Positron: CartoDB_Positron,
   grod: grod,
-
 }
 
-// const lyrControl = L.control.layers(baseMaps, overlayMaps, {
+// const lyrControl = L.control.layers(baseMaps, lyr, {
 //   collapsed: true
 // }).addTo(map);
 
