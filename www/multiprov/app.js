@@ -1,4 +1,4 @@
-const urleg = "https://engrids.soc.cmu.ac.th/api";
+// const urleg = "https://engrids.soc.cmu.ac.th/api";
 const url = "http://192.168.3.110:3000";
 // const url = "http://localhost:3000";
 
@@ -344,33 +344,6 @@ const th_road = L.tileLayer.wms("http://192.168.3.110:8080/geoserver/depgis/wms?
 // const kmz = L.kmzLayer().addTo(map);
 // kmz.load('./wp1822.kmz');
 
-// const baseMaps = {
-//   "Mapbox": mapbox,
-//   "Google Hybrid": ghyb.addTo(map)
-// };
-
-// const overlayMaps = {
-//   "ขอบเขตจังหวัด": pro.addTo(map),
-//   "ขอบเขตอำเภอ": amp.addTo(map),
-//   "ขอบเขตตำบล": tam.addTo(map),
-//   "พื้นที่น้ำท่วม 2548": flood_2005,
-//   "พื้นที่น้ำท่วม 2549": flood_2006,
-//   "พื้นที่น้ำท่วม 2550": flood_2007,
-//   "พื้นที่น้ำท่วม 2551": flood_2008,
-//   "พื้นที่น้ำท่วม 2552": flood_2009,
-//   "พื้นที่น้ำท่วม 2553": flood_2010,
-//   "พื้นที่น้ำท่วม 2554": flood_2011,
-//   "พื้นที่น้ำท่วม 2555": flood_2012,
-//   "พื้นที่น้ำท่วม 2556": flood_2013,
-//   "พื้นที่น้ำท่วม 2557": flood_2014,
-//   "พื้นที่น้ำท่วม 2558": flood_2015,
-//   "พื้นที่น้ำท่วม 2559": flood_2016,
-//   "พื้นที่น้ำท่วม 2560": flood_2017,
-//   "พื้นที่น้ำท่วม 2561": flood_2018,
-//   "พื้นที่น้ำท่วม 2562": flood_2019,
-//   "พื้นที่น้ำท่วม 2563": flood_2020.addTo(map),
-// };
-
 let lyr = {
   flood_2005: flood_2005,
   flood_2006: flood_2006,
@@ -406,9 +379,10 @@ let base = {
   ghyb: ghyb.addTo(map),
   CartoDB_Positron: CartoDB_Positron,
   grod: grod,
+
 }
 
-// const lyrControl = L.control.layers(baseMaps, lyr, {
+// const lyrControl = L.control.layers(baseMaps, overlayMaps, {
 //   collapsed: true
 // }).addTo(map);
 
@@ -2261,20 +2235,27 @@ function selectAddress(address_code, privilege, geoarr) {
   })
 }
 
-function selectRegion(address_code, privilege, region_code, geoarr) {
-  axios.post(`${url}/api/get_by_region`, { address_code, privilege, region_code }).then(async (r) => {
-    $('#getdata').text(r.data[0].REGION_NAME_THAI);
-    $("#distotal").text(numberWithCommas(Number(r.data[0].TOTAL)))
-    $("#f_total").text(numberWithCommas(Number(r.data[0].F)))
-    $("#m_total").text(numberWithCommas(Number(r.data[0].M)))
+
+async function selectProvince(address_code, privilege, province_code, geoarr) {
+  axios.post(`${url}/api/get_by_multiprov`, { address_code, privilege, province_code }).then(async (r) => {
+    // console.log(r);
+    let distotal = 0;
+    let f_total = 0;
+    let m_total = 0;
+    r.data.map(i => {
+      distotal += i.TOTAL;
+      f_total += i.F;
+      m_total += i.M;
+    })
+    $("#distotal").text(numberWithCommas(Number(distotal)))
+    $("#f_total").text(numberWithCommas(Number(f_total)))
+    $("#m_total").text(numberWithCommas(Number(m_total)))
   })
 
-  axios.post(`${url}/api/get_by_region_total`, { address_code, privilege, region_code }).then(async (r) => {
-    $('#pro').empty().append(`<option value="all">เลือกจังหวัด</option>`);
+  axios.post(`${url}/api/get_by_multiprov_total`, { address_code, privilege, province_code }).then(async (r) => {
     let valArr = []
     r.data.map(i => {
       valArr.push(i.CNT)
-      $('#pro').append(`<option value="${i.PROVINCE_CODE}">${i.PROVINCE_NAME}</option>`)
       geoarr.map(a => a.properties.code == i.PROVINCE_CODE ? a.properties.val = i.CNT : null)
     })
     showTotal(r.data)
@@ -2284,264 +2265,84 @@ function selectRegion(address_code, privilege, region_code, geoarr) {
     showMap(geojson, min, max)
   })
 
-  axios.post(`${url}/api/get_by_region_sex`, { address_code, privilege, region_code }).then(async (r) => {
-    showSex(r.data)
-    // console.log(r.data)
-  })
-
-  axios.post(`${url}/api/get_by_region_type`, { address_code, privilege, region_code }).then(async (r) => {
-    showType(r.data)
-    // console.log(r.data)
-  })
-
-  axios.post(`${url}/api/get_by_region_age`, { address_code, privilege, region_code }).then(async (r) => {
-    showAge(r.data)
-    // console.log(r.data)
-  })
-
-  axios.post(`${url}/api/get_by_region_edu`, { address_code, privilege, region_code }).then(async (r) => {
-    showEdu(r.data)
-    // console.log(r.data)
-  })
-
-  axios.post(`${url}/api/get_by_region_occ`, { address_code, privilege, region_code }).then(async (r) => {
-    showOcc(r.data)
-    // console.log(r.data)
-  })
-
-  axios.post(`${url}/api/get_by_region_agetype`, { address_code, privilege, region_code }).then(async (r) => {
-    showAgeType(r.data)
-    // console.log(r.data)
-  })
-
-  axios.post(`${url}/api/get_by_region_ageedu`, { address_code, privilege, region_code }).then(async (r) => {
-    showAgeEdu(r.data)
-    // console.log(r.data)
-  })
-
-  axios.post(`${url}/api/get_by_region_ageocc`, { address_code, privilege, region_code }).then(async (r) => {
-    showAgeOcc(r.data)
-    // console.log(r.data)
-  })
-
-}
-
-function selectProvince(address_code, privilege, province_code, geoarr) {
-  axios.post(`${url}/api/get_by_prov`, { address_code, privilege, province_code }).then(async (r) => {
-    $('#getdata').html(`ของ จ. ${r.data[0].PROVINCE_NAME}`);
-    $("#distotal").text(numberWithCommas(Number(r.data[0].TOTAL)))
-    $("#f_total").text(numberWithCommas(Number(r.data[0].F)))
-    $("#m_total").text(numberWithCommas(Number(r.data[0].M)))
-  })
-
-  axios.post(`${url}/api/get_by_province_total`, { address_code, privilege, province_code }).then(async (r) => {
-    $('#amp').empty().append(`<option value="all">เลือกอำเภอ</option>`);
-    let valArr = []
-    r.data.map(i => {
-      valArr.push(i.CNT)
-      $('#amp').append(`<option value="${i.AMPCODE}">${i.DISTRICT_NAME}</option>`)
-      geoarr.map(a => a.properties.code == i.AMPCODE ? a.properties.val = i.CNT : null)
-    })
-    showTotal(r.data)
-    let geojson = { type: "FeatureCollection", features: geoarr }
-    let min = Math.min(...valArr)
-    let max = Math.max(...valArr)
-    showMap(geojson, min, max)
-  })
-
-  axios.post(`${url}/api/get_by_province_sex`, { address_code, privilege, province_code }).then(async (r) => {
+  axios.post(`${url}/api/get_by_multiprov_sex`, { address_code, privilege, province_code }).then(async (r) => {
     showSex(r.data)
   })
 
-  axios.post(`${url}/api/get_by_province_type`, { address_code, privilege, province_code }).then(async (r) => {
+  axios.post(`${url}/api/get_by_multiprov_type`, { address_code, privilege, province_code }).then(async (r) => {
     showType(r.data)
   })
 
-  axios.post(`${url}/api/get_by_province_age`, { address_code, privilege, province_code }).then(async (r) => {
+  axios.post(`${url}/api/get_by_multiprov_age`, { address_code, privilege, province_code }).then(async (r) => {
     showAge(r.data)
   })
 
-  axios.post(`${url}/api/get_by_province_edu`, { address_code, privilege, province_code }).then(async (r) => {
+  axios.post(`${url}/api/get_by_multiprov_edu`, { address_code, privilege, province_code }).then(async (r) => {
     showEdu(r.data)
   })
 
-  axios.post(`${url}/api/get_by_province_occ`, { address_code, privilege, province_code }).then(async (r) => {
+  axios.post(`${url}/api/get_by_multiprov_occ`, { address_code, privilege, province_code }).then(async (r) => {
     showOcc(r.data)
   })
 
-  axios.post(`${url}/api/get_by_province_agetype`, { address_code, privilege, province_code }).then(async (r) => {
+  axios.post(`${url}/api/get_by_multiprov_agetype`, { address_code, privilege, province_code }).then(async (r) => {
     showAgeType(r.data)
   })
 
-  axios.post(`${url}/api/get_by_province_ageedu`, { address_code, privilege, province_code }).then(async (r) => {
+  axios.post(`${url}/api/get_by_multiprov_ageedu`, { address_code, privilege, province_code }).then(async (r) => {
     showAgeEdu(r.data)
   })
 
-  axios.post(`${url}/api/get_by_province_ageocc`, { address_code, privilege, province_code }).then(async (r) => {
+  axios.post(`${url}/api/get_by_multiprov_ageocc`, { address_code, privilege, province_code }).then(async (r) => {
     showAgeOcc(r.data)
   })
 }
 
-
-function selectAmphoe(address_code, privilege, amphoe_code, geoarr) {
-  axios.post(`${url}/api/get_by_amphoe`, { address_code, privilege, amphoe_code }).then(async (r) => {
-    $('#getdata').html(`ของ อ. ${r.data[0].DISTRICT_NAME}`);
-    $("#distotal").text(numberWithCommas(Number(r.data[0].TOTAL)))
-    $("#f_total").text(numberWithCommas(Number(r.data[0].F)))
-    $("#m_total").text(numberWithCommas(Number(r.data[0].M)))
-  })
-
-  axios.post(`${url}/api/get_by_amphoe_total`, { address_code, privilege, amphoe_code }).then(async (r) => {
-    $('#tam').empty().append(`<option value="all">เลือกตำบล</option>`);
-    let valArr = []
-    r.data.map(i => {
-      valArr.push(i.CNT)
-      $('#tam').append(`<option value="${i.TAMCODE}">${i.SUBDISTRICT_NAME}</option>`)
-      geoarr.map(a => a.properties.code == i.TAMCODE ? a.properties.val = i.CNT : null)
-    })
-    showTotal(r.data)
-    let geojson = { type: "FeatureCollection", features: geoarr }
-    let min = Math.min(...valArr)
-    let max = Math.max(...valArr)
-    showMap(geojson, min, max)
-  })
-
-  axios.post(`${url}/api/get_by_amphoe_sex`, { address_code, privilege, amphoe_code }).then(async (r) => {
-    showSex(r.data)
-  })
-
-  axios.post(`${url}/api/get_by_amphoe_type`, { address_code, privilege, amphoe_code }).then(async (r) => {
-    showType(r.data)
-  })
-
-  axios.post(`${url}/api/get_by_amphoe_age`, { address_code, privilege, amphoe_code }).then(async (r) => {
-    showAge(r.data)
-  })
-
-  axios.post(`${url}/api/get_by_amphoe_edu`, { address_code, privilege, amphoe_code }).then(async (r) => {
-    showEdu(r.data)
-  })
-
-  axios.post(`${url}/api/get_by_amphoe_occ`, { address_code, privilege, amphoe_code }).then(async (r) => {
-    showOcc(r.data)
-  })
-
-  axios.post(`${url}/api/get_by_amphoe_agetype`, { address_code, privilege, amphoe_code }).then(async (r) => {
-    showAgeType(r.data)
-  })
-
-  axios.post(`${url}/api/get_by_amphoe_ageedu`, { address_code, privilege, amphoe_code }).then(async (r) => {
-    showAgeEdu(r.data)
-  })
-
-  axios.post(`${url}/api/get_by_amphoe_ageocc`, { address_code, privilege, amphoe_code }).then(async (r) => {
-    showAgeOcc(r.data)
-  })
-
-}
-
-function selectTambon(address_code, privilege, tambon_code, geoarr) {
-  axios.post(`${url}/api/get_by_tambon`, { address_code, privilege, tambon_code }).then(async (r) => {
-    $('#getdata').html(`ของ ต. ${r.data[0].SUBDISTRICT_NAME}`);
-    $("#distotal").text(numberWithCommas(Number(r.data[0].TOTAL)))
-    $("#f_total").text(numberWithCommas(Number(r.data[0].F)))
-    $("#m_total").text(numberWithCommas(Number(r.data[0].M)))
-  })
-
-  axios.post(`${url}/api/get_by_tambon_total`, { address_code, privilege, tambon_code }).then(async (r) => {
-    let valArr = []
-    r.data.map(i => {
-      valArr.push(i.CNT)
-      geoarr.map(a => a.properties.code == i.TAMCODE ? a.properties.val = i.CNT : null)
-    })
-    showTotal(r.data)
-    let geojson = { type: "FeatureCollection", features: geoarr }
-    let min = Math.min(...valArr)
-    let max = Math.max(...valArr)
-    showMap(geojson, min, max)
-  })
-
-  axios.post(`${url}/api/get_by_tambon_sex`, { address_code, privilege, tambon_code }).then(async (r) => {
-    showSex(r.data)
-  })
-
-  axios.post(`${url}/api/get_by_tambon_type`, { address_code, privilege, tambon_code }).then(async (r) => {
-    showType(r.data)
-  })
-
-  axios.post(`${url}/api/get_by_tambon_age`, { address_code, privilege, tambon_code }).then(async (r) => {
-    showAge(r.data)
-  })
-
-  axios.post(`${url}/api/get_by_tambon_edu`, { address_code, privilege, tambon_code }).then(async (r) => {
-    showEdu(r.data)
-  })
-
-  axios.post(`${url}/api/get_by_tambon_occ`, { address_code, privilege, tambon_code }).then(async (r) => {
-    showOcc(r.data)
-  })
-
-  axios.post(`${url}/api/get_by_tambon_agetype`, { address_code, privilege, tambon_code }).then(async (r) => {
-    showAgeType(r.data)
-  })
-
-  axios.post(`${url}/api/get_by_tambon_ageedu`, { address_code, privilege, tambon_code }).then(async (r) => {
-    showAgeEdu(r.data)
-  })
-
-  axios.post(`${url}/api/get_by_tambon_ageocc`, { address_code, privilege, tambon_code }).then(async (r) => {
-    showAgeOcc(r.data)
-  })
-
-}
 
 function selectinfo(Category) {
   $('#infoview').empty()
   var Category = Category;
   var privilege = $('#privilege').val();
   var address_code = $('#address').val();
-  var region_code = $('#reg').val();
   var province_code = $('#pro').val();
-  var amphoe_code = $('#amp').val();
-  var tambon_code = $('#tam').val();
 
   // console.log(add)
   // console.log(region)
 
   if (Category == "total") {
     if (privilege && address_code && region_code == "all") {
-      console.log(privilege)
-      console.log(address_code)
+      // console.log(privilege)
+      // console.log(address_code)
       axios.post(`${url}/api/get_by_country_total`, { privilege, address_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b> ${i.CAT} : </b> ${i.CNT} คน <br>`)
         })
       })
     }
     if (privilege && address_code && region_code !== "all" && province_code == "all") {
-      console.log(region_code)
-      console.log(privilege, address_code, region_code)
+      // console.log(region_code)
+      // console.log(privilege, address_code, region_code)
       axios.post(`${url}/api/get_by_region_total`, { privilege, address_code, region_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b> ${i.CAT} : </b> ${i.CNT} คน <br>`)
         })
       })
     }
     if (privilege && address_code && region_code !== "all" && province_code !== "all" && amphoe_code == "all") {
-      console.log(province_code)
+      // console.log(province_code)
       axios.post(`${url}/api/get_by_province_total`, { privilege, address_code, province_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b> ${i.CAT} : </b> ${i.CNT} คน <br>`)
         })
       })
     }
     if (privilege && address_code && region_code !== "all" && province_code !== "all" && amphoe_code !== "all" && tambon_code == "all") {
-      console.log(amphoe_code)
+      // console.log(amphoe_code)
       axios.post(`${url}/api/get_by_amphoe_total`, { privilege, address_code, amphoe_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b> ${i.CAT} : </b> ${i.CNT} คน <br>`)
         })
@@ -2550,7 +2351,7 @@ function selectinfo(Category) {
     if (privilege && address_code && region_code !== "all" && province_code !== "all" && amphoe_code !== "all" && tambon_code !== "all") {
       console.log(tambon_code)
       axios.post(`${url}/api/get_by_tambon_total`, { privilege, address_code, tambon_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b> ${i.CAT} : </b> ${i.CNT} คน <br>`)
         })
@@ -2569,7 +2370,7 @@ function selectinfo(Category) {
       })
     }
     if (privilege && address_code && region_code !== "all" && province_code == "all") {
-      console.log(region_code)
+      // console.log(region_code)
       axios.post(`${url}/api/get_by_region_sex`, { privilege, address_code, region_code }).then(async (r) => {
         // console.log(r.data)
         r.data.map(i => {
@@ -2578,7 +2379,7 @@ function selectinfo(Category) {
       })
     }
     if (privilege && address_code && region_code !== "all" && province_code !== "all" && amphoe_code == "all") {
-      console.log(province_code)
+      // console.log(province_code)
       axios.post(`${url}/api/get_by_province_sex`, { privilege, address_code, province_code }).then(async (r) => {
         // console.log(r.data)
         r.data.map(i => {
@@ -2587,7 +2388,7 @@ function selectinfo(Category) {
       })
     }
     if (privilege && address_code && region_code !== "all" && province_code !== "all" && amphoe_code !== "all" && tambon_code == "all") {
-      console.log(amphoe_code)
+      // console.log(amphoe_code)
       axios.post(`${url}/api/get_by_amphoe_sex`, { privilege, address_code, amphoe_code }).then(async (r) => {
         // console.log(r.data)
         r.data.map(i => {
@@ -2596,7 +2397,7 @@ function selectinfo(Category) {
       })
     }
     if (privilege && address_code && region_code !== "all" && province_code !== "all" && amphoe_code !== "all" && tambon_code !== "all") {
-      console.log(tambon_code)
+      // console.log(tambon_code)
       axios.post(`${url}/api/get_by_tambon_sex`, { privilege, address_code, tambon_code }).then(async (r) => {
         // console.log(r.data)
         r.data.map(i => {
@@ -2619,7 +2420,7 @@ function selectinfo(Category) {
     if (privilege && address_code && region_code !== "all" && province_code == "all") {
       // console.log(region_code)
       axios.post(`${url}/api/get_by_region_type`, { privilege, address_code, region_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b>${i.CAT}:</b> <br> ไม่มีข้อมูล: ${i.TYPE0} คน <br> ทางการเห็น: ${i.TYPE12
             } คน <br> ทางการได้ยินหรือสื่อความหมาย: ${i.TYPE13} คน <br> ทางการเคลื่อนไหวหรือทางร่างกาย: ${i.TYPE14} คน <br> ทางจิตใจหรือพฤติกรรม: ${i.TYPE15} คน <br> ทางสติปัญญา: ${i.TYPE16} คน <br> ทางการเรียนรู้: ${i.TYPE17} คน <br> ทางออทิสติก: ${i.TYPE18} คน <br>`)
@@ -2629,7 +2430,7 @@ function selectinfo(Category) {
     if (privilege && address_code && region_code !== "all" && province_code !== "all" && amphoe_code == "all") {
       // console.log(province_code)
       axios.post(`${url}/api/get_by_province_type`, { privilege, address_code, province_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b>${i.CAT}:</b> <br> ไม่มีข้อมูล: ${i.TYPE0} คน <br> ทางการเห็น: ${i.TYPE12
             } คน <br> ทางการได้ยินหรือสื่อความหมาย: ${i.TYPE13} คน <br> ทางการเคลื่อนไหวหรือทางร่างกาย: ${i.TYPE14} คน <br> ทางจิตใจหรือพฤติกรรม: ${i.TYPE15} คน <br> ทางสติปัญญา: ${i.TYPE16} คน <br> ทางการเรียนรู้: ${i.TYPE17} คน <br> ทางออทิสติก: ${i.TYPE18} คน <br>`)
@@ -2639,7 +2440,7 @@ function selectinfo(Category) {
     if (privilege && address_code && region_code !== "all" && province_code !== "all" && amphoe_code !== "all" && tambon_code == "all") {
       // console.log(amphoe_code)
       axios.post(`${url}/api/get_by_amphoe_type`, { privilege, address_code, amphoe_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b>${i.CAT}:</b> <br> ไม่มีข้อมูล: ${i.TYPE0} คน <br> ทางการเห็น: ${i.TYPE12
             } คน <br> ทางการได้ยินหรือสื่อความหมาย: ${i.TYPE13} คน <br> ทางการเคลื่อนไหวหรือทางร่างกาย: ${i.TYPE14} คน <br> ทางจิตใจหรือพฤติกรรม: ${i.TYPE15} คน <br> ทางสติปัญญา: ${i.TYPE16} คน <br> ทางการเรียนรู้: ${i.TYPE17} คน <br> ทางออทิสติก: ${i.TYPE18} คน <br>`)
@@ -2649,7 +2450,7 @@ function selectinfo(Category) {
     if (privilege && address_code && region_code !== "all" && province_code !== "all" && amphoe_code !== "all" && tambon_code !== "all") {
       // console.log(tambon_code)
       axios.post(`${url}/api/get_by_tambon_type`, { privilege, address_code, tambon_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b>${i.CAT}:</b> <br> ไม่มีข้อมูล: ${i.TYPE0} คน <br> ทางการเห็น: ${i.TYPE12
             } คน <br> ทางการได้ยินหรือสื่อความหมาย: ${i.TYPE13} คน <br> ทางการเคลื่อนไหวหรือทางร่างกาย: ${i.TYPE14} คน <br> ทางจิตใจหรือพฤติกรรม: ${i.TYPE15} คน <br> ทางสติปัญญา: ${i.TYPE16} คน <br> ทางการเรียนรู้: ${i.TYPE17} คน <br> ทางออทิสติก: ${i.TYPE18} คน <br>`)
@@ -2661,7 +2462,7 @@ function selectinfo(Category) {
     if (privilege && address_code && region_code == "all") {
       // console.log(address_code)
       axios.post(`${url}/api/get_by_country_age`, { privilege, address_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b>${i.CAT}:</b> <br> ช่วงอายุ 0-5 ปี: ${i.AGE5} คน <br>  ช่วงอายุ 6-14 ปี: ${i.AGE14
             } คน <br> ช่วงอายุ 15-21 ปี: ${i.AGE21} คน <br> ช่วงอายุ 22-59 ปี: ${i.AGE59} คน <br> ช่วงอายุ 60 ปีขึ้นไป: ${i.AGE60} คน <br>`)
@@ -2671,7 +2472,7 @@ function selectinfo(Category) {
     if (privilege && address_code && region_code !== "all" && province_code == "all") {
       // console.log(region_code)
       axios.post(`${url}/api/get_by_region_age`, { privilege, address_code, region_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b>${i.CAT}:</b> <br> ช่วงอายุ 0-5 ปี: ${i.AGE5} คน <br>  ช่วงอายุ 6-14 ปี: ${i.AGE14
             } คน <br> ช่วงอายุ 15-21 ปี: ${i.AGE21} คน <br> ช่วงอายุ 22-59 ปี: ${i.AGE59} คน <br> ช่วงอายุ 60 ปีขึ้นไป: ${i.AGE60} คน <br>`)
@@ -2681,7 +2482,7 @@ function selectinfo(Category) {
     if (privilege && address_code && region_code !== "all" && province_code !== "all" && amphoe_code == "all") {
       // console.log(province_code)
       axios.post(`${url}/api/get_by_province_age`, { privilege, address_code, province_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b>${i.CAT}:</b> <br> ช่วงอายุ 0-5 ปี: ${i.AGE5} คน <br>  ช่วงอายุ 6-14 ปี: ${i.AGE14
             } คน <br> ช่วงอายุ 15-21 ปี: ${i.AGE21} คน <br> ช่วงอายุ 22-59 ปี: ${i.AGE59} คน <br> ช่วงอายุ 60 ปีขึ้นไป: ${i.AGE60} คน <br>`)
@@ -2691,7 +2492,7 @@ function selectinfo(Category) {
     if (privilege && address_code && region_code !== "all" && province_code !== "all" && amphoe_code !== "all" && tambon_code == "all") {
       // console.log(amphoe_code)
       axios.post(`${url}/api/get_by_amphoe_age`, { privilege, address_code, amphoe_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b>${i.CAT}:</b> <br> ช่วงอายุ 0-5 ปี: ${i.AGE5} คน <br>  ช่วงอายุ 6-14 ปี: ${i.AGE14
             } คน <br> ช่วงอายุ 15-21 ปี: ${i.AGE21} คน <br> ช่วงอายุ 22-59 ปี: ${i.AGE59} คน <br> ช่วงอายุ 60 ปีขึ้นไป: ${i.AGE60} คน <br>`)
@@ -2701,7 +2502,7 @@ function selectinfo(Category) {
     if (privilege && address_code && region_code !== "all" && province_code !== "all" && amphoe_code !== "all" && tambon_code !== "all") {
       // console.log(tambon_code)
       axios.post(`${url}/api/get_by_tambon_age`, { privilege, address_code, tambon_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b>${i.CAT}:</b> <br> ช่วงอายุ 0-5 ปี: ${i.AGE5} คน <br>  ช่วงอายุ 6-14 ปี: ${i.AGE14
             } คน <br> ช่วงอายุ 15-21 ปี: ${i.AGE21} คน <br> ช่วงอายุ 22-59 ปี: ${i.AGE59} คน <br> ช่วงอายุ 60 ปีขึ้นไป: ${i.AGE60} คน <br>`)
@@ -2714,7 +2515,7 @@ function selectinfo(Category) {
     if (privilege && address_code && region_code == "all") {
       // console.log(address_code)
       axios.post(`${url}/api/get_by_country_edu`, { privilege, address_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b>${i.CAT}:</b> <br> สูงกว่าปริญญาตรี: ${i.HIG} คน <br>  ปริญญาตรีหรือเทียบเท่า: ${i.MID
             } คน <br> ต่ำกว่าปริญญาตรี: ${i.LOW} คน <br> อื่นๆ: ${i.OTH} คน <br>`)
@@ -2722,9 +2523,9 @@ function selectinfo(Category) {
       })
     }
     if (privilege && address_code && region_code !== "all" && province_code == "all") {
-      console.log(region_code)
+      // console.log(region_code)
       axios.post(`${url}/api/get_by_region_edu`, { privilege, address_code, region_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b>${i.CAT}:</b> <br> สูงกว่าปริญญาตรี: ${i.HIG} คน <br>  ปริญญาตรีหรือเทียบเท่า: ${i.MID
             } คน <br> ต่ำกว่าปริญญาตรี: ${i.LOW} คน <br> อื่นๆ: ${i.OTH} คน <br>`)
@@ -2732,9 +2533,9 @@ function selectinfo(Category) {
       })
     }
     if (privilege && address_code && region_code !== "all" && province_code !== "all" && amphoe_code == "all") {
-      console.log(province_code)
+      // console.log(province_code)
       axios.post(`${url}/api/get_by_province_edu`, { privilege, address_code, province_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b>${i.CAT}:</b> <br> สูงกว่าปริญญาตรี: ${i.HIG} คน <br>  ปริญญาตรีหรือเทียบเท่า: ${i.MID
             } คน <br> ต่ำกว่าปริญญาตรี: ${i.LOW} คน <br> อื่นๆ: ${i.OTH} คน <br>`)
@@ -2742,9 +2543,9 @@ function selectinfo(Category) {
       })
     }
     if (privilege && address_code && region_code !== "all" && province_code !== "all" && amphoe_code !== "all" && tambon_code == "all") {
-      console.log(amphoe_code)
+      // console.log(amphoe_code)
       axios.post(`${url}/api/get_by_amphoe_edu`, { privilege, address_code, amphoe_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b>${i.CAT}:</b> <br> สูงกว่าปริญญาตรี: ${i.HIG} คน <br>  ปริญญาตรีหรือเทียบเท่า: ${i.MID
             } คน <br> ต่ำกว่าปริญญาตรี: ${i.LOW} คน <br> อื่นๆ: ${i.OTH} คน <br>`)
@@ -2752,9 +2553,9 @@ function selectinfo(Category) {
       })
     }
     if (privilege && address_code && region_code !== "all" && province_code !== "all" && amphoe_code !== "all" && tambon_code !== "all") {
-      console.log(tambon_code)
+      // console.log(tambon_code)
       axios.post(`${url}/api/get_by_tambon_edu`, { privilege, address_code, tambon_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b>${i.CAT}:</b> <br> สูงกว่าปริญญาตรี: ${i.HIG} คน <br>  ปริญญาตรีหรือเทียบเท่า: ${i.MID
             } คน <br> ต่ำกว่าปริญญาตรี: ${i.LOW} คน <br> อื่นๆ: ${i.OTH} คน <br>`)
@@ -2765,9 +2566,9 @@ function selectinfo(Category) {
   }
   else if (Category == "occ") {
     if (privilege && address_code && region_code == "all") {
-      console.log(address_code)
+      // console.log(address_code)
       axios.post(`${url}/api/get_by_country_occ`, { privilege, address_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b>${i.CAT}:</b> <br> รับราชการ: ${i.OCC_001} คน <br> รัฐวิสาหกิจ: ${i.OCC_002
             } คน <br> รับจ้าง: ${i.OCC_003} คน <br> กิจการส่วนตัว/อาชีพอิสระ/ค้าขาย: ${i.OCC_004} คน <br> กำลังศึกษา: ${i.OCC_005} คน <br> เกษตรกรรม: ${i.OCC_006} คน <br> 
@@ -2778,9 +2579,9 @@ function selectinfo(Category) {
       })
     }
     if (privilege && address_code && region_code !== "all" && province_code == "all") {
-      console.log(region_code)
+      // console.log(region_code)
       axios.post(`${url}/api/get_by_region_occ`, { privilege, address_code, region_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b>${i.CAT}:</b> <br> รับราชการ: ${i.OCC_001} คน <br> รัฐวิสาหกิจ: ${i.OCC_002
             } คน <br> รับจ้าง: ${i.OCC_003} คน <br> กิจการส่วนตัว/อาชีพอิสระ/ค้าขาย: ${i.OCC_004} คน <br> กำลังศึกษา: ${i.OCC_005} คน <br> เกษตรกรรม: ${i.OCC_006} คน <br> 
@@ -2791,9 +2592,9 @@ function selectinfo(Category) {
       })
     }
     if (privilege && address_code && region_code !== "all" && province_code !== "all" && amphoe_code == "all") {
-      console.log(province_code)
+      // console.log(province_code)
       axios.post(`${url}/api/get_by_province_occ`, { privilege, address_code, province_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b>${i.CAT}:</b> <br> รับราชการ: ${i.OCC_001} คน <br> รัฐวิสาหกิจ: ${i.OCC_002
             } คน <br> รับจ้าง: ${i.OCC_003} คน <br> กิจการส่วนตัว/อาชีพอิสระ/ค้าขาย: ${i.OCC_004} คน <br> กำลังศึกษา: ${i.OCC_005} คน <br> เกษตรกรรม: ${i.OCC_006} คน <br> 
@@ -2804,9 +2605,9 @@ function selectinfo(Category) {
       })
     }
     if (privilege && address_code && region_code !== "all" && province_code !== "all" && amphoe_code !== "all" && tambon_code == "all") {
-      console.log(amphoe_code)
+      // console.log(amphoe_code)
       axios.post(`${url}/api/get_by_amphoe_occ`, { privilege, address_code, amphoe_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b>${i.CAT}:</b> <br> รับราชการ: ${i.OCC_001} คน <br> รัฐวิสาหกิจ: ${i.OCC_002
             } คน <br> รับจ้าง: ${i.OCC_003} คน <br> กิจการส่วนตัว/อาชีพอิสระ/ค้าขาย: ${i.OCC_004} คน <br> กำลังศึกษา: ${i.OCC_005} คน <br> เกษตรกรรม: ${i.OCC_006} คน <br> 
@@ -2817,9 +2618,9 @@ function selectinfo(Category) {
       })
     }
     if (privilege && address_code && region_code !== "all" && province_code !== "all" && amphoe_code !== "all" && tambon_code !== "all") {
-      console.log(tambon_code)
+      // console.log(tambon_code)
       axios.post(`${url}/api/get_by_tambon_occ`, { privilege, address_code, tambon_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b>${i.CAT}:</b> <br> รับราชการ: ${i.OCC_001} คน <br> รัฐวิสาหกิจ: ${i.OCC_002
             } คน <br> รับจ้าง: ${i.OCC_003} คน <br> กิจการส่วนตัว/อาชีพอิสระ/ค้าขาย: ${i.OCC_004} คน <br> กำลังศึกษา: ${i.OCC_005} คน <br> เกษตรกรรม: ${i.OCC_006} คน <br> 
@@ -2834,9 +2635,9 @@ function selectinfo(Category) {
   }
   else if (Category == "agetype") {
     if (privilege && address_code && region_code == "all") {
-      console.log(address_code)
+      // console.log(address_code)
       axios.post(`${url}/api/get_by_country_agetype`, { privilege, address_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b> ${i.CAT}:</b> <br> ไม่มีข้อมูล: ${i.TYPE0} คน <br> ทางการเห็น: ${i.TYPE12
             } คน <br> ทางการได้ยินหรือสื่อความหมาย: ${i.TYPE13} คน <br> ทางการเคลื่อนไหวหรือทางร่างกาย: ${i.TYPE14} คน <br> ทางจิตใจหรือพฤติกรรม: ${i.TYPE15} คน <br> ทางสติปัญญา: ${i.TYPE16} คน <br> ทางการเรียนรู้: ${i.TYPE17} คน <br> ทางออทิสติก: ${i.TYPE18} คน <br>`)
@@ -2844,9 +2645,9 @@ function selectinfo(Category) {
       })
     }
     if (privilege && address_code && region_code !== "all" && province_code == "all") {
-      console.log(region_code)
+      // console.log(region_code)
       axios.post(`${url}/api/get_by_region_agetype`, { privilege, address_code, region_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b> ${i.CAT}:</b> <br> ไม่มีข้อมูล: ${i.TYPE0} คน <br> ทางการเห็น: ${i.TYPE12
             } คน <br> ทางการได้ยินหรือสื่อความหมาย: ${i.TYPE13} คน <br> ทางการเคลื่อนไหวหรือทางร่างกาย: ${i.TYPE14} คน <br> ทางจิตใจหรือพฤติกรรม: ${i.TYPE15} คน <br> ทางสติปัญญา: ${i.TYPE16} คน <br> ทางการเรียนรู้: ${i.TYPE17} คน <br> ทางออทิสติก: ${i.TYPE18} คน <br>`)
@@ -2854,9 +2655,9 @@ function selectinfo(Category) {
       })
     }
     if (privilege && address_code && region_code !== "all" && province_code !== "all" && amphoe_code == "all") {
-      console.log(province_code)
+      // console.log(province_code)
       axios.post(`${url}/api/get_by_province_agetype`, { privilege, address_code, province_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b> ${i.CAT}:</b> <br> ไม่มีข้อมูล: ${i.TYPE0} คน <br> ทางการเห็น: ${i.TYPE12
             } คน <br> ทางการได้ยินหรือสื่อความหมาย: ${i.TYPE13} คน <br> ทางการเคลื่อนไหวหรือทางร่างกาย: ${i.TYPE14} คน <br> ทางจิตใจหรือพฤติกรรม: ${i.TYPE15} คน <br> ทางสติปัญญา: ${i.TYPE16} คน <br> ทางการเรียนรู้: ${i.TYPE17} คน <br> ทางออทิสติก: ${i.TYPE18} คน <br>`)
@@ -2864,9 +2665,9 @@ function selectinfo(Category) {
       })
     }
     if (privilege && address_code && region_code !== "all" && province_code !== "all" && amphoe_code !== "all" && tambon_code == "all") {
-      console.log(amphoe_code)
+      // console.log(amphoe_code)
       axios.post(`${url}/api/get_by_amphoe_agetype`, { privilege, address_code, amphoe_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b> ${i.CAT}:</b> <br> ไม่มีข้อมูล: ${i.TYPE0} คน <br> ทางการเห็น: ${i.TYPE12
             } คน <br> ทางการได้ยินหรือสื่อความหมาย: ${i.TYPE13} คน <br> ทางการเคลื่อนไหวหรือทางร่างกาย: ${i.TYPE14} คน <br> ทางจิตใจหรือพฤติกรรม: ${i.TYPE15} คน <br> ทางสติปัญญา: ${i.TYPE16} คน <br> ทางการเรียนรู้: ${i.TYPE17} คน <br> ทางออทิสติก: ${i.TYPE18} คน <br>`)
@@ -2874,9 +2675,9 @@ function selectinfo(Category) {
       })
     }
     if (privilege && address_code && region_code !== "all" && province_code !== "all" && amphoe_code !== "all" && tambon_code !== "all") {
-      console.log(tambon_code)
+      // console.log(tambon_code)
       axios.post(`${url}/api/get_by_tambon_agetype`, { privilege, address_code, tambon_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b> ${i.CAT}:</b> <br> ไม่มีข้อมูล: ${i.TYPE0} คน <br> ทางการเห็น: ${i.TYPE12
             } คน <br> ทางการได้ยินหรือสื่อความหมาย: ${i.TYPE13} คน <br> ทางการเคลื่อนไหวหรือทางร่างกาย: ${i.TYPE14} คน <br> ทางจิตใจหรือพฤติกรรม: ${i.TYPE15} คน <br> ทางสติปัญญา: ${i.TYPE16} คน <br> ทางการเรียนรู้: ${i.TYPE17} คน <br> ทางออทิสติก: ${i.TYPE18} คน <br>`)
@@ -2887,9 +2688,9 @@ function selectinfo(Category) {
   }
   else if (Category == "ageedu") {
     if (privilege && address_code && region_code == "all") {
-      console.log(address_code)
+      // console.log(address_code)
       axios.post(`${url}/api/get_by_country_ageedu`, { privilege, address_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b>${i.CAT}:</b> <br> สูงกว่าปริญญาตรี: ${i.HIG} คน <br>  ปริญญาตรีหรือเทียบเท่า: ${i.MID
             } คน <br> ต่ำกว่าปริญญาตรี: ${i.LOW} คน <br> อื่นๆ: ${i.OTH} คน <br>`)
@@ -2897,9 +2698,9 @@ function selectinfo(Category) {
       })
     }
     if (privilege && address_code && region_code !== "all" && province_code == "all") {
-      console.log(region_code)
+      // console.log(region_code)
       axios.post(`${url}/api/get_by_region_ageedu`, { privilege, address_code, region_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b>${i.CAT}:</b> <br> สูงกว่าปริญญาตรี: ${i.HIG} คน <br>  ปริญญาตรีหรือเทียบเท่า: ${i.MID
             } คน <br> ต่ำกว่าปริญญาตรี: ${i.LOW} คน <br> อื่นๆ: ${i.OTH} คน <br>`)
@@ -2907,9 +2708,9 @@ function selectinfo(Category) {
       })
     }
     if (privilege && address_code && region_code !== "all" && province_code !== "all" && amphoe_code == "all") {
-      console.log(province_code)
+      // console.log(province_code)
       axios.post(`${url}/api/get_by_province_ageedu`, { privilege, address_code, province_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b>${i.CAT}:</b> <br> สูงกว่าปริญญาตรี: ${i.HIG} คน <br>  ปริญญาตรีหรือเทียบเท่า: ${i.MID
             } คน <br> ต่ำกว่าปริญญาตรี: ${i.LOW} คน <br> อื่นๆ: ${i.OTH} คน <br>`)
@@ -2917,9 +2718,9 @@ function selectinfo(Category) {
       })
     }
     if (privilege && address_code && region_code !== "all" && province_code !== "all" && amphoe_code !== "all" && tambon_code == "all") {
-      console.log(amphoe_code)
+      // console.log(amphoe_code)
       axios.post(`${url}/api/get_by_amphoe_ageedu`, { privilege, address_code, amphoe_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b>${i.CAT}:</b> <br> สูงกว่าปริญญาตรี: ${i.HIG} คน <br>  ปริญญาตรีหรือเทียบเท่า: ${i.MID
             } คน <br> ต่ำกว่าปริญญาตรี: ${i.LOW} คน <br> อื่นๆ: ${i.OTH} คน <br>`)
@@ -2927,9 +2728,9 @@ function selectinfo(Category) {
       })
     }
     if (privilege && address_code && region_code !== "all" && province_code !== "all" && amphoe_code !== "all" && tambon_code !== "all") {
-      console.log(tambon_code)
+      // console.log(tambon_code)
       axios.post(`${url}/api/get_by_tambon_ageedu`, { privilege, address_code, tambon_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b>${i.CAT}:</b> <br> สูงกว่าปริญญาตรี: ${i.HIG} คน <br>  ปริญญาตรีหรือเทียบเท่า: ${i.MID
             } คน <br> ต่ำกว่าปริญญาตรี: ${i.LOW} คน <br> อื่นๆ: ${i.OTH} คน <br>`)
@@ -2940,9 +2741,9 @@ function selectinfo(Category) {
   }
   else if (Category == "ageocc") {
     if (privilege && address_code && region_code == "all") {
-      console.log(address_code)
+      // console.log(address_code)
       axios.post(`${url}/api/get_by_country_ageocc`, { privilege, address_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b>${i.CAT}:</b> <br> รับราชการ: ${i.OCC_001} คน <br> รัฐวิสาหกิจ: ${i.OCC_002
             } คน <br> รับจ้าง: ${i.OCC_003} คน <br> กิจการส่วนตัว/อาชีพอิสระ/ค้าขาย: ${i.OCC_004} คน <br> กำลังศึกษา: ${i.OCC_005} คน <br> เกษตรกรรม: ${i.OCC_006} คน <br> 
@@ -2953,9 +2754,9 @@ function selectinfo(Category) {
       })
     }
     if (privilege && address_code && region_code !== "all" && province_code == "all") {
-      console.log(region_code)
+      // console.log(region_code)
       axios.post(`${url}/api/get_by_region_ageocc`, { privilege, address_code, region_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b>${i.CAT}:</b> <br> รับราชการ: ${i.OCC_001} คน <br> รัฐวิสาหกิจ: ${i.OCC_002
             } คน <br> รับจ้าง: ${i.OCC_003} คน <br> กิจการส่วนตัว/อาชีพอิสระ/ค้าขาย: ${i.OCC_004} คน <br> กำลังศึกษา: ${i.OCC_005} คน <br> เกษตรกรรม: ${i.OCC_006} คน <br> 
@@ -2966,9 +2767,9 @@ function selectinfo(Category) {
       })
     }
     if (privilege && address_code && region_code !== "all" && province_code !== "all" && amphoe_code == "all") {
-      console.log(province_code)
+      // console.log(province_code)
       axios.post(`${url}/api/get_by_province_ageocc`, { privilege, address_code, province_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b>${i.CAT}:</b> <br> รับราชการ: ${i.OCC_001} คน <br> รัฐวิสาหกิจ: ${i.OCC_002
             } คน <br> รับจ้าง: ${i.OCC_003} คน <br> กิจการส่วนตัว/อาชีพอิสระ/ค้าขาย: ${i.OCC_004} คน <br> กำลังศึกษา: ${i.OCC_005} คน <br> เกษตรกรรม: ${i.OCC_006} คน <br> 
@@ -2979,9 +2780,9 @@ function selectinfo(Category) {
       })
     }
     if (privilege && address_code && region_code !== "all" && province_code !== "all" && amphoe_code !== "all" && tambon_code == "all") {
-      console.log(amphoe_code)
+      // console.log(amphoe_code)
       axios.post(`${url}/api/get_by_amphoe_ageocc`, { privilege, address_code, amphoe_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b>${i.CAT}:</b> <br> รับราชการ: ${i.OCC_001} คน <br> รัฐวิสาหกิจ: ${i.OCC_002
             } คน <br> รับจ้าง: ${i.OCC_003} คน <br> กิจการส่วนตัว/อาชีพอิสระ/ค้าขาย: ${i.OCC_004} คน <br> กำลังศึกษา: ${i.OCC_005} คน <br> เกษตรกรรม: ${i.OCC_006} คน <br> 
@@ -2992,9 +2793,9 @@ function selectinfo(Category) {
       })
     }
     if (privilege && address_code && region_code !== "all" && province_code !== "all" && amphoe_code !== "all" && tambon_code !== "all") {
-      console.log(tambon_code)
+      // console.log(tambon_code)
       axios.post(`${url}/api/get_by_tambon_ageocc`, { privilege, address_code, tambon_code }).then(async (r) => {
-        console.log(r.data)
+        // console.log(r.data)
         r.data.map(i => {
           $('#infoview').append(` <b>${i.CAT}:</b> <br> รับราชการ: ${i.OCC_001} คน <br> รัฐวิสาหกิจ: ${i.OCC_002
             } คน <br> รับจ้าง: ${i.OCC_003} คน <br> กิจการส่วนตัว/อาชีพอิสระ/ค้าขาย: ${i.OCC_004} คน <br> กำลังศึกษา: ${i.OCC_005} คน <br> เกษตรกรรม: ${i.OCC_006} คน <br> 
@@ -3018,13 +2819,20 @@ axios.get(`${url}/geoapi/get-bound2/th/${address_code}`).then(async (r) => {
   selectAddress(address_code, privilege, geoarr)
 })
 
+axios.post(`${url}/api/getallprov`).then(async (r) => {
+  $('#pro').empty()
+  // console.log(r.data);
+  let objArr = r.data.sort((a, b) => a.PROVINCE_NAME.localeCompare(b.PROVINCE_NAME))
+
+  objArr.map(i => {
+    $('#pro').append(`<option value="${i.PROVINCE_CODE}">${i.PROVINCE_NAME}</option>`)
+  })
+})
+
 $("#privilege").on('change', function () {
   $('#infoview').empty()
-  $('#tam').empty()
-  $('#amp').empty()
   $('#pro').empty()
   $('#reg').empty()
-  document.getElementById("tb").style.visibility = "hidden";
   var address_code = $('#address').val()
   var privilege = $('#privilege').val()
 
@@ -3033,15 +2841,21 @@ $("#privilege").on('change', function () {
     let geoarr = r.data.data
     selectAddress(address_code, privilege, geoarr)
   })
+
+  axios.post(`${url}/api/getallprov`).then(async (r) => {
+    $('#pro').empty()
+    let objArr = r.data.sort((a, b) => a.PROVINCE_NAME.localeCompare(b.PROVINCE_NAME))
+
+    objArr.map(i => {
+      $('#pro').append(`<option value="${i.PROVINCE_CODE}">${i.PROVINCE_NAME}</option>`)
+    })
+  })
 })
 
 $("#address").on('change', function () {
   $('#infoview').empty()
-  $('#tam').empty()
-  $('#amp').empty()
   $('#pro').empty()
   $('#reg').empty()
-  document.getElementById("tb").style.visibility = "hidden";
   var address_code = $('#address').val()
   var privilege = $('#privilege').val()
   selectAddress(address_code, privilege)
@@ -3052,160 +2866,28 @@ $("#address").on('change', function () {
     selectAddress(address_code, privilege, geoarr)
   })
 
-})
-
-$("#reg").on('change', function () {
-  $('#tam').empty()
-  $('#amp').empty()
-  $('#pro').empty()
-  document.getElementById("tb").style.visibility = "hidden";
-  var address_code = $('#address').val()
-  var region_code = $('#reg').val()
-  var privilege = $('#privilege').val()
-
-  if (region_code !== "all") {
-    RemoveLayers();
-    axios.get(`${url}/geoapi/get-bound2/reg/${region_code}`).then(async (r) => {
-      let geoarr = r.data.data
-      selectRegion(address_code, privilege, region_code, geoarr)
+  axios.post(`${url}/api/getallprov`).then(async (r) => {
+    $('#pro').empty()
+    let objArr = r.data.sort((a, b) => a.PROVINCE_NAME.localeCompare(b.PROVINCE_NAME))
+    objArr.map(i => {
+      $('#pro').append(`<option value="${i.PROVINCE_CODE}">${i.PROVINCE_NAME}</option>`)
     })
-  }
+  })
+
 })
 
-$("#pro").on('change', function () {
-  $('#tam').empty()
-  $('#amp').empty()
-  document.getElementById("tb").style.visibility = "hidden";
+function searchByPro() {
   var address_code = $('#address').val()
   var province_code = $('#pro').val()
   var privilege = $('#privilege').val()
-
-  if (province_code !== "all") {
-    RemoveLayers();
-    axios.get(`${url}/geoapi/get-bound2/pro/${province_code}`).then(async (r) => {
-      let geoarr = r.data.data
-      selectProvince(address_code, privilege, province_code, geoarr)
-    })
-  }
-})
-
-$("#amp").on('change', function () {
-  $('#tam').empty()
-  document.getElementById("tb").style.visibility = "hidden";
-  var address_code = $('#address').val()
-  var amphoe_code = $('#amp').val()
-  var privilege = $('#privilege').val()
-
-  if (amphoe_code !== "all") {
-    RemoveLayers();
-    axios.get(`${url}/geoapi/get-bound2/amp/${amphoe_code}`).then(async (r) => {
-      let geoarr = r.data.data
-      selectAmphoe(address_code, privilege, amphoe_code, geoarr)
-    })
-  }
-})
-
-$("#tam").on('change', function () {
-  var address_code = $('#address').val()
-  var tambon_code = $('#tam').val()
-  var privilege = $('#privilege').val()
-
-  if (tambon_code !== "all") {
-    RemoveLayers();
-    axios.get(`${url}/geoapi/get-bound2/tam/${tambon_code}`).then(async (r) => {
-      let geoarr = r.data.data
-      selectTambon(address_code, privilege, tambon_code, geoarr)
-    })
-    loadTable()
-  }
-})
-
-let loadTable = () => {
-  document.getElementById("tb").style.visibility = "visible";
-  var address_code = $('#address').val()
-  var tambon_code = $('#tam').val()
-  // var privilege = $('#privilege').val()
-  $("#datatable-search").dataTable().fnDestroy();
-  showDataTable({ tambon_code, address_code });
+  RemoveLayers();
+  axios.post(`${url}/geoapi/get-multiprov`, { province_code }).then(async (r) => {
+    let geoarr = r.data.data
+    // console.log(geoarr);
+    await selectProvince(address_code, privilege, province_code, geoarr)
+  })
 }
 
-let showDataTable = async (json) => {
-  $.extend(true, $.fn.dataTable.defaults, {
-    "language": {
-      "sProcessing": "กำลังดำเนินการ...",
-      "sLengthMenu": "แสดง_MENU_ แถว",
-      "sZeroRecords": "ไม่พบข้อมูล",
-      "sInfo": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
-      "sInfoEmpty": "แสดง 0 ถึง 0 จาก 0 แถว",
-      "sInfoFiltered": "(กรองข้อมูล _MAX_ ทุกแถว)",
-      "sInfoPostFix": "",
-      "sSearch": "ค้นหา:",
-      "sUrl": "",
-      "oPaginate": {
-        "sFirst": "เริ่มต้น",
-        "sPrevious": "ก่อนหน้า",
-        "sNext": "ถัดไป",
-        "sLast": "สุดท้าย"
-      },
-      "emptyTable": "ไม่พบข้อมูล..."
-    }
-  });
-  table = $('#datatable-search').DataTable({
-    ajax: {
-      url: url + '/api/get_tam_tb',
-      type: 'POST',
-      data: json,
-      dataSrc: 'data'
-    },
-    columns: [
-      {
-        data: null,
-        render: (data, type, row, meta) => {
-          // console.log(meta)
-          return `${meta.row + 1}`
-        }
-      },
-      { data: 'MAIMAD_ID' },
-      { data: 'FIRST_NAME_THAI' },
-      { data: 'LAST_NAME_THAI' },
-      {
-        data: 'SEX_CODE',
-        render: function (data) {
-          var a = data;
-          if (a == 'M') {
-            return '<p> ชาย </p>';
-          } else if (a == 'F') {
-            return '<p> หญิง </p>';
-          } else {
-            return '<p> </p>';
-          }
-        }
-      },
-      { data: 'BIRTH_DATE' },
-      { data: 'AGE_NOW' },
-      { data: 'ISSUE_DATE' }
-    ],
-    dom: 'Bfrtip',
-    buttons: [
-      'excel', 'print'
-    ],
-    scrollX: true,
-    select: true,
-    pageLength: 7,
-    responsive: {
-      details: true
-    }
-  });
-
-  table.on('search.dt', function () {
-  });
-}
-
-document.getElementById("tb").style.visibility = "hidden";
-
-$("#checkAll").click(function () {
-  $('input:checkbox').not(this).prop('checked', this.checked);
-});
 
 
 // Preloader

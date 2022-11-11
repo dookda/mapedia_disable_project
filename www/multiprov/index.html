@@ -76,31 +76,7 @@
     <div class="collapse navbar-collapse  w-auto h-auto py-4 mt-4" id="sidenav-collapse-main">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a href="./../dashboards/index.html" class="nav-link active" aria-controls="" role="button"
-            aria-expanded="false">
-            <div
-              class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                class="bi bi-bar-chart-line-fill" viewBox="0 0 16 16">
-                <title>Dashboards </title>
-                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                  <g transform="translate(-1716.000000, -439.000000)" fill="#FFFFFF" fill-rule="nonzero">
-                    <g transform="translate(1716.000000, 291.000000)">
-                      <g transform="translate(0.000000, 148.000000)">
-                        <path
-                          d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2z" />
-
-                      </g>
-                    </g>
-                  </g>
-                </g>
-              </svg>
-            </div>
-            <span class="nav-link-text ms-1 text-xs" href="./../dashboards/index.html"> ภาพรวมข้อมูลคนพิการ </span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="./../multiprov/index.html" class="nav-link " aria-controls="" role="button" aria-expanded="false">
+          <a href="./../dashboards/index.html" class="nav-link " aria-controls="" role="button" aria-expanded="false">
             <div
               class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -119,8 +95,32 @@
               </g>
               </svg>
             </div>
-            <span class="nav-link-text ms-1 text-xs" href="./../multiprov/index.html"> ค้นหาข้อมูลแบบหลายจังหวัด
+            <span class="nav-link-text ms-1 text-xs" href="./../dashboards/index.html"> ภาพรวมข้อมูลคนพิการ
             </span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="./../multiprov/index.html" class="nav-link active" aria-controls="" role="button"
+            aria-expanded="false">
+            <div
+              class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-bar-chart-line-fill" viewBox="0 0 16 16">
+                <title>ค้นข้อมูลแบบหลายจังหวัด </title>
+                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                  <g transform="translate(-1716.000000, -439.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                    <g transform="translate(1716.000000, 291.000000)">
+                      <g transform="translate(0.000000, 148.000000)">
+                        <path
+                          d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2z" />
+
+                      </g>
+                    </g>
+                  </g>
+                </g>
+              </svg>
+            </div>
+            <span class="nav-link-text ms-1 text-xs" href="./../multiprov/index.html"> ค้นข้อมูลแบบหลายจังหวัด </span>
           </a>
         </li>
         <li class="nav-item mt-3">
@@ -227,28 +227,13 @@
 
                 <div class="col-sm-12">
                   <div class="form-group">
-                    <label for="sel1">ภาค:</label>
-                    <select class="form-control" id="reg"></select>
+                    <label for="sel1">เลือกจังหวัด:</label>
+                    <select class="form-control" multiple id="pro"></select>
                   </div>
                 </div>
-                <div class="col-sm-12">
-                  <div class="form-group">
-                    <label for="sel1">จังหวัด:</label>
-                    <select class="form-control" id="pro"></select>
-                  </div>
-                </div>
-                <div class="col-sm-12">
-                  <div class="form-group">
-                    <label for="sel1">อำเภอ:</label>
-                    <select class="form-control" id="amp"></select>
-                  </div>
-                </div>
-                <div class="col-sm-12">
-                  <div class="form-group">
-                    <label for="sel1">ตำบล:</label>
-                    <select class="form-control" id="tam"></select>
-                  </div>
-                </div>
+
+                <button class="btn btn-info" onclick="searchByPro()">แสดงผล</button>
+
               </div>
             </div>
           </div>
@@ -775,34 +760,6 @@
                       รายละเอียดเพิ่มเติม
                     </button>
                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-
-          <div class="row mt-4" id="tb">
-            <div class="col-lg-12 mb-lg-0 mb-4">
-
-              <div class="card z-index-2">
-                <div class="card-body p-3 mt-4">
-                  <h5 class="font-weight-bold mb-2">ตารางแสดงผลข้อมูลคนพิการ <span class="" id="getdata"> </span>
-                  </h5>
-                  <table class="table table-flush dataTable-bottom" id="datatable-search"
-                    class="table table-striped table-bordered dt-responsive nowrap w-100 mw-100 ">
-                    <thead class="thead-light">
-                      <tr>
-                        <th>ลำดับที่</th>
-                        <th>รหัสคนพิการ</th>
-                        <th>ชื่อ</th>
-                        <th>นามสกุล</th>
-                        <th>เพศ</th>
-                        <th>วันเกิด</th>
-                        <th>อายุ</th>
-                        <th>วันขอใบรับรอง</th>
-                      </tr>
-                    </thead>
-                  </table>
                 </div>
               </div>
             </div>

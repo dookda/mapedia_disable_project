@@ -1,6 +1,6 @@
 // const urleg = "https://engrids.soc.cmu.ac.th/api";
-// const url = "http://192.168.3.110:3000";
-const url = "http://localhost:3000";
+const url = "http://192.168.3.110:3000";
+// const url = "http://localhost:3000";
 
 // chart Sex
 var domSex = document.getElementById('chart-sex');
@@ -563,62 +563,74 @@ function showOcc(arr) {
     }
 }
 
-axios.post(`${url}/api_report/get_by_region`, { address_code: "02", privilege: "00" }).then(async (r) => {
-    showRegion(r.data)
-    // console.log(r.data)
-})
+let numberWithCommas = (x) => {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 
-axios.post(`${url}/api_report/get_by_sex`, { address_code: "02", privilege: "00" }).then(async (r) => {
-    showSex(r.data)
-})
+let getData = () => {
+    let dtxt = document.getElementById("dtxt").value
 
-axios.post(`${url}/api_report/get_by_type`, { address_code: "02", privilege: "00" }).then(async (r) => {
-    showType(r.data)
-    // console.log(r.data);
-})
+    axios.post(`${url}/api_report/get_by_region`, { address_code: "02", privilege: "00", dtxt }).then(async (r) => {
+        showRegion(r.data)
+    })
 
-axios.post(`${url}/api_report/get_by_agetype`, { address_code: "02", privilege: "00" }).then(async (r) => {
-    showAgeType(r.data)
-    // console.log(r.data);
-})
+    axios.post(`${url}/api_report/get_by_sex`, { address_code: "02", privilege: "00", dtxt }).then(async (r) => {
+        showSex(r.data)
 
-axios.post(`${url}/api_report/get_by_edu`, { address_code: "02", privilege: "00" }).then(async (r) => {
-    let a = [];
-    for (const [key, value] of Object.entries(r.data[0])) {
-        key == "HIG" ? a.push({ value: value, name: 'สูงกว่าปริญญาตรี' }) : null
-        key == "MID" ? a.push({ value: value, name: 'ปริญญาตรีหรือเทียบเท่า' }) : null
-        key == "LOW" ? a.push({ value: value, name: 'ต่ำกว่าปริญญาตรี' }) : null
-        key == "OTH" ? a.push({ value: value, name: 'อื่นๆ' }) : null
-    }
-    showEdu(a)
-})
+        document.getElementById("total").innerHTML = numberWithCommas(r.data[0].VALUE + r.data[1].VALUE)
+        document.getElementById("m").innerHTML = numberWithCommas(r.data[0].VALUE)
+        document.getElementById("f").innerHTML = numberWithCommas(r.data[1].VALUE)
+    })
 
-axios.post(`${url}/api_report/get_by_occ`, { address_code: "02", privilege: "00" }).then(async (r) => {
-    let a = [];
-    for (const [key, value] of Object.entries(r.data[0])) {
-        key == "OCC_001" ? a.push({ value: value, name: 'รับราชการ' }) : null
-        key == "OCC_002" ? a.push({ value: value, name: 'รัฐวิสาหกิจ' }) : null
-        key == "OCC_003" ? a.push({ value: value, name: 'รับจ้าง' }) : null
-        key == "OCC_004" ? a.push({ value: value, name: 'กิจการส่วนตัว/อาชีพอิสระ/ค้าขาย' }) : null
-        key == "OCC_005" ? a.push({ value: value, name: 'กำลังศึกษา' }) : null
-        key == "OCC_006" ? a.push({ value: value, name: 'เกษตรกรรม' }) : null
-        key == "OCC_007" ? a.push({ value: value, name: 'คอมพิวเตอร์' }) : null
-        key == "OCC_008" ? a.push({ value: value, name: 'นวดแผนโบราณ' }) : null
-        key == "OCC_010" ? a.push({ value: value, name: 'ค้าขาย' }) : null
-        key == "OCC_011" ? a.push({ value: value, name: 'ค้าสลาก' }) : null
-        key == "OCC_012" ? a.push({ value: value, name: 'พนักงานบริษัท' }) : null
-        // key=="OCC_013"? a.push({ value: value, name: 'ไม่ระบุอาชีพ' }): null
-        key == "OCC_014" ? a.push({ value: value, name: 'ลูกจ้าง' }) : null
-        key == "OCC_015" ? a.push({ value: value, name: 'ไม่ได้ประกอบอาชีพ' }) : null
-        key == "OCC_016" ? a.push({ value: value, name: 'ลูกจ้างเอกชน' }) : null
-        key == "OCC_017" ? a.push({ value: value, name: 'ผู้ประกอบกิจการส่วนตัว/อาชีพอิสระ/ธุรกิจ' }) : null
-        key == "OCC_019" ? a.push({ value: value, name: 'รับราชการ/รัฐวิสาหกิจ' }) : null
-        key == "OCC_020" ? a.push({ value: value, name: 'หัตถกรรม' }) : null
-        key == "OCC_999" || key == "OCC_013" ? a.push({ value: value, name: 'อื่นๆ' }) : null
-    }
-    console.log(a);
-    showOcc(a)
-})
+    axios.post(`${url}/api_report/get_by_type`, { address_code: "02", privilege: "00", dtxt }).then(async (r) => {
+        showType(r.data)
+    })
+
+    axios.post(`${url}/api_report/get_by_agetype`, { address_code: "02", privilege: "00", dtxt }).then(async (r) => {
+        showAgeType(r.data)
+        // console.log(r.data);
+    })
+
+    axios.post(`${url}/api_report/get_by_edu`, { address_code: "02", privilege: "00", dtxt }).then(async (r) => {
+        let a = [];
+        for (const [key, value] of Object.entries(r.data[0])) {
+            key == "HIG" ? a.push({ value: value, name: 'สูงกว่าปริญญาตรี' }) : null
+            key == "MID" ? a.push({ value: value, name: 'ปริญญาตรีหรือเทียบเท่า' }) : null
+            key == "LOW" ? a.push({ value: value, name: 'ต่ำกว่าปริญญาตรี' }) : null
+            key == "OTH" ? a.push({ value: value, name: 'อื่นๆ' }) : null
+        }
+        showEdu(a)
+    })
+
+    axios.post(`${url}/api_report/get_by_occ`, { address_code: "02", privilege: "00", dtxt }).then(async (r) => {
+        let a = [];
+        for (const [key, value] of Object.entries(r.data[0])) {
+            key == "OCC_001" ? a.push({ value: value, name: 'รับราชการ' }) : null
+            key == "OCC_002" ? a.push({ value: value, name: 'รัฐวิสาหกิจ' }) : null
+            key == "OCC_003" ? a.push({ value: value, name: 'รับจ้าง' }) : null
+            key == "OCC_004" ? a.push({ value: value, name: 'กิจการส่วนตัว/อาชีพอิสระ/ค้าขาย' }) : null
+            key == "OCC_005" ? a.push({ value: value, name: 'กำลังศึกษา' }) : null
+            key == "OCC_006" ? a.push({ value: value, name: 'เกษตรกรรม' }) : null
+            key == "OCC_007" ? a.push({ value: value, name: 'คอมพิวเตอร์' }) : null
+            key == "OCC_008" ? a.push({ value: value, name: 'นวดแผนโบราณ' }) : null
+            key == "OCC_010" ? a.push({ value: value, name: 'ค้าขาย' }) : null
+            key == "OCC_011" ? a.push({ value: value, name: 'ค้าสลาก' }) : null
+            key == "OCC_012" ? a.push({ value: value, name: 'พนักงานบริษัท' }) : null
+            // key=="OCC_013"? a.push({ value: value, name: 'ไม่ระบุอาชีพ' }): null
+            key == "OCC_014" ? a.push({ value: value, name: 'ลูกจ้าง' }) : null
+            key == "OCC_015" ? a.push({ value: value, name: 'ไม่ได้ประกอบอาชีพ' }) : null
+            key == "OCC_016" ? a.push({ value: value, name: 'ลูกจ้างเอกชน' }) : null
+            key == "OCC_017" ? a.push({ value: value, name: 'ผู้ประกอบกิจการส่วนตัว/อาชีพอิสระ/ธุรกิจ' }) : null
+            key == "OCC_019" ? a.push({ value: value, name: 'รับราชการ/รัฐวิสาหกิจ' }) : null
+            key == "OCC_020" ? a.push({ value: value, name: 'หัตถกรรม' }) : null
+            key == "OCC_999" || key == "OCC_013" ? a.push({ value: value, name: 'อื่นๆ' }) : null
+        }
+        console.log(a);
+        showOcc(a)
+    })
+}
+
+getData()
 
 
 

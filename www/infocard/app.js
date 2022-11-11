@@ -1,5 +1,5 @@
-// const url = "http://192.168.3.110:3000";
-const url = "http://localhost:3000";
+const url = "http://192.168.3.110:3000";
+// const url = "http://localhost:3000";
 
 
 var currentDate = new Date();
@@ -118,7 +118,17 @@ let loadTable = (service_code, dtTh) => {
       { data: 'PROVINCE_NAME' },
       { data: 'DISTRICT_NAME' },
       { data: 'SUBDISTRICT_NAME' },
-    ]
+    ],
+    dom: 'Bfrtip',
+    buttons: [
+      'excel', 'print'
+    ],
+    scrollX: true,
+    select: true,
+    pageLength: 7,
+    responsive: {
+      details: true
+    }
   });
 }
 

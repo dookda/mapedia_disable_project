@@ -215,3 +215,14 @@ body {
   display: none;
   text-align: center;
 }
+
+.dataTables_filter {
+  width: 50%;
+  float: right;
+  text-align: right;
+}
+
+/* .dt-buttons {
+  float: right !important;
+  text-align: right !important;
+} */
