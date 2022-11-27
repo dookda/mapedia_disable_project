@@ -16,6 +16,10 @@ let insertUser = async () => {
             document.getElementById('usrname').value = "";
             document.getElementById('pass').value = "";
             document.getElementById('pass2').value = "";
+
+            setTimeout(() => {
+              location.href = "./../login/index.html";
+            }, 1000)
           })
         }
       })
@@ -25,5 +29,4 @@ let insertUser = async () => {
   } else {
     document.getElementById('notice').innerHTML = `กรุณาใส่รหัสผ่านที่เหมือนกัน`;
   }
-
 }
