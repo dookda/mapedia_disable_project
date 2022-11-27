@@ -30,6 +30,9 @@ app.use(geoapi);
 const capi = require('./service/capi')
 app.use(capi)
 
+const apiauthen = require('./service/apiauthen')
+app.use(apiauthen)
+
 app.use('/', express.static('www'))
 
 app.listen(port, () => {

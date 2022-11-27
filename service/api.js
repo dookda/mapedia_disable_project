@@ -2551,15 +2551,23 @@ app.post("/api/get_tam_tb", async (req, res) => {
 })
 
 app.post('/api/card_info', async (req, res) => {
-    const { service_code, dtTh } = req.body
+    const { service_code, dtTh, procode } = req.body
     let wh
 
     if (service_code == "CRD_EXP") {
-        wh = `WHERE mcr.REQUEST_SERVICE_CODE = '${service_code}' AND mcr.CARD_EXPIRE_DATE = '${dtTh}'`
+        if (procode == "") {
+            wh = `WHERE mcr.REQUEST_SERVICE_CODE = '${service_code}' AND mcr.CARD_EXPIRE_DATE = '${dtTh}'`
+        } else {
+            wh = `WHERE mcr.REQUEST_SERVICE_CODE = '${service_code}' AND mcr.CARD_EXPIRE_DATE = '${dtTh}' AND bp.PROVINCE_CODE = '${procode}'`
+        }
     } else {
-        wh = `WHERE mcr.REQUEST_SERVICE_CODE = '${service_code}' AND mcr.REQUEST_DATE = '${dtTh}'`
+        if (procode == "") {
+            wh = `WHERE mcr.REQUEST_SERVICE_CODE = '${service_code}' AND mcr.REQUEST_DATE = '${dtTh}'`
+        } else {
+            wh = `WHERE mcr.REQUEST_SERVICE_CODE = '${service_code}' AND mcr.REQUEST_DATE = '${dtTh}' AND bp.PROVINCE_CODE = '${procode}'`
+        }
     }
-    console.log(wh);
+    // console.log(wh);
     let connection = await oracledb.getConnection(dbConfig);
     let sql = `SELECT 
             mcr.REQUEST_DATE, 

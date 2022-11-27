@@ -45,22 +45,33 @@ let getData = () => {
   let service_code = document.getElementById("disabilitycard").value
   let service_code2 = document.getElementById("disabilitycard2").value
   let dtDat = document.getElementById("txtDate").value
+  let procode = document.getElementById("procode").value
   let dtArr = dtDat.split("/")
   // let dtTh = `${dtArr[0]}-${dtArr[1]}-${Number(dtArr[2]) + 543}`
   let dtTh = `${dtArr[0]}-${dtArr[1]}-${Number(dtArr[2])}`
 
-  console.log(service_code)
-  console.log(dtTh)
-  console.log(dtArr)
+  // console.log(service_code)
+  // console.log(dtTh)
+  // console.log(dtArr)
 
   if (service_code == "CRD_RENEW") {
-    loadTable(service_code2, dtTh)
+    loadTable(service_code2, dtTh, procode)
   } else {
-    loadTable(service_code, dtTh)
+    loadTable(service_code, dtTh, procode)
   }
 }
 
-let loadTable = (service_code, dtTh) => {
+axios.post(`${url}/api/getallprov`).then(async (r) => {
+  $('#procode').empty()
+  let objArr = r.data.sort((a, b) => a.PROVINCE_NAME.localeCompare(b.PROVINCE_NAME))
+  $('#procode').append(`<option value="">ทุกจังหวัด</option>`)
+  objArr.map(i => {
+    $('#procode').append(`<option value="${i.PROVINCE_CODE}">${i.PROVINCE_NAME}</option>`)
+  })
+})
+
+var table;
+let loadTable = (service_code, dtTh, procode) => {
   $.extend(true, $.fn.dataTable.defaults, {
     "language": {
       "sProcessing": "กำลังดำเนินการ...",
@@ -81,11 +92,12 @@ let loadTable = (service_code, dtTh) => {
       "emptyTable": "ไม่พบข้อมูล..."
     }
   });
-  let table = $('#datatable').dataTable({
+
+  table = $('#datatable').DataTable({
     ajax: {
       url: url + '/api/card_info',
       type: 'POST',
-      data: { service_code, dtTh },
+      data: { service_code, dtTh, procode },
       dataSrc: 'data'
     },
     columns: [
@@ -130,6 +142,18 @@ let loadTable = (service_code, dtTh) => {
       details: true
     }
   });
+
+  // table.on('search.dt', function () {
+  //   let data = table.rows({ search: 'applied' }).data()
+  //   console.log(data)
+  // });
+
+  // $('#pro').on('keyup change', function () {
+  //   table.search('');
+  //   table.columns().search('')
+  //   table.column($(this).data('columnIndex')).search(this.value).draw();
+  // });
+
 }
 
 let addZoro = (d) => {
