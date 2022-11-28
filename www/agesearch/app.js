@@ -1,6 +1,67 @@
 const url = "http://192.168.3.110:3000";
 // const url = "http://localhost:3000";
 
+
+let getCookie = (cname) => {
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(';');
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+let logIn = () => {
+  location.href = "./../login/index.html?redirect=agesearch";
+}
+
+// let gotoProfile = () => {
+//   location.href = "./../../form_authen/profile/index.html";
+// }
+
+let logOut = () => {
+  document.cookie = "dis_ustoken=; max-age=0; path=/;";
+  document.cookie = "dis_gid=; max-age=0; path=/;";
+  document.cookie = "dis_auth=; max-age=0; path=/;";
+  document.cookie = "dis_usrname=; max-age=0; path=/;";
+  gotoLogin()
+}
+
+
+const ustoken = getCookie("dis_ustoken");
+const gid = getCookie("dis_gid");
+const auth = getCookie("dis_auth");
+const usrname = getCookie("dis_usrname");
+
+if (ustoken) {
+  // $('#profile').html(`<a href="#" onclick="gotoProfile()"><i class="bx bxs-user-detail"></i><span>${usrname}</span></a>`)
+  // $('#login').html(`<a href="#" onclick="logOut()"><i class="bx bx-log-out"></i><span>ออกจากระบบ</span></a>`)
+  document.getElementById("profile").innerHTML = ` <li class="nav-item">
+    <a class="nav-link active" aria-controls="" role="button" aria-expanded="false">
+      <span class="nav-link-text ms-1 text-xs"> ${usrname} </span>
+    </a>
+  </li>`
+  document.getElementById("login").innerHTML = ` <li class="nav-item">
+    <a href="#" class="nav-link active" aria-controls="" role="button" aria-expanded="false" onclick="logOut()">
+      <span class="nav-link-text ms-1 text-xs"> ออกจากระบบ </span>
+    </a>
+  </li>`
+} else {
+  document.getElementById("login").innerHTML = ` <li class="nav-item">
+    <a href="#" class="nav-link active" aria-controls="" role="button" aria-expanded="false" onclick="logIn()">
+      <span class="nav-link-text ms-1 text-xs"> เข้าสู่ระบบ </span>
+    </a>
+  </li>`
+  // logIn()
+}
+
+
 var currentDate = new Date();
 currentDate.setYear(currentDate.getFullYear() + 543);
 $(function () {

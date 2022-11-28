@@ -15,6 +15,7 @@ let checkUser = async (userid) => {
 }
 
 app.post('/dis-auth/authen', authenticateToken, (req, res) => {
+    console.log();
     res.status(200).json(true)
 })
 
@@ -63,7 +64,7 @@ app.post('/dis-auth/getuser', (req, res) => {
     const { usrname, pass } = req.body;
     let sql = `SELECT gid, userid, auth, usrname FROM dis_register WHERE usrname = '${usrname}' AND pass ='${pass}';`
     db.query(sql).then(r => {
-        if (r.rows.length > 0) {
+        if (r.rows.length) {
             const token = generateAccessToken({ usrname });
             res.status(200).json({
                 data: token,

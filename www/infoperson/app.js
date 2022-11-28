@@ -1,5 +1,67 @@
 const url = "https://engrids.soc.cmu.ac.th/api";
 
+
+
+let getCookie = (cname) => {
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(';');
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+let logIn = () => {
+  location.href = "./../login/index.html?redirect=infoperson";
+}
+
+// let gotoProfile = () => {
+//   location.href = "./../../form_authen/profile/index.html";
+// }
+
+let logOut = () => {
+  document.cookie = "dis_ustoken=; max-age=0; path=/;";
+  document.cookie = "dis_gid=; max-age=0; path=/;";
+  document.cookie = "dis_auth=; max-age=0; path=/;";
+  document.cookie = "dis_usrname=; max-age=0; path=/;";
+  gotoLogin()
+}
+
+
+const ustoken = getCookie("dis_ustoken");
+const gid = getCookie("dis_gid");
+const auth = getCookie("dis_auth");
+const usrname = getCookie("dis_usrname");
+
+if (ustoken) {
+  // $('#profile').html(`<a href="#" onclick="gotoProfile()"><i class="bx bxs-user-detail"></i><span>${usrname}</span></a>`)
+  // $('#login').html(`<a href="#" onclick="logOut()"><i class="bx bx-log-out"></i><span>ออกจากระบบ</span></a>`)
+  document.getElementById("profile").innerHTML = ` <li class="nav-item">
+    <a class="nav-link active" aria-controls="" role="button" aria-expanded="false">
+      <span class="nav-link-text ms-1 text-xs"> ${usrname} </span>
+    </a>
+  </li>`
+  document.getElementById("login").innerHTML = ` <li class="nav-item">
+    <a href="#" class="nav-link active" aria-controls="" role="button" aria-expanded="false" onclick="logOut()">
+      <span class="nav-link-text ms-1 text-xs"> ออกจากระบบ </span>
+    </a>
+  </li>`
+} else {
+  document.getElementById("login").innerHTML = ` <li class="nav-item">
+    <a href="#" class="nav-link active" aria-controls="" role="button" aria-expanded="false" onclick="logIn()">
+      <span class="nav-link-text ms-1 text-xs"> เข้าสู่ระบบ </span>
+    </a>
+  </li>`
+  // logIn()
+}
+
+
 let getpro = () => {
   // const url = "https://engrids.soc.cmu.ac.th/api";
   // var url = "http://localhost:3000";
@@ -723,51 +785,51 @@ function toggleSidenav() {
 
 // let chart = () => {
 
-  am4core.ready(function () {
+am4core.ready(function () {
 
-    // Themes begin
-    am4core.useTheme(am4themes_animated);
-    // Themes end
-  
-    /**
-     * Define data for each year
-     */
-    var chartData = {
-      "ภูมิภาค": [
-        { "sector": "ภาคเหนือ", "size": 6.6 },
-        { "sector": "ภาคกลาง", "size": 5.6 },
-        { "sector": "ภาคตะวันออกเฉียงเหนือ", "size": 4.6 },
-        { "sector": "ภาคใต้", "size": 2.6 },
-        { "sector": "กรุงเทพ", "size": 3.6 }]
-    };
-  
-    // Create chart instance
-    var chart = am4core.create("chartdiv1", am4charts.PieChart);
-  
-    // Add data
-    chart.data = [
+  // Themes begin
+  am4core.useTheme(am4themes_animated);
+  // Themes end
+
+  /**
+   * Define data for each year
+   */
+  var chartData = {
+    "ภูมิภาค": [
       { "sector": "ภาคเหนือ", "size": 6.6 },
-        { "sector": "ภาคกลาง", "size": 5.6 },
-        { "sector": "ภาคตะวันออกเฉียงเหนือ", "size": 4.6 },
-        { "sector": "ภาคใต้", "size": 2.6 },
-        { "sector": "กรุงเทพ", "size": 3.6 }
-    ];
-  
-    // Add label
-    chart.innerRadius = 100;
-    var label = chart.seriesContainer.createChild(am4core.Label);
-    label.text = "ภูมิภาค";
-    label.horizontalCenter = "middle";
-    label.verticalCenter = "middle";
-    label.fontSize = 50;
-  
-    // Add and configure Series
-    var pieSeries = chart.series.push(new am4charts.PieSeries());
-    pieSeries.dataFields.value = "size";
-    pieSeries.dataFields.category = "sector";
-  
-  }); // end am4core.ready()
-  // }
+      { "sector": "ภาคกลาง", "size": 5.6 },
+      { "sector": "ภาคตะวันออกเฉียงเหนือ", "size": 4.6 },
+      { "sector": "ภาคใต้", "size": 2.6 },
+      { "sector": "กรุงเทพ", "size": 3.6 }]
+  };
+
+  // Create chart instance
+  var chart = am4core.create("chartdiv1", am4charts.PieChart);
+
+  // Add data
+  chart.data = [
+    { "sector": "ภาคเหนือ", "size": 6.6 },
+    { "sector": "ภาคกลาง", "size": 5.6 },
+    { "sector": "ภาคตะวันออกเฉียงเหนือ", "size": 4.6 },
+    { "sector": "ภาคใต้", "size": 2.6 },
+    { "sector": "กรุงเทพ", "size": 3.6 }
+  ];
+
+  // Add label
+  chart.innerRadius = 100;
+  var label = chart.seriesContainer.createChild(am4core.Label);
+  label.text = "ภูมิภาค";
+  label.horizontalCenter = "middle";
+  label.verticalCenter = "middle";
+  label.fontSize = 50;
+
+  // Add and configure Series
+  var pieSeries = chart.series.push(new am4charts.PieSeries());
+  pieSeries.dataFields.value = "size";
+  pieSeries.dataFields.category = "sector";
+
+}); // end am4core.ready()
+// }
 
 
 // let chart = () => {
@@ -934,7 +996,7 @@ am4core.useTheme(am4themes_animated);
 var chart = am4core.create("chartdiv3", am4charts.XYChart);
 
 /* Set data */
-chart.data = [ {
+chart.data = [{
   "category": "0-5 ปี",
   "men": 121,
   "women": 255

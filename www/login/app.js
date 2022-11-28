@@ -1,4 +1,21 @@
 // var url = 'http://localhost:3000'
+var url_string = window.location;
+var url = new URL(url_string);
+var redirect = url.searchParams.get("redirect");
+
+let register = () => {
+  location.href = "./../register/index.html";
+}
+
+let setCookie = (cvalue, gid, auth, usrname, exmins) => {
+  const d = new Date();
+  d.setTime(d.getTime() + (exmins * 60 * 1000));
+  let expires = "expires=" + d.toUTCString();
+  document.cookie = "dis_ustoken=" + cvalue + ";" + expires + ";path=/";
+  document.cookie = "dis_gid=" + gid + ";" + expires + ";path=/";
+  document.cookie = "dis_auth=" + auth + ";" + expires + ";path=/";
+  document.cookie = "dis_usrname=" + usrname + ";" + expires + ";path=/";
+}
 
 let login = async () => {
   let usrname = document.getElementById('usrname').value;
@@ -6,18 +23,15 @@ let login = async () => {
 
 
   if (pass && usrname) {
-    axios.post('/dis-auth/chkusername', { usrname }).then(r => {
-      if (r.data == "yes") {
-        document.getElementById('notice').innerHTML = `ชื่อนี้ถูกใช้แล้ว`;
+    axios.post('/dis-auth/getuser', { usrname, pass }).then(r => {
+      if (r.data !== "invalid") {
+        setCookie(r.data.data, r.data.gid, r.data.auth, r.data.usrname, 1)
+        document.getElementById('notice').innerHTML = `ยืนยันตัวตนสำเร็จกำลังพาท่านเข้าสู้หน้า dashboard`;
+        setTimeout(() => {
+          location.href = "./../" + redirect + "/index.html";
+        }, 1000)
       } else {
-        axios.post('/dis-auth/insertuser', { usrname, pass }).then(res => {
-          document.getElementById('notice').innerHTML = `ลงทะเบียนสำเร็จ`;
-          document.getElementById('usrname').value = "";
-          document.getElementById('pass').value = "";
-          document.getElementById('pass2').value = "";
-
-
-        })
+        document.getElementById('notice').innerHTML = `ชื่อหรือรหัสผ่านไม่ถูกต้อง`;
       }
     })
   } else {
