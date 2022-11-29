@@ -59,10 +59,8 @@ if (ustoken) {
       <span class="nav-link-text ms-1 text-xs"> เข้าสู่ระบบ </span>
     </a>
   </li>`
-  // logIn()
+  logIn()
 }
-
-
 
 let latlng = {
   lat: 13.305567,

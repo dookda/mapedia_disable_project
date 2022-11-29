@@ -2,6 +2,8 @@ const express = require('express')
 const app = express();
 const db = require("./db").th;
 
+const md5 = require("md5")
+
 let { generateAccessToken, authenticateToken } = require("./jwt")
 
 
@@ -64,7 +66,7 @@ app.post('/dis-auth/getuser', (req, res) => {
     const { usrname, pass } = req.body;
     let sql = `SELECT gid, userid, auth, usrname FROM dis_register WHERE usrname = '${usrname}' AND pass ='${pass}';`
     db.query(sql).then(r => {
-        if (r.rows.length) {
+        if (r.rows.length > 0) {
             const token = generateAccessToken({ usrname });
             res.status(200).json({
                 data: token,
@@ -93,7 +95,6 @@ app.post("/dis-auth/chkusername", async (req, res) => {
     // console.log(usrname);
     let sql = `SELECT gid FROM dis_register WHERE usrname = '${usrname}' `
     db.query(sql).then(r => {
-
         if (r.rows.length) {
             res.status(200).json({
                 data: "yes"

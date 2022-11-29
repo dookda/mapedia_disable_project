@@ -5,6 +5,8 @@ let insertUser = async () => {
   let pass = document.getElementById('pass').value;
   let pass2 = document.getElementById('pass2').value;
 
+  console.log(usrname, pass, pass2);
+
   if (pass == pass2) {
     if (pass && usrname) {
       axios.post('/dis-auth/chkusername', { usrname }).then(r => {
