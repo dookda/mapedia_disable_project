@@ -26,7 +26,7 @@ let login = async () => {
   if (pass && usrname) {
     axios.post('/dis-auth/getuser', { usrname, pass }).then(r => {
       if (r.data.data !== "invalid") {
-        setCookie(r.data.data, r.data.gid, r.data.auth, r.data.usrname, 1)
+        setCookie(r.data.data, r.data.gid, r.data.auth, r.data.usrname, 60)
         document.getElementById('notice').innerHTML = `ยืนยันตัวตนสำเร็จกำลังพาท่านเข้าสู้หน้า dashboard`;
         setTimeout(() => {
           location.href = "./../" + redirect + "/index.html";
