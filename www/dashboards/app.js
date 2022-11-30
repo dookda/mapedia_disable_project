@@ -18,6 +18,7 @@ let getCookie = (cname) => {
   }
   return "";
 }
+
 let logIn = () => {
   location.href = "./../login/index.html?redirect=dashboards";
 }
@@ -31,7 +32,7 @@ let logOut = () => {
   document.cookie = "dis_gid=; max-age=0; path=/;";
   document.cookie = "dis_auth=; max-age=0; path=/;";
   document.cookie = "dis_usrname=; max-age=0; path=/;";
-  gotoLogin()
+  logIn()
 }
 
 const ustoken = getCookie("dis_ustoken");

@@ -358,3 +358,12 @@ Content-Type: application/json
    
 ###
 GET http://localhost:3000/geoapi/get-bound2/th/val
+
+### 
+POST https://eec-onep.soc.cmu.ac.th/api/wtrl-api-get2.php
+Content-Type: application/json
+
+{
+    "station": "station_06" ,
+    "limit": 20
+}   
