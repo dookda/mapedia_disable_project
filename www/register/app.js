@@ -13,7 +13,7 @@ let insertUser = async () => {
         if (r.data == "yes") {
           document.getElementById('notice').innerHTML = `ชื่อนี้ถูกใช้แล้ว`;
         } else {
-          axios.post('/dis-auth/insertuser', { usrname, pass }).then(res => {
+          axios.post('/dis-auth/insertuser', { data: { usrname, pass } }).then(res => {
             document.getElementById('notice').innerHTML = `ลงทะเบียนสำเร็จ`;
             document.getElementById('usrname').value = "";
             document.getElementById('pass').value = "";

@@ -3,7 +3,7 @@ var url_string = window.location;
 var url = new URL(url_string);
 var redirect = url.searchParams.get("redirect");
 
-redirect == '' ? redirect : "dashboards";
+redirect == null ? redirect = "dashboards" : redirect;
 
 let register = () => {
   location.href = "./../register/index.html";
@@ -25,13 +25,12 @@ let login = async () => {
 
   if (pass && usrname) {
     axios.post('/dis-auth/getuser', { usrname, pass }).then(r => {
-      console.log(r.data.data);
       if (r.data.data !== "invalid") {
         setCookie(r.data.data, r.data.gid, r.data.auth, r.data.usrname, 1)
         document.getElementById('notice').innerHTML = `ยืนยันตัวตนสำเร็จกำลังพาท่านเข้าสู้หน้า dashboard`;
         setTimeout(() => {
           location.href = "./../" + redirect + "/index.html";
-          // console.log(r.data.data, r.data.gid, r.data.auth, r.data.usrname);
+          // console.log(redirect, r.data.data, r.data.gid, r.data.auth, r.data.usrname);
         }, 1000)
       } else {
         document.getElementById('notice').innerHTML = `ชื่อหรือรหัสผ่านไม่ถูกต้อง`;
